@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoGame", "DemoGame\DemoGame.csproj", "{031803C2-E989-46F2-9E05-51AD7C7044FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGE.Core", "BlazorGE.Core\BlazorGE.Core.csproj", "{03CEE863-5F51-4B62-B442-037F3EF49B4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{9596EC3B-5AEB-47DB-ADDE-69BB70331C88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{2744FA43-507C-4369-9BCD-0023E05A56C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGE.Input", "BlazorGE.Input\BlazorGE.Input.csproj", "{7754390C-C7E7-4AC6-8C32-67F2068096C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGE.Game", "BlazorGE.Game\BlazorGE.Game.csproj", "{F51F0C16-0913-43E2-AC47-8E7C43839A97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGE.Graphics", "BlazorGE.Graphics\BlazorGE.Graphics.csproj", "{2E834F93-1B8D-4427-AA46-2901F8C6D773}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{031803C2-E989-46F2-9E05-51AD7C7044FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{031803C2-E989-46F2-9E05-51AD7C7044FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{031803C2-E989-46F2-9E05-51AD7C7044FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{031803C2-E989-46F2-9E05-51AD7C7044FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03CEE863-5F51-4B62-B442-037F3EF49B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03CEE863-5F51-4B62-B442-037F3EF49B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03CEE863-5F51-4B62-B442-037F3EF49B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03CEE863-5F51-4B62-B442-037F3EF49B4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7754390C-C7E7-4AC6-8C32-67F2068096C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7754390C-C7E7-4AC6-8C32-67F2068096C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7754390C-C7E7-4AC6-8C32-67F2068096C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7754390C-C7E7-4AC6-8C32-67F2068096C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F51F0C16-0913-43E2-AC47-8E7C43839A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F51F0C16-0913-43E2-AC47-8E7C43839A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F51F0C16-0913-43E2-AC47-8E7C43839A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F51F0C16-0913-43E2-AC47-8E7C43839A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E834F93-1B8D-4427-AA46-2901F8C6D773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E834F93-1B8D-4427-AA46-2901F8C6D773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E834F93-1B8D-4427-AA46-2901F8C6D773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E834F93-1B8D-4427-AA46-2901F8C6D773}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{031803C2-E989-46F2-9E05-51AD7C7044FC} = {2744FA43-507C-4369-9BCD-0023E05A56C8}
+		{03CEE863-5F51-4B62-B442-037F3EF49B4C} = {9596EC3B-5AEB-47DB-ADDE-69BB70331C88}
+		{7754390C-C7E7-4AC6-8C32-67F2068096C7} = {9596EC3B-5AEB-47DB-ADDE-69BB70331C88}
+		{F51F0C16-0913-43E2-AC47-8E7C43839A97} = {9596EC3B-5AEB-47DB-ADDE-69BB70331C88}
+		{2E834F93-1B8D-4427-AA46-2901F8C6D773} = {9596EC3B-5AEB-47DB-ADDE-69BB70331C88}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A563FBA8-BD98-4DDE-A7FB-B92AB7117735}
+	EndGlobalSection
+EndGlobal
