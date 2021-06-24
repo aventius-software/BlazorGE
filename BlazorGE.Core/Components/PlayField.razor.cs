@@ -45,12 +45,10 @@ namespace BlazorGE.Core.Components
             if (!firstRender) return;
 
             // Kick off the JS stuff            
-            await CoreInteropService.InitialiseGameAsync(DotNetObjectReference.Create(this));
+            await CoreInteropService.InitialiseGameAsync(DotNetObjectReference.Create(this), 60);
 
-            // Initialise game
-            //await Game.RegisterPlayFieldAsync(this);
-            await Game.LoadContentAsync();
-            //await Game.InitialiseAsync();
+            // Initialise game            
+            await Game.LoadContentAsync();            
         }
 
         #endregion
@@ -58,11 +56,11 @@ namespace BlazorGE.Core.Components
         #region JSInvokable Methods
 
         [JSInvokable]
-        public async ValueTask GameLoop(float timeStamp)
+        public async ValueTask GameLoop(float timeStamp, float timeDifference, float currentFramePerSecond)
         {
             // Update the game time
-            GameTime.FramesPerSecond = 1.0 / (DateTime.Now - PreviousTime).TotalSeconds;
-            GameTime.ElapsedGameTime = GameTime.ElapsedGameTime - timeStamp;
+            GameTime.FramesPerSecond = currentFramePerSecond;// 1.0 / (DateTime.Now - PreviousTime).TotalSeconds;
+            GameTime.TimeSinceLastFrame = timeDifference;// GameTime.ElapsedGameTime - timeStamp;
             GameTime.TotalGameTime = timeStamp;
 
             // Run our games update/draw methods

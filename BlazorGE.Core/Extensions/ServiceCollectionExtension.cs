@@ -5,7 +5,6 @@ using BlazorGE.Game;
 using BlazorGE.Graphics.Services;
 using BlazorGE.Input;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
 
 #endregion
 
@@ -19,6 +18,7 @@ namespace BlazorGE.Core.Extensions
             services.AddSingleton<GameBase, T>();
 
             // See https://www.meziantou.net/optimizing-js-interop-in-a-blazor-webassembly-application.htm
+            // Might be worth investigating for better JS and canvas performance?
             //services.AddSingleton(serviceProvider => (IJSInProcessRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
             //services.AddSingleton(serviceProvider => (IJSUnmarshalledRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
 
@@ -26,11 +26,6 @@ namespace BlazorGE.Core.Extensions
             services.AddSingleton<CoreInteropService>();
             services.AddSingleton<GraphicsService>();
             services.AddSingleton<Keyboard>();
-            //services.AddSingleton<GameContext>();
-            //services.AddSingleton<GameComponentFactory>();
-            //services.AddSingleton<GameEntityManager>();
-            //services.AddSingleton<GraphicsManager>();
-            //services.AddSingleton<InputManager>();
 
             return services;
         }

@@ -10,7 +10,13 @@ namespace BlazorGE.Core.Services
 {
     public class CoreInteropService : IAsyncDisposable
     {
+        #region Private Properties
+
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
+
+        #endregion
+
+        #region Constructors
 
         public CoreInteropService(IJSRuntime jsRuntime)
         {
@@ -18,11 +24,9 @@ namespace BlazorGE.Core.Services
                "import", "./_content/BlazorGE.Core/interop.js").AsTask());
         }
 
-        public async ValueTask InitialiseGameAsync(object objectReference)
-        {
-            var module = await moduleTask.Value;
-            await module.InvokeVoidAsync("initialiseGame", objectReference);
-        }
+        #endregion
+
+        #region Public Methods        
 
         public async ValueTask DisposeAsync()
         {
@@ -32,5 +36,30 @@ namespace BlazorGE.Core.Services
                 await module.DisposeAsync();
             }
         }
+
+        /// <summary>
+        /// Initialise the game JS interop stuff
+        /// </summary>
+        /// <param name="objectReference"></param>
+        /// <param name="targetFramesPerSecond"></param>
+        /// <returns></returns>
+        public async ValueTask InitialiseGameAsync(object objectReference, int targetFramesPerSecond)
+        {
+            var module = await moduleTask.Value;
+            await module.InvokeVoidAsync("initialiseGame", objectReference, targetFramesPerSecond);
+        }
+
+        /// <summary>
+        /// Set the desired target frames per second
+        /// </summary>
+        /// <param name="targetFramesPerSecond"></param>
+        /// <returns></returns>
+        public async ValueTask SetTargetFramesPerSecond(int targetFramesPerSecond)
+        {
+            var module = await moduleTask.Value;
+            await module.InvokeVoidAsync("setTargetFramesPerSecond", targetFramesPerSecond);
+        }
+
+        #endregion
     }
 }

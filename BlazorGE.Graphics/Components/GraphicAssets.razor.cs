@@ -2,12 +2,7 @@
 
 using BlazorGE.Graphics.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 #endregion
 
@@ -51,7 +46,7 @@ namespace BlazorGE.Graphics.Components
             StateHasChanged();
 
             return spriteSheet;
-        }        
+        }
 
         #endregion
     }

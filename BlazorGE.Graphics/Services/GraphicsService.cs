@@ -20,8 +20,8 @@ namespace BlazorGE.Graphics.Services
 
         #region Public Properties
 
-        public int Height { get; protected set; }
-        public int Width { get; protected set; }
+        public int PlayFieldHeight { get; protected set; }
+        public int PlayFieldWidth { get; protected set; }
 
         #endregion
 
@@ -37,6 +37,11 @@ namespace BlazorGE.Graphics.Services
 
         #region Public Methods
 
+        /// <summary>
+        /// Create/load a new sprite from the specified url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public SpriteSheet CreateSpriteSheet(string url)
         {
             return OnCreateSpriteSheetHandlers.Invoke(url);
@@ -51,6 +56,10 @@ namespace BlazorGE.Graphics.Services
             }
         }
 
+        /// <summary>
+        /// Register event handler for sprite sheet create event
+        /// </summary>
+        /// <param name="eventHandler"></param>
         public void RegisterOnCreateSpriteSheetHandler(Func<string, SpriteSheet> eventHandler)
         {
             if (OnCreateSpriteSheetHandlers != null) OnCreateSpriteSheetHandlers -= eventHandler;
@@ -61,11 +70,17 @@ namespace BlazorGE.Graphics.Services
 
         #region JSInvokable Methods
 
+        /// <summary>
+        /// Called by JS when the canvas resize event occurs
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
         [JSInvokable]
         public async ValueTask OnResizeCanvas(int width, int height)
         {
-            Width = width;
-            Height = height;
+            PlayFieldWidth = width;
+            PlayFieldHeight = height;
 
             await Task.CompletedTask;
         }
@@ -75,7 +90,7 @@ namespace BlazorGE.Graphics.Services
         #region Canvas Methods
 
         /// <summary>
-        /// Clear a rectangle on the canvas at specified coordinates
+        /// Clears a rectangle on the canvas at specified coordinates
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
