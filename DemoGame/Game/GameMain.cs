@@ -35,6 +35,7 @@ namespace DemoGame.Game
 
             await GraphicsService.ClearRectAsync(0, 0, GraphicsService.PlayFieldWidth, GraphicsService.PlayFieldHeight);
             await GraphicsService.DrawImageAsync(SpriteSheet.ElementReference, X, Y, 59, 59, 0, 0, 59, 59);
+            await GraphicsService.DrawTextAsync("Hello there", 50, 50, "Arial", "#ff00ff", 30, true);
 
             await base.DrawAsync(gameTime);
         }

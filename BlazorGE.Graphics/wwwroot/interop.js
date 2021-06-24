@@ -6,6 +6,19 @@ export function drawImage(reference, sx, sy, sw, sh, dx, dy, dw, dh) {
     window.blazorGECanvas2DContext.drawImage(reference, sx, sy, sw, sh, dx, dy, dw, dh);
 }
 
+export function drawText(text, x, y, colour, font, isFilled) {    
+    window.blazorGECanvas2DContext.font = font;
+
+    if (isFilled) {
+        window.blazorGECanvas2DContext.fillStyle = colour;
+        window.blazorGECanvas2DContext.fillText(text, x, y);
+    }
+    else {
+        window.blazorGECanvas2DContext.strokeStyle = colour;
+        window.blazorGECanvas2DContext.strokeText(text, x, y);
+    }
+}
+
 export function initialiseCanvas2D(instance) {
     window.blazorGEGraphicsInstance = instance;
     window.blazorGECanvasElement = document.getElementById('blazorge-canvas');

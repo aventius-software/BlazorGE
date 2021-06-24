@@ -132,6 +132,23 @@ namespace BlazorGE.Graphics.Services
         }
 
         /// <summary>
+        /// Draw simple text using specified parameters
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="fontFamily"></param>
+        /// <param name="colour"></param>
+        /// <param name="fontSize"></param>
+        /// <param name="isFilled"></param>
+        /// <returns></returns>
+        public async ValueTask DrawTextAsync(string text, int x, int y, string fontFamily, string colour, int fontSize, bool isFilled)
+        {
+            var module = await ModuleTask.Value;
+            await module.InvokeVoidAsync("drawText", text, x, y, colour, $"{fontSize}px {fontFamily.ToLower()}", isFilled);            
+        }
+
+        /// <summary>
         /// Initialise the canvas for 2D operations
         /// </summary>
         /// <returns></returns>
