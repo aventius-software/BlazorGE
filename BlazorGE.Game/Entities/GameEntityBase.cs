@@ -19,7 +19,9 @@ namespace BlazorGE.Game.Entities
 
         #region Public Properties
 
+        public List<GameEntityBase> ChildEntities { get; protected set; } = new();
         public bool IsActive { get; protected set; }
+        public GameEntityBase ParentEntity { get; protected set; }
 
         #endregion
 
@@ -29,6 +31,23 @@ namespace BlazorGE.Game.Entities
         /// Set this entity as active
         /// </summary>
         public void Activate() => IsActive = true;
+
+        /// <summary>
+        /// Create and add a child entity to this entity
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public GameEntityBase AddChildEntity<T>() where T : GameEntityBase, new()
+        {
+            var child = new T
+            {
+                ParentEntity = this
+            };
+
+            ChildEntities.Add(child);
+
+            return child;
+        }
 
         /// <summary>
         /// Attach the specified game component to this entity
@@ -41,9 +60,17 @@ namespace BlazorGE.Game.Entities
         }
 
         /// <summary>
-        /// Set this entity to inactive
+        /// Set this entity and any of its children to inactive
         /// </summary>
-        public void Deactivate() => IsActive = false;
+        public void Deactivate()
+        {
+            IsActive = false;
+
+            foreach (var childEntity in ChildEntities.Where(entity => entity.IsActive))
+            {
+                childEntity.Deactivate();
+            }
+        }
 
         /// <summary>
         /// Remove all attached game components of specified type from this entity
@@ -64,6 +91,11 @@ namespace BlazorGE.Game.Entities
             foreach (var gameComponent in GameComponents.Where(component => component is IDrawableGameComponent))
             {
                 await ((IDrawableGameComponent)gameComponent).DrawAsync(gameTime);
+            }
+
+            foreach (var childEntity in ChildEntities.Where(entity => entity.IsActive))
+            {
+                await childEntity.DrawAsync(gameTime);
             }
         }
 
@@ -97,6 +129,11 @@ namespace BlazorGE.Game.Entities
             foreach (var gameComponent in GameComponents.Where(component => component is IUpdatableGameComponent))
             {
                 await ((IUpdatableGameComponent)gameComponent).UpdateAsync(gameTime);
+            }
+
+            foreach (var childEntity in ChildEntities.Where(entity => entity.IsActive))
+            {
+                await childEntity.UpdateAsync(gameTime);
             }
         }
 
