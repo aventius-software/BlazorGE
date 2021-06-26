@@ -1,4 +1,9 @@
-﻿namespace BlazorGE.Game.Components
+﻿using BlazorGE.Game.Entities;
+
+namespace BlazorGE.Game.Components
 {
-    public interface IGameComponent { }
+    public interface IGameComponent 
+    {
+        public GameEntityBase GameEntityOwner { get; set; }
+    }
 }

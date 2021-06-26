@@ -24,7 +24,7 @@ namespace BlazorGE.Core.Components
         protected GameService GameService { get; set; }
 
         [Inject]
-        protected Keyboard Keyboard { get; set; }
+        protected KeyboardService KeyboardService { get; set; }
 
         #endregion
 
@@ -69,7 +69,7 @@ namespace BlazorGE.Core.Components
         [JSInvokable]
         public async ValueTask OnKeyDown(int keyCode)
         {
-            Keyboard.GetState().SetKeyState((Keys)keyCode, KeyState.Down);
+            KeyboardService.GetState().SetKeyState((Keys)keyCode, KeyState.Down);
 
             await Task.CompletedTask;
         }
@@ -77,7 +77,7 @@ namespace BlazorGE.Core.Components
         [JSInvokable]
         public async ValueTask OnKeyUp(int keyCode)
         {
-            Keyboard.GetState().SetKeyState((Keys)keyCode, KeyState.Up);
+            KeyboardService.GetState().SetKeyState((Keys)keyCode, KeyState.Up);
 
             await Task.CompletedTask;
         }

@@ -1,6 +1,6 @@
 ﻿namespace BlazorGE.Input
 {
-    public class Keyboard
+    public class KeyboardService
     {
         #region Protected Static Properties
 

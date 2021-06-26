@@ -28,7 +28,7 @@ namespace BlazorGE.Core.Extensions
             services.AddSingleton<GameScreenManager>();
             services.AddSingleton<GameWorld>();
             services.AddSingleton<GraphicsService>();
-            services.AddSingleton<Keyboard>();
+            services.AddSingleton<KeyboardService>();
 
             return services;
         }

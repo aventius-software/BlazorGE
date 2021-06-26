@@ -34,7 +34,11 @@ namespace BlazorGE.Game.Entities
         /// Attach the specified game component to this entity
         /// </summary>
         /// <param name="gameComponent"></param>
-        public void AttachGameComponent(IGameComponent gameComponent) => GameComponents.Add(gameComponent);
+        public void AttachGameComponent(IGameComponent gameComponent)
+        {
+            gameComponent.GameEntityOwner = this;
+            GameComponents.Add(gameComponent);
+        }
 
         /// <summary>
         /// Set this entity to inactive
