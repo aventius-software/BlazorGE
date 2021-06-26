@@ -2,6 +2,7 @@
 
 using BlazorGE.Core.Services;
 using BlazorGE.Game;
+using BlazorGE.Game.Screens;
 using BlazorGE.Graphics.Services;
 using BlazorGE.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,9 @@ namespace BlazorGE.Core.Extensions
             //services.AddSingleton(serviceProvider => (IJSUnmarshalledRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
 
             // Register managers
-            services.AddSingleton<CoreInteropService>();
+            services.AddSingleton<GameService>();
+            services.AddSingleton<GameScreenManager>();
+            services.AddSingleton<GameWorld>();
             services.AddSingleton<GraphicsService>();
             services.AddSingleton<Keyboard>();
 

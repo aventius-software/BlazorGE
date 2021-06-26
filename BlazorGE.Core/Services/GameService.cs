@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Core.Services
 {
-    public class CoreInteropService : IAsyncDisposable
+    public class GameService : IAsyncDisposable
     {
         #region Private Properties
 
@@ -18,7 +18,7 @@ namespace BlazorGE.Core.Services
 
         #region Constructors
 
-        public CoreInteropService(IJSRuntime jsRuntime)
+        public GameService(IJSRuntime jsRuntime)
         {
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
                "import", "./_content/BlazorGE.Core/interop.js").AsTask());
@@ -43,10 +43,10 @@ namespace BlazorGE.Core.Services
         /// <param name="objectReference"></param>
         /// <param name="targetFramesPerSecond"></param>
         /// <returns></returns>
-        public async ValueTask InitialiseGameAsync(object objectReference, int targetFramesPerSecond)
+        public async ValueTask InitialiseGameAsync(object objectReference)
         {
             var module = await moduleTask.Value;
-            await module.InvokeVoidAsync("initialiseGame", objectReference, targetFramesPerSecond);
+            await module.InvokeVoidAsync("initialiseGame", objectReference);
         }
 
         /// <summary>

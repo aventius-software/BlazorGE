@@ -90,7 +90,7 @@ namespace BlazorGE.Graphics.Services
         #region Canvas Methods
 
         /// <summary>
-        /// Clears a rectangle on the canvas at specified coordinates
+        /// Clears a rectangle on the screen at specified coordinates
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -104,9 +104,20 @@ namespace BlazorGE.Graphics.Services
         }
 
         /// <summary>
-        /// Draw image using the specified img reference at coordinates
+        /// Clear the screen
         /// </summary>
-        /// <param name="reference"></param>
+        /// <returns></returns>
+        public async ValueTask ClearScreenAsync()
+        {
+            var module = await ModuleTask.Value;
+            await module.InvokeVoidAsync("clearRect", 0, 0, PlayFieldWidth, PlayFieldHeight);
+        }
+
+        /// <summary>
+        /// Draw image using the specified image element reference at the specified coordinates, with
+        /// the specified dimensions
+        /// </summary>
+        /// <param name="imageElementReference"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="width"></param>
@@ -117,7 +128,7 @@ namespace BlazorGE.Graphics.Services
         /// <param name="sourceHeight"></param>
         /// <returns></returns>
         public async ValueTask DrawImageAsync(
-            ElementReference reference,
+            ElementReference imageElementReference,
             int x,
             int y,
             int width,
@@ -128,7 +139,28 @@ namespace BlazorGE.Graphics.Services
             int sourceHeight)
         {
             var module = await ModuleTask.Value;
-            await module.InvokeVoidAsync("drawImage", reference, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+            await module.InvokeVoidAsync("drawImage", imageElementReference, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+        }
+
+        /// <summary>
+        /// Draw the specified sprite
+        /// </summary>
+        /// <param name="sprite"></param>
+        /// <returns></returns>
+        public async ValueTask DrawSpriteAsync(Sprite sprite)
+        {
+            var module = await ModuleTask.Value;
+            await module.InvokeVoidAsync(
+                "drawImage",
+                sprite.SpriteSheet.ImageElementReference,
+                sprite.SourceX,
+                sprite.SourceY,
+                sprite.SourceWidth,
+                sprite.SourceHeight,
+                sprite.X,
+                sprite.Y,
+                sprite.Width,
+                sprite.Height);
         }
 
         /// <summary>
@@ -145,7 +177,7 @@ namespace BlazorGE.Graphics.Services
         public async ValueTask DrawTextAsync(string text, int x, int y, string fontFamily, string colour, int fontSize, bool isFilled)
         {
             var module = await ModuleTask.Value;
-            await module.InvokeVoidAsync("drawText", text, x, y, colour, $"{fontSize}px {fontFamily.ToLower()}", isFilled);            
+            await module.InvokeVoidAsync("drawText", text, x, y, $"{fontSize}px {fontFamily}", colour, isFilled);
         }
 
         /// <summary>

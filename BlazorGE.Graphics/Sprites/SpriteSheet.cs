@@ -10,7 +10,7 @@ namespace BlazorGE.Graphics
 {
     public class SpriteSheet
     {
-        public ElementReference ElementReference;        
+        public ElementReference ImageElementReference;        
         public string Url;
     }
 }

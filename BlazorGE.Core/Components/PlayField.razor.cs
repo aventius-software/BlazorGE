@@ -6,7 +6,6 @@ using BlazorGE.Graphics;
 using BlazorGE.Input;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,10 +18,10 @@ namespace BlazorGE.Core.Components
         #region Injected Services
 
         [Inject]
-        protected CoreInteropService CoreInteropService { get; set; }
+        protected GameBase Game { get; set; }
 
         [Inject]
-        protected GameBase Game { get; set; }
+        protected GameService GameService { get; set; }
 
         [Inject]
         protected Keyboard Keyboard { get; set; }
@@ -32,8 +31,7 @@ namespace BlazorGE.Core.Components
         #region Protected Fields
 
         protected GameTime GameTime;
-        protected DateTime PreviousTime = DateTime.Now;
-        protected List<SpriteSheet> SpriteSheets = new List<SpriteSheet>();
+        protected List<SpriteSheet> SpriteSheets = new();
 
         #endregion
 
@@ -45,10 +43,10 @@ namespace BlazorGE.Core.Components
             if (!firstRender) return;
 
             // Kick off the JS stuff            
-            await CoreInteropService.InitialiseGameAsync(DotNetObjectReference.Create(this), 60);
+            await GameService.InitialiseGameAsync(DotNetObjectReference.Create(this));
 
             // Initialise game            
-            await Game.LoadContentAsync();            
+            await Game.LoadContentAsync();
         }
 
         #endregion
@@ -59,8 +57,8 @@ namespace BlazorGE.Core.Components
         public async ValueTask GameLoop(float timeStamp, float timeDifference, float currentFramePerSecond)
         {
             // Update the game time
-            GameTime.FramesPerSecond = currentFramePerSecond;// 1.0 / (DateTime.Now - PreviousTime).TotalSeconds;
-            GameTime.TimeSinceLastFrame = timeDifference;// GameTime.ElapsedGameTime - timeStamp;
+            GameTime.FramesPerSecond = currentFramePerSecond;
+            GameTime.TimeSinceLastFrame = timeDifference;
             GameTime.TotalGameTime = timeStamp;
 
             // Run our games update/draw methods

@@ -41,6 +41,7 @@ namespace BlazorGE.Graphics.Components
         /// <returns></returns>        
         public SpriteSheet CreateSpriteSheet(string url)
         {
+            // Might move to 'Core' project?
             var spriteSheet = new SpriteSheet { Url = url };
             SpriteSheets.Add(spriteSheet);
             StateHasChanged();

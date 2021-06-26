@@ -6,7 +6,7 @@ export function drawImage(reference, sx, sy, sw, sh, dx, dy, dw, dh) {
     window.blazorGECanvas2DContext.drawImage(reference, sx, sy, sw, sh, dx, dy, dw, dh);
 }
 
-export function drawText(text, x, y, colour, font, isFilled) {    
+export function drawText(text, x, y, font, colour, isFilled) {    
     window.blazorGECanvas2DContext.font = font;
 
     if (isFilled) {

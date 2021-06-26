@@ -4,13 +4,13 @@
     
     // Skip the frame if the call is too early, code taken and modified from example
     // here https://riptutorial.com/html5-canvas/example/18718/set-frame-rate-using-requestanimationframe
-    if (timeDifference < blazorGEMinFrameTime) {
-        window.requestAnimationFrame(gameLoop);
-        return;
-    }
+    //if (timeDifference < blazorGEMinFrameTime) {
+    //    window.requestAnimationFrame(gameLoop);
+    //    return;
+    //}
 
     // Call Blazor game loop
-    window.blazorGECoreInstance.invokeMethodAsync('GameLoop', timeStamp, timeDifference, 1.0 / (timeDifference * 1000));
+    window.blazorGECoreInstance.invokeMethodAsync('GameLoop', timeStamp, timeDifference, 1.0 / (timeDifference / 1000));
 
     // Save the time of the rendered frame
     window.blazorGELastFrameTime = timeStamp;
@@ -47,7 +47,7 @@ export function initialiseGame(instance, defaultTargetFPS) {
     });
 
     // Initialise the FPS
-    setTargetFramesPerSecond(defaultTargetFPS);
+    //setTargetFramesPerSecond(defaultTargetFPS);
     window.requestAnimationFrame(gameLoop);
 }
 
