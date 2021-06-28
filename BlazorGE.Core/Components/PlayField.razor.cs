@@ -2,11 +2,9 @@
 
 using BlazorGE.Core.Services;
 using BlazorGE.Game;
-using BlazorGE.Graphics;
 using BlazorGE.Input;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #endregion
@@ -31,7 +29,6 @@ namespace BlazorGE.Core.Components
         #region Protected Fields
 
         protected GameTime GameTime;
-        //protected List<SpriteSheet> SpriteSheets = new();
 
         #endregion
 
