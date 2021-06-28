@@ -31,7 +31,7 @@ namespace BlazorGE.Core.Components
         #region Protected Fields
 
         protected GameTime GameTime;
-        protected List<SpriteSheet> SpriteSheets = new();
+        //protected List<SpriteSheet> SpriteSheets = new();
 
         #endregion
 

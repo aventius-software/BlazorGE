@@ -18,6 +18,7 @@ namespace DemoGame.Game.Screens
     {
         #region Protected Properties
 
+        protected GraphicAssetService GraphicAssetService;
         protected GraphicsService GraphicsService;
         protected KeyboardService KeyboardService;
         protected SpriteSheet PlayerSpriteSheet;
@@ -26,9 +27,10 @@ namespace DemoGame.Game.Screens
 
         #region Constructors
 
-        public GamePlayScreen(GameWorld gameWorld, GraphicsService graphicsService, KeyboardService keyboardService) : base(gameWorld)
+        public GamePlayScreen(GameWorld gameWorld, GraphicsService graphicsService, GraphicAssetService graphicAssetService, KeyboardService keyboardService) : base(gameWorld)
         {
             GraphicsService = graphicsService;
+            GraphicAssetService = graphicAssetService;
             KeyboardService = keyboardService;
         }
 
@@ -42,10 +44,10 @@ namespace DemoGame.Game.Screens
         /// <returns></returns>
         public override async Task LoadContentAsync()
         {
-            // Load sprite sheet for player
-            PlayerSpriteSheet = GraphicsService.CreateSpriteSheet("images/player.png");
+            // Load sprite sheet for the player
+            PlayerSpriteSheet = GraphicAssetService.CreateSpriteSheet("images/player.png");
 
-            // Create the player entity and attach components
+            // Create the player entity, attach components and activate ;-)
             var player = GameWorld.CreateGameEntity();
             player.AttachGameComponent(new PlayerMovementComponent(KeyboardService));
             player.AttachGameComponent(new Transform2DComponent());

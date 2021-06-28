@@ -2,5 +2,5 @@
 
 @foreach (var spriteSheet in SpriteSheets)
 {
-    <img hidden src="@spriteSheet.Url" @ref="@spriteSheet.ImageElementReference" />
+    <img hidden src="@spriteSheet.Url" @ref="@spriteSheet.ImageElementReference" @onload="@(() => OnLoadSpriteSheet(spriteSheet.UniqueIdentifier))" />
 }

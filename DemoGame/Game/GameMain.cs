@@ -17,6 +17,7 @@ namespace DemoGame.Game
 
         protected GameScreenManager GameScreenManager;
         protected GameWorld GameWorld;
+        protected GraphicAssetService GraphicAssetService;
         protected GraphicsService GraphicsService;
         protected KeyboardService KeyboardService;
 
@@ -24,11 +25,12 @@ namespace DemoGame.Game
 
         #region Constructors
 
-        public GameMain(GameScreenManager gameScreenManager, GameWorld gameWorld, GraphicsService graphicsService, KeyboardService keyboardService)
+        public GameMain(GameScreenManager gameScreenManager, GameWorld gameWorld, GraphicsService graphicsService, GraphicAssetService graphicAssetService, KeyboardService keyboardService)
         {
             GameScreenManager = gameScreenManager;
             GameWorld = gameWorld;
             GraphicsService = graphicsService;
+            GraphicAssetService = graphicAssetService;
             KeyboardService = keyboardService;
         }
 
@@ -57,7 +59,7 @@ namespace DemoGame.Game
         public override async Task LoadContentAsync()
         {
             // Create our screen and load it
-            var screen = new GamePlayScreen(GameWorld, GraphicsService, KeyboardService);
+            var screen = new GamePlayScreen(GameWorld, GraphicsService, GraphicAssetService, KeyboardService);
             await GameScreenManager.LoadScreenAsync(screen);
 
             await base.LoadContentAsync();

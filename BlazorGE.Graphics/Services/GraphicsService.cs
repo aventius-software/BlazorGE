@@ -14,7 +14,6 @@ namespace BlazorGE.Graphics.Services
         #region Private Properties
 
         private readonly Lazy<Task<IJSObjectReference>> ModuleTask;
-        private event Func<string, SpriteSheet> OnCreateSpriteSheetHandlers;
 
         #endregion
 
@@ -37,16 +36,6 @@ namespace BlazorGE.Graphics.Services
 
         #region Public Methods
 
-        /// <summary>
-        /// Create/load a new sprite from the specified url
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public SpriteSheet CreateSpriteSheet(string url)
-        {
-            return OnCreateSpriteSheetHandlers.Invoke(url);
-        }
-
         public async ValueTask DisposeAsync()
         {
             if (ModuleTask.IsValueCreated)
@@ -54,16 +43,6 @@ namespace BlazorGE.Graphics.Services
                 var module = await ModuleTask.Value;
                 await module.DisposeAsync();
             }
-        }
-
-        /// <summary>
-        /// Register event handler for sprite sheet create event
-        /// </summary>
-        /// <param name="eventHandler"></param>
-        public void RegisterOnCreateSpriteSheetHandler(Func<string, SpriteSheet> eventHandler)
-        {
-            if (OnCreateSpriteSheetHandlers != null) OnCreateSpriteSheetHandlers -= eventHandler;
-            OnCreateSpriteSheetHandlers += eventHandler;
         }
 
         #endregion

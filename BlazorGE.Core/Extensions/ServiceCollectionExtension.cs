@@ -23,10 +23,11 @@ namespace BlazorGE.Core.Extensions
             //services.AddSingleton(serviceProvider => (IJSInProcessRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
             //services.AddSingleton(serviceProvider => (IJSUnmarshalledRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
 
-            // Register managers
-            services.AddSingleton<GameService>();
+            // Register other services            
             services.AddSingleton<GameScreenManager>();
+            services.AddSingleton<GameService>();
             services.AddSingleton<GameWorld>();
+            services.AddSingleton<GraphicAssetService>();
             services.AddSingleton<GraphicsService>();
             services.AddSingleton<KeyboardService>();
 
