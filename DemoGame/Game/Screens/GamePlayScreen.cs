@@ -18,16 +18,16 @@ namespace DemoGame.Game.Screens
     {
         #region Protected Properties
 
-        protected GraphicAssetService GraphicAssetService;
-        protected GraphicsService GraphicsService;
-        protected KeyboardService KeyboardService;
+        protected IGraphicAssetService GraphicAssetService;
+        protected IGraphicsService2D GraphicsService;
+        protected IKeyboardService KeyboardService;
         protected SpriteSheet PlayerSpriteSheet;
 
         #endregion
 
         #region Constructors
 
-        public GamePlayScreen(GameWorld gameWorld, GraphicsService graphicsService, GraphicAssetService graphicAssetService, KeyboardService keyboardService) : base(gameWorld)
+        public GamePlayScreen(GameWorld gameWorld, IGraphicsService2D graphicsService, IGraphicAssetService graphicAssetService, IKeyboardService keyboardService) : base(gameWorld)
         {
             GraphicsService = graphicsService;
             GraphicAssetService = graphicAssetService;

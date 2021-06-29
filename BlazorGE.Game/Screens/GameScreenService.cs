@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Game.Screens
 {
-    public class GameScreenManager
+    public class GameScreenService : IGameScreenService
     {
         #region Protected Properties
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Graphics.Services
 {
-    public class GraphicsService : IAsyncDisposable
+    public class GraphicsService2D : IAsyncDisposable, IGraphicsService2D
     {
         #region Private Properties
 
@@ -26,7 +26,7 @@ namespace BlazorGE.Graphics.Services
 
         #region Constructors
 
-        public GraphicsService(IJSRuntime jsRuntime)
+        public GraphicsService2D(IJSRuntime jsRuntime)
         {
             ModuleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
                "import", "./_content/BlazorGE.Graphics/interop.js").AsTask());
@@ -76,7 +76,7 @@ namespace BlazorGE.Graphics.Services
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public async ValueTask ClearRectAsync(int x, int y, int width, int height)
+        public async ValueTask ClearRectangleAsync(int x, int y, int width, int height)
         {
             var module = await ModuleTask.Value;
             await module.InvokeVoidAsync("clearRect", x, y, width, height);

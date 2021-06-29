@@ -13,7 +13,7 @@ namespace DemoGame.Game.Components
     {
         #region Protected Properties
 
-        protected KeyboardService KeyboardService;
+        protected IKeyboardService KeyboardService;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace DemoGame.Game.Components
 
         #region Constructors
 
-        public PlayerMovementComponent(KeyboardService keyboardService, float initialSpeed = 0.25f)
+        public PlayerMovementComponent(IKeyboardService keyboardService, float initialSpeed = 0.25f)
         {
             KeyboardService = keyboardService;
             Speed = initialSpeed;

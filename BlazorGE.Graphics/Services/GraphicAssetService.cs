@@ -6,7 +6,7 @@ using System;
 
 namespace BlazorGE.Graphics.Services
 {
-    public class GraphicAssetService
+    public class GraphicAssetService : IGraphicAssetService
     {
         #region Private Properties
 

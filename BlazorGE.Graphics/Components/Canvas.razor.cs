@@ -13,7 +13,7 @@ namespace BlazorGE.Graphics.Components
         #region Injected Services
 
         [Inject]
-        protected GraphicsService GraphicsService { get; set; }
+        protected IGraphicsService2D GraphicsService { get; set; }
 
         #endregion
 

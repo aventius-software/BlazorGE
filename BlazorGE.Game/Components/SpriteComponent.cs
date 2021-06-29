@@ -12,7 +12,7 @@ namespace BlazorGE.Game.Components
     {
         #region Protected Properties
 
-        protected GraphicsService GraphicsService;
+        protected IGraphicsService2D GraphicsService;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace BlazorGE.Game.Components
 
         #region Constructors
 
-        public SpriteComponent(Sprite sprite, GraphicsService graphicsService)
+        public SpriteComponent(Sprite sprite, IGraphicsService2D graphicsService)
         {
             Sprite = sprite;
             GraphicsService = graphicsService;

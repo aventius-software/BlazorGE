@@ -1,6 +1,9 @@
 #region Namespaces
 
 using BlazorGE.Core.Extensions;
+using BlazorGE.Game.Screens;
+using BlazorGE.Graphics.Services;
+using BlazorGE.Input;
 using DemoGame.Game;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,8 +26,16 @@ namespace DemoGame
             // Register HttpClient
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            // Add BlazorGE services and register our game
-            builder.Services.AddBlazorgeServices<GameMain>();
+            // Add BlazorGE services and register our game, specify 'false' for 'useCustomServices'...
+            builder.Services.AddBlazorgeServices<GameMain>(false);
+
+            // ...then supply your own implementations here. If you omit the above parameter
+            // then BlazorGE will use its own default implementations and you don't need to 
+            // specify them here. This is just here as an example...
+            builder.Services.AddSingleton<IGraphicAssetService, GraphicAssetService>();
+            builder.Services.AddSingleton<IGameScreenService, GameScreenService>();
+            builder.Services.AddSingleton<IGraphicsService2D, GraphicsService2D>();
+            builder.Services.AddSingleton<IKeyboardService, KeyboardService>();
 
             // And go...
             await builder.Build().RunAsync();

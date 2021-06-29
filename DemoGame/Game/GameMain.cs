@@ -15,20 +15,20 @@ namespace DemoGame.Game
     {
         #region Protected Properties
 
-        protected GameScreenManager GameScreenManager;
+        protected IGameScreenService GameScreenManager;
         protected GameWorld GameWorld;
-        protected GraphicAssetService GraphicAssetService;
-        protected GraphicsService GraphicsService;
-        protected KeyboardService KeyboardService;
+        protected IGraphicAssetService GraphicAssetService;
+        protected IGraphicsService2D GraphicsService;
+        protected IKeyboardService KeyboardService;
 
         #endregion
 
         #region Constructors
 
-        public GameMain(GameScreenManager gameScreenManager, GameWorld gameWorld, GraphicsService graphicsService, GraphicAssetService graphicAssetService, KeyboardService keyboardService)
+        public GameMain(GameWorld gameWorld, IGameScreenService gameScreenManager, IGraphicsService2D graphicsService, IGraphicAssetService graphicAssetService, IKeyboardService keyboardService)
         {
-            GameScreenManager = gameScreenManager;
             GameWorld = gameWorld;
+            GameScreenManager = gameScreenManager;            
             GraphicsService = graphicsService;
             GraphicAssetService = graphicAssetService;
             KeyboardService = keyboardService;
@@ -59,8 +59,8 @@ namespace DemoGame.Game
         public override async Task LoadContentAsync()
         {
             // Create our screen and load it
-            var screen = new GamePlayScreen(GameWorld, GraphicsService, GraphicAssetService, KeyboardService);
-            await GameScreenManager.LoadScreenAsync(screen);
+            //var screen = new GamePlayScreen(GameWorld, GraphicsService, GraphicAssetService, KeyboardService);            
+            await GameScreenManager.LoadScreenAsync(new WelcomeScreen(GameWorld, GraphicsService, KeyboardService, GameScreenManager, GraphicAssetService));
 
             await base.LoadContentAsync();
         }

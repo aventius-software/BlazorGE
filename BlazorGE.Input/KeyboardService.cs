@@ -1,8 +1,8 @@
 ﻿namespace BlazorGE.Input
 {
-    public class KeyboardService
+    public class KeyboardService : IKeyboardService
     {
-        #region Protected Static Properties
+        #region Protected Properties
 
         protected KeyboardState KeyboardState = new KeyboardState(new Keys[] { });
 

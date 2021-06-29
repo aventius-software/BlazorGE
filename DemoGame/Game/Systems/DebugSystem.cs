@@ -13,13 +13,13 @@ namespace DemoGame.Game.Systems
     {
         #region Protected Properties
 
-        protected GraphicsService GraphicsService;
+        protected IGraphicsService2D GraphicsService;
 
         #endregion
 
         #region Constructors
 
-        public DebugSystem(GraphicsService graphicsService)
+        public DebugSystem(IGraphicsService2D graphicsService)
         {
             GraphicsService = graphicsService;
         }

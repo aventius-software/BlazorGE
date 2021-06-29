@@ -13,7 +13,7 @@ namespace BlazorGE.Core.Extensions
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddBlazorgeServices<T>(this IServiceCollection services) where T : GameBase
+        public static IServiceCollection AddBlazorgeServices<T>(this IServiceCollection services, bool useDefaultServices = true) where T : GameBase
         {
             // Register game instance
             services.AddSingleton<GameBase, T>();
@@ -23,13 +23,19 @@ namespace BlazorGE.Core.Extensions
             //services.AddSingleton(serviceProvider => (IJSInProcessRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
             //services.AddSingleton(serviceProvider => (IJSUnmarshalledRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
 
-            // Register other services            
-            services.AddSingleton<GameScreenManager>();
+            // Register other required services
             services.AddSingleton<GameService>();
             services.AddSingleton<GameWorld>();
-            services.AddSingleton<GraphicAssetService>();
-            services.AddSingleton<GraphicsService>();
-            services.AddSingleton<KeyboardService>();
+            
+            // For simplicity, we'll optionally add any services with default
+            // implementations - unless the 'useDefaultServices' flag is set to false ;-)
+            if (useDefaultServices)
+            {
+                services.AddSingleton<IGraphicAssetService, GraphicAssetService>();
+                services.AddSingleton<IGameScreenService, GameScreenService>();
+                services.AddSingleton<IGraphicsService2D, GraphicsService2D>();
+                services.AddSingleton<IKeyboardService, KeyboardService>();
+            }
 
             return services;
         }

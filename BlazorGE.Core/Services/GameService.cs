@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Core.Services
 {
-    public class GameService : IAsyncDisposable
+    internal class GameService : IAsyncDisposable
     {
         #region Private Properties
 
