@@ -9,17 +9,17 @@ using System;
 
 namespace DemoGame.Game.Systems
 {
-    public class PlayerSystem : GameEntityDrawAndUpdateSystemBase
+    public class EnemySystem : GameEntityDrawAndUpdateSystemBase
     {
         #region Override Methods
-        
+
         /// <summary>
-        /// This system should only act upon the player entities
+        /// This system should only act upon the enemy entities
         /// </summary>
         /// <returns></returns>
         public override Func<GameEntityBase, bool> EntityPredicate()
         {
-            return entity => entity.HasComponent<PlayerMovementComponent>();
+            return entity => entity.HasComponent<EnemyMovementComponent>();
         }
 
         #endregion

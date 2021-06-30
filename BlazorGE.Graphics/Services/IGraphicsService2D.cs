@@ -17,6 +17,9 @@ namespace BlazorGE.Graphics.Services
 
         #endregion
 
+        public int PlayFieldHeight { get; set; }
+        public int PlayFieldWidth { get; set; }
+
         #region Canvas Methods
 
         public ValueTask ClearRectangleAsync(int x, int y, int width, int height);

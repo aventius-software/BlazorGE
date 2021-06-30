@@ -2,6 +2,7 @@
 
 using BlazorGE.Game;
 using BlazorGE.Game.Components;
+using BlazorGE.Graphics.Services;
 using BlazorGE.Input;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace DemoGame.Game.Components
     {
         #region Protected Properties
 
+        protected IGraphicsService2D GraphicsService2D;
         protected IKeyboardService KeyboardService;
 
         #endregion
@@ -25,9 +27,10 @@ namespace DemoGame.Game.Components
 
         #region Constructors
 
-        public PlayerMovementComponent(IKeyboardService keyboardService, float initialSpeed = 0.25f)
+        public PlayerMovementComponent(IKeyboardService keyboardService, IGraphicsService2D graphicsService2D, float initialSpeed = 0.25f)
         {
             KeyboardService = keyboardService;
+            GraphicsService2D = graphicsService2D;
             Speed = initialSpeed;
         }
 
@@ -57,8 +60,19 @@ namespace DemoGame.Game.Components
             if (kstate.IsKeyDown(Keys.UpArrow)) direction.Y = -1;
             else if (kstate.IsKeyDown(Keys.DownArrow)) direction.Y = 1;
 
-            // Move this entities position
+            // Move this entity         
             transformComponent.Translate(direction * Speed * gameTime.TimeSinceLastFrame);
+
+            // Check we've not gone out of bounds
+            var spriteComponent = GameEntityOwner.GetComponent<SpriteComponent>();
+
+            if (transformComponent.Position.X < 0) transformComponent.Position.X = 0;
+            else if (transformComponent.Position.X > GraphicsService2D.PlayFieldWidth - spriteComponent.Sprite.Width) 
+                transformComponent.Position.X = GraphicsService2D.PlayFieldWidth - spriteComponent.Sprite.Width;
+
+            if (transformComponent.Position.Y < 0) transformComponent.Position.Y = 0;
+            else if (transformComponent.Position.Y > GraphicsService2D.PlayFieldHeight - spriteComponent.Sprite.Height) 
+                transformComponent.Position.Y = GraphicsService2D.PlayFieldHeight - spriteComponent.Sprite.Height;
 
             await Task.CompletedTask;
         }

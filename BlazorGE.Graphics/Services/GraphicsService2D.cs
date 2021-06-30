@@ -19,8 +19,8 @@ namespace BlazorGE.Graphics.Services
 
         #region Public Properties
 
-        public int PlayFieldHeight { get; protected set; }
-        public int PlayFieldWidth { get; protected set; }
+        public int PlayFieldHeight { get; set; }
+        public int PlayFieldWidth { get; set; }
 
         #endregion
 
