@@ -14,22 +14,15 @@ namespace DemoGame.Game.Components
     {
         #region Protected Properties
 
-        protected IGraphicsService2D GraphicsService;
-
-        #endregion
-
-        #region Public Properties
-
-        public float Speed;
+        protected IGraphicsService2D GraphicsService2D;
 
         #endregion
 
         #region Constructors
 
-        public EnemyMovementComponent(IGraphicsService2D keyboardService, float initialSpeed = 0.25f)
+        public EnemyMovementComponent(IGraphicsService2D graphicsService2D)
         {
-            GraphicsService = keyboardService;
-            Speed = initialSpeed;
+            GraphicsService2D = graphicsService2D;            
         }
 
         #endregion
@@ -37,20 +30,19 @@ namespace DemoGame.Game.Components
         #region Implementations
 
         /// <summary>
-        /// Updates the player
+        /// Updates the enemy
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns></returns>
         public async ValueTask UpdateAsync(GameTime gameTime)
         {            
             // Get the transform component
-            var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>();
-            var direction = transformComponent.Direction;
+            var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>();            
 
             // Change direction if hit the side of the screen
-            if (transformComponent.Position.X > GraphicsService.PlayFieldWidth || transformComponent.Position.X < 0) direction.X *= -1;
-            if (transformComponent.Position.Y > GraphicsService.PlayFieldHeight || transformComponent.Position.Y < 0) direction.Y *= -1;
-
+            if (transformComponent.Position.X > GraphicsService2D.PlayFieldWidth || transformComponent.Position.X < 0) transformComponent.Direction.X *= -1;
+            if (transformComponent.Position.Y > GraphicsService2D.PlayFieldHeight || transformComponent.Position.Y < 0) transformComponent.Direction.Y *= -1;
+            
             await Task.CompletedTask;
         }
 

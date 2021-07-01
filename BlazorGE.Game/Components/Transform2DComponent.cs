@@ -26,11 +26,11 @@ namespace BlazorGE.Game.Components
             Speed = 0;
         }
 
-        public Transform2DComponent(Vector2 position, Vector2 direction, float rate = 0)
+        public Transform2DComponent(Vector2 position, Vector2 direction, float speed = 0)
         {
             Position = position;
             Direction = direction;
-            Speed = rate;
+            Speed = speed;
         }
 
         #endregion

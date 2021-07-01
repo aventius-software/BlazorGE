@@ -35,11 +35,10 @@ namespace BlazorGE.Game.Entities
         /// <summary>
         /// Create and add a child entity to this entity
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public GameEntityBase AddChildEntity<T>() where T : GameEntityBase, new()
+        public GameEntityBase AddChildEntity()
         {
-            var child = new T
+            var child = new GameEntityBase
             {
                 ParentEntity = this
             };
@@ -55,8 +54,29 @@ namespace BlazorGE.Game.Entities
         /// <param name="gameComponent"></param>
         public void AttachGameComponent(IGameComponent gameComponent)
         {
-            gameComponent.GameEntityOwner = this;
-            GameComponents.Add(gameComponent);
+            // Add component if it doesn't already exist!
+            if (!GameComponents.Any(component => component.GetType() == gameComponent.GetType()))
+            {
+                gameComponent.GameEntityOwner = this;
+                GameComponents.Add(gameComponent);
+            }
+        }
+
+        /// <summary>
+        /// Clones this entity
+        /// </summary>
+        /// <returns></returns>
+        public GameEntityBase Clone()
+        {
+            var entity = new GameEntityBase
+            {
+                ParentEntity = ParentEntity,
+                GameComponents = new List<IGameComponent>(GameComponents)
+            };
+
+            entity.IsActive = false;
+
+            return entity;
         }
 
         /// <summary>
