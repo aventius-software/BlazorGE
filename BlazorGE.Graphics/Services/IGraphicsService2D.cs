@@ -2,13 +2,14 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 using System.Threading.Tasks;
 
 #endregion
 
 namespace BlazorGE.Graphics.Services
 {
-    public interface IGraphicsService2D
+    public interface IGraphicsService2D : IAsyncDisposable
     {
         #region JSInvokable Methods
 

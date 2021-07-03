@@ -24,6 +24,12 @@ namespace BlazorGE.Game
         public virtual async Task LoadContentAsync() => await Task.CompletedTask;
 
         /// <summary>
+        /// Unload any content for the game
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task UnloadContentAsync() => await Task.CompletedTask;
+
+        /// <summary>
         /// Update the game
         /// </summary>
         /// <param name="gameTime"></param>

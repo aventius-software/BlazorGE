@@ -49,7 +49,7 @@ namespace DemoGame.Game.Components
             // Increment the firing timer
             TimeSinceLastFiring++;
 
-            // Have we reached the interval between firing?
+            // Have we reached or gone beyone the minimum interval between firing?
             if (TimeSinceLastFiring > FiringInterval)
             {
                 // Yes, reset for next time
@@ -65,9 +65,17 @@ namespace DemoGame.Game.Components
                     var playerTransform = GameEntityOwner.GetComponent<Transform2DComponent>();
 
                     // Create a new bullet at the player current position
-                    var newBullet = BulletFactory.CreateBullet(GameEntityOwner);
-                    newBullet.AttachGameComponent(new Transform2DComponent(playerTransform.Position, new Vector2(0, -1), 0.25f));
-                    newBullet.Activate();
+                    var bullet = BulletFactory.CreateBullet(GameEntityOwner);
+                    var bulletTransform = bullet.GetComponent<Transform2DComponent>();
+
+                    // Calculate coordinates for where the bullet should appear above the player
+                    var bulletX = playerTransform.Position.X + (playerTransform.Width / 2) - (bulletTransform.Width / 2);
+                    var bulletY = playerTransform.Position.Y;
+
+                    bulletTransform.Position = new Vector2(bulletX, bulletY);
+
+                    // Finally, activate the bullet!
+                    bullet.Activate();
                 }
             }
 

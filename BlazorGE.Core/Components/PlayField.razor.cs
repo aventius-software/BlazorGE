@@ -5,13 +5,14 @@ using BlazorGE.Game;
 using BlazorGE.Input;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 using System.Threading.Tasks;
 
 #endregion
 
 namespace BlazorGE.Core.Components
 {
-    public class PlayFieldBase : ComponentBase
+    public class PlayFieldBase : ComponentBase, IAsyncDisposable
     {
         #region Injected Services
 
@@ -44,6 +45,15 @@ namespace BlazorGE.Core.Components
 
             // Initialise game            
             await Game.LoadContentAsync();
+        }
+
+        #endregion
+
+        #region Implementations
+
+        public async ValueTask DisposeAsync()
+        {
+            await Game.UnloadContentAsync();
         }
 
         #endregion

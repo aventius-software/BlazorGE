@@ -43,16 +43,16 @@ namespace DemoGame.Game.Screens
         {
             // Create a factory to make bullets ;-)
             var bulletFactory = new BulletFactory(GraphicAssetService, GraphicsService2D);
-            bulletFactory.Initialise();
+            bulletFactory.LoadContent();
 
             // Create a factory to make the player(s)
             var playerFactory = new PlayerFactory(GameWorld, GraphicAssetService, GraphicsService2D, KeyboardService, bulletFactory);
-            playerFactory.Initialise();
+            playerFactory.LoadContent();
             playerFactory.CreatePlayer(0, 0);
 
             // Create a factory to make enemies
             var enemyFactory = new EnemyFactory(GameWorld, GraphicAssetService, GraphicsService2D);
-            enemyFactory.Initialise();
+            enemyFactory.LoadContent();
             enemyFactory.CreateEnemy(50, 50);
 
             // Add all our systems to the world            

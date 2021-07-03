@@ -28,7 +28,7 @@ namespace DemoGame.Game
         public GameMain(GameWorld gameWorld, IGameScreenService gameScreenManager, IGraphicsService2D graphicsService, IGraphicAssetService graphicAssetService, IKeyboardService keyboardService)
         {
             GameWorld = gameWorld;
-            GameScreenManager = gameScreenManager;            
+            GameScreenManager = gameScreenManager;
             GraphicsService = graphicsService;
             GraphicAssetService = graphicAssetService;
             KeyboardService = keyboardService;
@@ -58,11 +58,22 @@ namespace DemoGame.Game
         /// <returns></returns>
         public override async Task LoadContentAsync()
         {
-            // Create our screen and load it
-            //var screen = new GamePlayScreen(GameWorld, GraphicsService, GraphicAssetService, KeyboardService);            
+            // Create our screen and load it                      
             await GameScreenManager.LoadScreenAsync(new WelcomeScreen(GameWorld, GraphicsService, KeyboardService, GameScreenManager, GraphicAssetService));
 
             await base.LoadContentAsync();
+        }
+
+        /// <summary>
+        /// Unload/dispose of any resources
+        /// </summary>
+        /// <returns></returns>
+        public override async Task UnloadContentAsync()
+        {
+            // Unload/dispose of any resources
+            await GameScreenManager.UnloadScreenAsync();            
+
+            await base.UnloadContentAsync();
         }
 
         /// <summary>

@@ -16,8 +16,8 @@ namespace DemoGame.Game.Factories
     {
         #region Protected Constants
 
-        protected const int Height = 59;
-        protected const int Width = 59;
+        protected const int Height = 48;
+        protected const int Width = 46;
 
         #endregion
 
@@ -47,16 +47,17 @@ namespace DemoGame.Game.Factories
 
         #region Public Methods
 
-        public void Initialise()
+        public void LoadContent()
         {
-            SpriteSheet = GraphicAssetService.CreateSpriteSheet("images/player.png");
+            // Sprite downloaded from https://opengameart.org/content/puzzle-game-art credit to 'Kenney.nl'
+            SpriteSheet = GraphicAssetService.CreateSpriteSheet("images/element_grey_polygon.png");
         }
 
         public GameEntityBase CreatePlayer(int startX, int startY)
         {
             var player = GameWorld.CreateGameEntity();
             player.AttachGameComponent(new PlayerMovementComponent(KeyboardService, GraphicsService2D));
-            player.AttachGameComponent(new Transform2DComponent());
+            player.AttachGameComponent(new Transform2DComponent { Width = Width, Height = Height });
             player.AttachGameComponent(new SpriteComponent(new Sprite(SpriteSheet, 0, 0, Width, Height, Width, Height, startX, startY), GraphicsService2D));
             player.AttachGameComponent(new PlayerFireControlComponent(KeyboardService, BulletFactory));
             player.AttachGameComponent(new PlayerScoreComponent());

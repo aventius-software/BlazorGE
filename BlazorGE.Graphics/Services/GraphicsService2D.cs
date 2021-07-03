@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Graphics.Services
 {
-    public class GraphicsService2D : IAsyncDisposable, IGraphicsService2D
+    public class GraphicsService2D : IGraphicsService2D
     {
         #region Private Properties
 
