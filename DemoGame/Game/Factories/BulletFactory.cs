@@ -12,8 +12,16 @@ namespace DemoGame.Game.Factories
 {
     public class BulletFactory
     {
+        #region Protected Constants
+
+        protected const int Height = 32;
+        protected const int Width = 32;
+
+        #endregion
+
         #region Protected Properties
 
+        protected IGraphicAssetService GraphicAssetService;
         protected IGraphicsService2D GraphicsService2D;
         protected SpriteSheet SpriteSheet;
 
@@ -21,21 +29,26 @@ namespace DemoGame.Game.Factories
 
         #region Constructors
 
-        public BulletFactory(SpriteSheet bulletSpriteSheet, IGraphicsService2D graphicsService2D)
+        public BulletFactory(IGraphicAssetService graphicAssetService, IGraphicsService2D graphicsService2D)
         {
-            SpriteSheet = bulletSpriteSheet;
-            GraphicsService2D = graphicsService2D;
+            GraphicAssetService = graphicAssetService;
+            GraphicsService2D = graphicsService2D;            
         }
 
         #endregion
 
         #region Public Methods
 
-        public GameEntityBase CreateBullet(GameEntityBase parent)
+        public void Initialise()
         {
-            var bullet = parent.AddChildEntity();
+            SpriteSheet = GraphicAssetService.CreateSpriteSheet("images/bullet.png");
+        }
+
+        public GameEntityBase CreateBullet(GameEntityBase playerEntity)
+        {
+            var bullet = playerEntity.AddChildEntity();
             bullet.AttachGameComponent(new BulletMovementComponent(GraphicsService2D));
-            bullet.AttachGameComponent(new SpriteComponent(new Sprite(SpriteSheet, 0, 0, 32, 32, 32, 32), GraphicsService2D));
+            bullet.AttachGameComponent(new SpriteComponent(new Sprite(SpriteSheet, 0, 0, Width, Height, Width, Height), GraphicsService2D));
             bullet.Activate();
 
             return bullet;

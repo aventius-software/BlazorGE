@@ -28,8 +28,9 @@ namespace BlazorGE.Graphics.Services
 
         public GraphicsService2D(IJSRuntime jsRuntime)
         {
-            ModuleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-               "import", "./_content/BlazorGE.Graphics/interop.js").AsTask());
+            // Need to look into improvements for interop and canvas, see this link
+            // here https://docs.microsoft.com/en-us/aspnet/core/blazor/webassembly-performance-best-practices?view=aspnetcore-5.0#optimize-javascript-interop-speed
+            ModuleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazorGE.Graphics/interop2d.js").AsTask());
         }
 
         #endregion
@@ -106,16 +107,7 @@ namespace BlazorGE.Graphics.Services
         /// <param name="sourceWidth"></param>
         /// <param name="sourceHeight"></param>
         /// <returns></returns>
-        public async ValueTask DrawImageAsync(
-            ElementReference imageElementReference,
-            int x,
-            int y,
-            int width,
-            int height,
-            int sourceX,
-            int sourceY,
-            int sourceWidth,
-            int sourceHeight)
+        public async ValueTask DrawImageAsync(ElementReference imageElementReference, int x, int y, int width, int height, int sourceX, int sourceY, int sourceWidth, int sourceHeight)
         {
             var module = await ModuleTask.Value;
             await module.InvokeVoidAsync("drawImage", imageElementReference, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
@@ -129,17 +121,7 @@ namespace BlazorGE.Graphics.Services
         public async ValueTask DrawSpriteAsync(Sprite sprite)
         {
             var module = await ModuleTask.Value;
-            await module.InvokeVoidAsync(
-                "drawImage",
-                sprite.SpriteSheet.ImageElementReference,
-                sprite.SourceX,
-                sprite.SourceY,
-                sprite.SourceWidth,
-                sprite.SourceHeight,
-                sprite.X,
-                sprite.Y,
-                sprite.Width,
-                sprite.Height);
+            await module.InvokeVoidAsync("drawImage", sprite.SpriteSheet.ImageElementReference, sprite.SourceX, sprite.SourceY, sprite.SourceWidth, sprite.SourceHeight, sprite.X, sprite.Y, sprite.Width, sprite.Height);
         }
 
         /// <summary>

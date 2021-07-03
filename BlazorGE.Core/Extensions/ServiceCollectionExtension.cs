@@ -6,6 +6,7 @@ using BlazorGE.Game.Screens;
 using BlazorGE.Graphics.Services;
 using BlazorGE.Input;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 
 #endregion
 

@@ -11,9 +11,11 @@ namespace BlazorGE.Game.Components
     {
         #region Public Properties
 
-        public Vector2 Position;
         public Vector2 Direction;
+        public int Height;
+        public Vector2 Position;
         public float Speed;
+        public int Width;
 
         #endregion
 
@@ -57,6 +59,17 @@ namespace BlazorGE.Game.Components
         public void Translate(Vector2 translation)
         {
             Position += translation;
+        }
+
+        /// <summary>
+        /// Returns true if the specified coordinates intersect with this transform
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool IntersectsWith(int x, int y)
+        {
+            return x >= Position.X && x <= Position.X + Width && y >= Position.Y && y <= Position.Y + Height;
         }
 
         #endregion

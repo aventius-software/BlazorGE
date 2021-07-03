@@ -1,15 +1,11 @@
 ﻿#region Namespaces
 
 using BlazorGE.Game;
-using BlazorGE.Game.Components;
 using BlazorGE.Game.Screens;
-using BlazorGE.Graphics;
 using BlazorGE.Graphics.Services;
 using BlazorGE.Input;
-using DemoGame.Game.Components;
 using DemoGame.Game.Factories;
 using DemoGame.Game.Systems;
-using System.Numerics;
 using System.Threading.Tasks;
 
 #endregion
@@ -45,32 +41,19 @@ namespace DemoGame.Game.Screens
         /// <returns></returns>
         public override async Task LoadContentAsync()
         {
-            // Load sprite sheet for the enemy
-            var bulletSpriteSheet = GraphicAssetService.CreateSpriteSheet("images/bullet.png");
-
             // Create a factory to make bullets ;-)
-            var bulletFactory = new BulletFactory(bulletSpriteSheet, GraphicsService2D);
+            var bulletFactory = new BulletFactory(GraphicAssetService, GraphicsService2D);
+            bulletFactory.Initialise();
 
-            // Load sprite sheet for the player
-            var playerSpriteSheet = GraphicAssetService.CreateSpriteSheet("images/player.png");
+            // Create a factory to make the player(s)
+            var playerFactory = new PlayerFactory(GameWorld, GraphicAssetService, GraphicsService2D, KeyboardService, bulletFactory);
+            playerFactory.Initialise();
+            playerFactory.CreatePlayer(0, 0);
 
-            // Create the player entity, attach components and activate ;-)
-            var player = GameWorld.CreateGameEntity();
-            player.AttachGameComponent(new PlayerMovementComponent(KeyboardService, GraphicsService2D));
-            player.AttachGameComponent(new Transform2DComponent());
-            player.AttachGameComponent(new SpriteComponent(new Sprite(playerSpriteSheet, 0, 0, 59, 59, 59, 59, 50, 50), GraphicsService2D));
-            player.AttachGameComponent(new PlayerFireControlComponent(KeyboardService, bulletFactory));
-            player.Activate();
-
-            // Load sprite sheet for the enemy
-            var enemySpriteSheet = GraphicAssetService.CreateSpriteSheet("images/enemy.png");
-
-            // Create enemy
-            var enemy = GameWorld.CreateGameEntity();
-            enemy.AttachGameComponent(new EnemyMovementComponent(GraphicsService2D));
-            enemy.AttachGameComponent(new Transform2DComponent(new Vector2(50, 50), new Vector2(1, 1), 0.25f));
-            enemy.AttachGameComponent(new SpriteComponent(new Sprite(enemySpriteSheet, 0, 0, 59, 59, 59, 59), GraphicsService2D));
-            enemy.Activate();
+            // Create a factory to make enemies
+            var enemyFactory = new EnemyFactory(GameWorld, GraphicAssetService, GraphicsService2D);
+            enemyFactory.Initialise();
+            enemyFactory.CreateEnemy(50, 50);
 
             // Add all our systems to the world            
             GameWorld.AddGameSystem(new DebugSystem(GraphicsService2D));

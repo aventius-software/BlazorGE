@@ -15,7 +15,7 @@ namespace DemoGame.Game.Components
     {
         #region Protected Constants
 
-        protected const int FiringInterval = 20;
+        protected const int FiringInterval = 10;
 
         #endregion
 
