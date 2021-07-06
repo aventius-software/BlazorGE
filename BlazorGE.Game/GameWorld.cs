@@ -10,14 +10,16 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Game
 {
+
+
     public class GameWorld
     {
         #region Public Properties
 
-        public List<GameEntityBase> GameEntities { get; } = new List<GameEntityBase>();        
+        public List<GameEntity> GameEntities { get; } = new List<GameEntity>();
         public List<IGameSystem> GameSystems { get; } = new List<IGameSystem>();
 
-        #endregion
+        #endregion        
 
         #region Public Methods
 
@@ -28,27 +30,34 @@ namespace BlazorGE.Game
         /// <param name="gameSystem"></param>
         public void AddGameSystem<TGameSystem>(TGameSystem gameSystem) where TGameSystem : IGameSystem
         {
-            // TODO: check if system is already added!
-            GameSystems.Add(gameSystem);
+            // Add system, but only if its not already added ;-)
+            if (!GameSystems.Any(gameSystem => gameSystem is TGameSystem))
+            {
+                GameSystems.Add(gameSystem);
+            }
         }
 
         /// <summary>
         /// Create a game entity
         /// </summary>
         /// <returns></returns>
-        public GameEntityBase CreateGameEntity()
+        public GameEntity CreateGameEntity()
         {
-            var gameEntity = new GameEntityBase();
+            var gameEntity = new GameEntity();
             GameEntities.Add(gameEntity);
 
             return gameEntity;
         }
 
         /// <summary>
-        /// Destroy game entity
+        /// Destroy the specified game entity
         /// </summary>
         /// <param name="gameEntity"></param>
-        public void DestroyGameEntity(GameEntityBase gameEntity) => GameEntities.Remove(gameEntity);
+        public void DestroyGameEntity(GameEntity gameEntity)
+        {
+            gameEntity.Deactivate(true);
+            GameEntities.RemoveAll(entity => entity.Id == gameEntity.Id);
+        }
 
         /// <summary>
         /// Draw all active game systems

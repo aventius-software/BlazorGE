@@ -1,6 +1,7 @@
 ﻿#region Namespaces
 
 using BlazorGE.Game.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Game.Entities
 {
-    public class GameEntityBase
+    public class GameEntity
     {
         #region Protected Properties
 
@@ -18,10 +19,11 @@ namespace BlazorGE.Game.Entities
         #endregion
 
         #region Public Properties
-
-        public List<GameEntityBase> ChildEntities { get; protected set; } = new();
+        
+        public List<GameEntity> Children { get; protected set; } = new();
+        public Guid Id { get; } = Guid.NewGuid();
         public bool IsActive { get; protected set; }
-        public GameEntityBase ParentEntity { get; protected set; }
+        public GameEntity Parent { get; protected set; }
 
         #endregion
 
@@ -36,14 +38,14 @@ namespace BlazorGE.Game.Entities
         /// Create and add a child entity to this entity
         /// </summary>
         /// <returns></returns>
-        public GameEntityBase AddChildEntity()
+        public GameEntity AddChild()
         {
-            var child = new GameEntityBase
+            var child = new GameEntity
             {
-                ParentEntity = this
+                Parent = this
             };
 
-            ChildEntities.Add(child);
+            Children.Add(child);
 
             return child;
         }
@@ -63,32 +65,19 @@ namespace BlazorGE.Game.Entities
         }
 
         /// <summary>
-        /// Clones this entity
-        /// </summary>
-        /// <returns></returns>
-        public GameEntityBase Clone()
-        {
-            var entity = new GameEntityBase
-            {
-                ParentEntity = ParentEntity,
-                GameComponents = new List<IGameComponent>(GameComponents)
-            };
-
-            entity.IsActive = false;
-
-            return entity;
-        }
-
-        /// <summary>
         /// Set this entity and any of its children to inactive
         /// </summary>
-        public void Deactivate()
+        /// <param name="deactivateChildren"></param>
+        public void Deactivate(bool deactivateChildren = true)
         {
             IsActive = false;
 
-            foreach (var childEntity in ChildEntities.Where(entity => entity.IsActive))
+            if (deactivateChildren)
             {
-                childEntity.Deactivate();
+                foreach (var childEntity in Children.Where(entity => entity.IsActive))
+                {
+                    childEntity.Deactivate();
+                }
             }
         }
 
@@ -113,7 +102,7 @@ namespace BlazorGE.Game.Entities
                 await ((IDrawableGameComponent)gameComponent).DrawAsync(gameTime);
             }
 
-            foreach (var childEntity in ChildEntities.Where(entity => entity.IsActive))
+            foreach (var childEntity in Children.Where(entity => entity.IsActive))
             {
                 await childEntity.DrawAsync(gameTime);
             }
@@ -151,7 +140,7 @@ namespace BlazorGE.Game.Entities
                 await ((IUpdatableGameComponent)gameComponent).UpdateAsync(gameTime);
             }
 
-            foreach (var childEntity in ChildEntities.Where(entity => entity.IsActive))
+            foreach (var childEntity in Children.Where(entity => entity.IsActive))
             {
                 await childEntity.UpdateAsync(gameTime);
             }

@@ -25,7 +25,7 @@ namespace BlazorGE.Core.Extensions
             //services.AddSingleton(serviceProvider => (IJSUnmarshalledRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
 
             // Register other required services
-            services.AddSingleton<GameService>();
+            services.AddSingleton<InternalGameInteropService>();
             services.AddSingleton<GameWorld>();
             
             // For simplicity, we'll optionally add any services with default

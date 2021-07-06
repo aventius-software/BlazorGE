@@ -17,7 +17,7 @@ namespace DemoGame.Game.Systems
         /// This system should only act upon the player entities
         /// </summary>
         /// <returns></returns>
-        public override Func<GameEntityBase, bool> EntityPredicate()
+        public override Func<GameEntity, bool> EntityPredicate()
         {
             return entity => entity.HasComponent<PlayerMovementComponent>();
         }

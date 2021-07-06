@@ -53,7 +53,7 @@ namespace DemoGame.Game.Factories
             SpriteSheet = GraphicAssetService.CreateSpriteSheet("images/element_grey_polygon.png");
         }
 
-        public GameEntityBase CreatePlayer(int startX, int startY)
+        public GameEntity CreatePlayer(int startX, int startY)
         {
             var player = GameWorld.CreateGameEntity();
             player.AttachGameComponent(new PlayerMovementComponent(KeyboardService, GraphicsService2D));

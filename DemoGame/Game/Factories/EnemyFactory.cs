@@ -49,7 +49,7 @@ namespace DemoGame.Game.Factories
             SpriteSheet = GraphicAssetService.CreateSpriteSheet("images/ballBlue.png");
         }
 
-        public GameEntityBase CreateEnemy(int startX, int startY)
+        public GameEntity CreateEnemy(int startX, int startY)
         {
             var enemy = GameWorld.CreateGameEntity();
             enemy.AttachGameComponent(new EnemyMovementComponent(GraphicsService2D));

@@ -10,6 +10,6 @@ namespace BlazorGE.Game.Systems
 {
     public interface IGameEntityUpdateSystem : IGameEntitySystem
     {
-        public ValueTask UpdateEntitiesAsync(GameTime gameTime, IEnumerable<GameEntityBase> filteredGameEntities);
+        public ValueTask UpdateEntitiesAsync(GameTime gameTime, IEnumerable<GameEntity> filteredGameEntities);
     }
 }

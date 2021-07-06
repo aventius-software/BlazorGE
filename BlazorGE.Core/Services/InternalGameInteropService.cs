@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Core.Services
 {
-    internal class GameService : IAsyncDisposable
+    internal class InternalGameInteropService : IAsyncDisposable
     {
         #region Private Properties
 
@@ -18,7 +18,7 @@ namespace BlazorGE.Core.Services
 
         #region Constructors
 
-        public GameService(IJSRuntime jsRuntime)
+        public InternalGameInteropService(IJSRuntime jsRuntime)
         {
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
                "import", "./_content/BlazorGE.Core/interop.js").AsTask());

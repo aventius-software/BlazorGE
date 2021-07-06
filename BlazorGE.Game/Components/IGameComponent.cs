@@ -8,6 +8,6 @@ namespace BlazorGE.Game.Components
 {
     public interface IGameComponent
     {
-        public GameEntityBase GameEntityOwner { get; set; }
+        public GameEntity GameEntityOwner { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace BlazorGE.Core.Components
         protected GameBase Game { get; set; }
 
         [Inject]
-        private GameService GameService { get; set; }
+        private InternalGameInteropService GameService { get; set; }
 
         [Inject]
         protected IKeyboardService KeyboardService { get; set; }

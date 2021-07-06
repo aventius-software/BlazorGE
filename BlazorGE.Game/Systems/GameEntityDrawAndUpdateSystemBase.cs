@@ -17,7 +17,7 @@ namespace BlazorGE.Game.Systems
         /// <param name="gameTime"></param>
         /// <param name="filteredGameEntities"></param>
         /// <returns></returns>
-        public virtual async ValueTask DrawEntitiesAsync(GameTime gameTime, IEnumerable<GameEntityBase> filteredGameEntities)
+        public virtual async ValueTask DrawEntitiesAsync(GameTime gameTime, IEnumerable<GameEntity> filteredGameEntities)
         {
             foreach (var entity in filteredGameEntities)
             {
@@ -29,7 +29,7 @@ namespace BlazorGE.Game.Systems
         /// Implement this to return your desired entites to work with
         /// </summary>
         /// <returns></returns>
-        public abstract Func<GameEntityBase, bool> EntityPredicate();
+        public abstract Func<GameEntity, bool> EntityPredicate();
 
         /// <summary>
         /// Update all active entities
@@ -37,7 +37,7 @@ namespace BlazorGE.Game.Systems
         /// <param name="gameTime"></param>
         /// <param name="filteredGameEntities"></param>
         /// <returns></returns>
-        public async ValueTask UpdateEntitiesAsync(GameTime gameTime, IEnumerable<GameEntityBase> filteredGameEntities)
+        public virtual async ValueTask UpdateEntitiesAsync(GameTime gameTime, IEnumerable<GameEntity> filteredGameEntities)
         {
             foreach (var entity in filteredGameEntities)
             {

@@ -10,6 +10,6 @@ namespace BlazorGE.Game.Systems
 {
     public interface IGameEntityDrawSystem : IGameEntitySystem
     {
-        public ValueTask DrawEntitiesAsync(GameTime gameTime, IEnumerable<GameEntityBase> filteredGameEntities);
+        public ValueTask DrawEntitiesAsync(GameTime gameTime, IEnumerable<GameEntity> filteredGameEntities);
     }
 }

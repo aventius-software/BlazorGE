@@ -42,7 +42,7 @@ namespace DemoGame.Game.Screens
         public override async Task LoadContentAsync()
         {
             // Create a factory to make bullets ;-)
-            var bulletFactory = new BulletFactory(GraphicAssetService, GraphicsService2D);
+            var bulletFactory = new BulletFactory(GameWorld, GraphicAssetService, GraphicsService2D);
             bulletFactory.LoadContent();
 
             // Create a factory to make the player(s)
@@ -59,12 +59,12 @@ namespace DemoGame.Game.Screens
             GameWorld.AddGameSystem(new DebugSystem(GraphicsService2D));
             GameWorld.AddGameSystem(new PlayerSystem());
             GameWorld.AddGameSystem(new EnemySystem());
-            GameWorld.AddGameSystem(new BulletSystem());
+            GameWorld.AddGameSystem(new BulletSystem(GameWorld));
 
             // And...
             await base.LoadContentAsync();
         }
-
+        
         #endregion
     }
 }

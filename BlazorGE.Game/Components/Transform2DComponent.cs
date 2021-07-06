@@ -74,6 +74,19 @@ namespace BlazorGE.Game.Components
             return x >= Position.X && x <= Position.X + Width && y >= Position.Y && y <= Position.Y + Height;
         }
 
+        /// <summary>
+        /// Returns true if this transforms bounding box intersects with the specified transforms bounding box
+        /// </summary>
+        /// <param name="transform2DComponent"></param>
+        /// <returns></returns>
+        public bool IntersectsWith(Transform2DComponent transform2DComponent)
+        {
+            return Position.X < transform2DComponent.Position.X + transform2DComponent.Width &&
+                Position.X + Width > transform2DComponent.Position.X &&
+                Position.Y < transform2DComponent.Position.Y + transform2DComponent.Height &&
+                Position.Y + Height > transform2DComponent.Position.Y;
+        }
+
         #endregion
     }
 }
