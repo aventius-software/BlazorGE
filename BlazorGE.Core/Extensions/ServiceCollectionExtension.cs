@@ -21,13 +21,13 @@ namespace BlazorGE.Core.Extensions
 
             // See https://www.meziantou.net/optimizing-js-interop-in-a-blazor-webassembly-application.htm
             // Might be worth investigating for better JS and canvas performance?
-            //services.AddSingleton(serviceProvider => (IJSInProcessRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
-            //services.AddSingleton(serviceProvider => (IJSUnmarshalledRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
+            services.AddSingleton(serviceProvider => (IJSInProcessRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
+            services.AddSingleton(serviceProvider => (IJSUnmarshalledRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
 
             // Register other required services
             services.AddSingleton<InternalGameInteropService>();
             services.AddSingleton<GameWorld>();
-            
+
             // For simplicity, we'll optionally add any services with default
             // implementations - unless the 'useDefaultServices' flag is set to false ;-)
             if (useDefaultServices)
