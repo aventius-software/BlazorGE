@@ -1,7 +1,7 @@
 ﻿#region Namespaces
 
-using BlazorGE.Graphics;
-using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D;
+using BlazorGE.Graphics2D.Services;
 using System.Threading.Tasks;
 
 #endregion

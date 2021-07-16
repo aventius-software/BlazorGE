@@ -3,8 +3,10 @@
 using BlazorGE.Game;
 using BlazorGE.Game.Components;
 using BlazorGE.Game.Entities;
-using BlazorGE.Graphics;
+using BlazorGE.Graphics.Assets;
 using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D;
+using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using DemoGame.Game.Components;
 
@@ -28,7 +30,7 @@ namespace DemoGame.Game.Factories
         protected IGraphicAssetService GraphicAssetService;
         protected IGraphicsService2D GraphicsService2D;
         protected IKeyboardService KeyboardService;
-        protected SpriteSheet SpriteSheet;
+        protected GraphicAsset GraphicAsset;
 
         #endregion
 
@@ -50,7 +52,7 @@ namespace DemoGame.Game.Factories
         public void LoadContent()
         {
             // Sprite downloaded from https://opengameart.org/content/puzzle-game-art credit to 'Kenney.nl'
-            SpriteSheet = GraphicAssetService.CreateSpriteSheet("images/element_grey_polygon.png");
+            GraphicAsset = GraphicAssetService.CreateGraphicAsset("images/element_grey_polygon.png");
         }
 
         public GameEntity CreatePlayer(int startX, int startY)
@@ -58,7 +60,7 @@ namespace DemoGame.Game.Factories
             var player = GameWorld.CreateGameEntity();
             player.AttachGameComponent(new PlayerMovementComponent(KeyboardService, GraphicsService2D));
             player.AttachGameComponent(new Transform2DComponent { Width = Width, Height = Height });
-            player.AttachGameComponent(new SpriteComponent(new Sprite(SpriteSheet, 0, 0, Width, Height, Width, Height, startX, startY), GraphicsService2D));
+            player.AttachGameComponent(new SpriteComponent(new Sprite(GraphicAsset, 0, 0, Width, Height, Width, Height, startX, startY), GraphicsService2D));
             player.AttachGameComponent(new PlayerFireControlComponent(KeyboardService, BulletFactory));
             player.AttachGameComponent(new PlayerScoreComponent());
             player.Activate();

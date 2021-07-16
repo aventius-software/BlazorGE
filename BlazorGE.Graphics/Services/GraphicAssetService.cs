@@ -1,5 +1,6 @@
 ﻿#region Namespaces
 
+using BlazorGE.Graphics.Assets;
 using System;
 
 #endregion
@@ -10,30 +11,30 @@ namespace BlazorGE.Graphics.Services
     {
         #region Private Properties
 
-        private event Func<string, SpriteSheet> OnCreateSpriteSheetHandlers;
+        private event Func<string, GraphicAsset> OnCreateGraphicAssetHandlers;
 
         #endregion        
 
         #region Public Methods
 
         /// <summary>
-        /// Create/load a new sprite from the specified url
+        /// Create/load a new graphic asset from the specified url
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public SpriteSheet CreateSpriteSheet(string url)
+        public GraphicAsset CreateGraphicAsset(string url)
         {
-            return OnCreateSpriteSheetHandlers.Invoke(url);
+            return OnCreateGraphicAssetHandlers.Invoke(url);
         }
 
         /// <summary>
-        /// Register event handler for sprite sheet create event
+        /// Register event handler for asset create event
         /// </summary>
         /// <param name="eventHandler"></param>
-        public void RegisterOnCreateSpriteSheetHandler(Func<string, SpriteSheet> eventHandler)
+        public void RegisterOnCreateGraphicAssetHandler(Func<string, GraphicAsset> eventHandler)
         {
-            if (OnCreateSpriteSheetHandlers != null) OnCreateSpriteSheetHandlers -= eventHandler;
-            OnCreateSpriteSheetHandlers += eventHandler;
+            if (OnCreateGraphicAssetHandlers != null) OnCreateGraphicAssetHandlers -= eventHandler;
+            OnCreateGraphicAssetHandlers += eventHandler;
         }
 
         #endregion

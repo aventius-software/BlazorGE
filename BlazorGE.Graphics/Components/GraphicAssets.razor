@@ -1,6 +1,6 @@
 ﻿@inherits GraphicAssetsBase
 
-@foreach (var spriteSheet in SpriteSheets)
+@foreach (var asset in Assets)
 {
-    <img hidden src="@spriteSheet.Url" @ref="@spriteSheet.ImageElementReference" @onload="@(() => OnLoadSpriteSheet(spriteSheet.UniqueIdentifier))" />
+    <img hidden src="@asset.Url" @ref="@asset.ImageElementReference" @onload="@(() => OnLoadGraphicAsset(asset.UniqueIdentifier))" />
 }

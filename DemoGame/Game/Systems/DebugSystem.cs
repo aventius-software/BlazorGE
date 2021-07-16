@@ -2,7 +2,7 @@
 
 using BlazorGE.Game;
 using BlazorGE.Game.Systems;
-using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using System.Threading.Tasks;
 
 #endregion
@@ -31,7 +31,7 @@ namespace DemoGame.Game.Systems
         public async ValueTask DrawAsync(GameTime gameTime)
         {
             // Just output a simple FPS text string (should do AVG fps really)
-            await GraphicsService.DrawTextAsync($"FPS: {gameTime.FramesPerSecond}", 0, 30, "Arial", "red", 30, true);            
+            await GraphicsService.DrawTextAsync($"FPS: {gameTime.FramesPerSecond}", 0, 30, "Arial", "red", 30, true);
         }
 
         #endregion

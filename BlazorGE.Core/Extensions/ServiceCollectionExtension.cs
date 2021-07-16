@@ -4,6 +4,7 @@ using BlazorGE.Core.Services;
 using BlazorGE.Game;
 using BlazorGE.Game.Screens;
 using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;

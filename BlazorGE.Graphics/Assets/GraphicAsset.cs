@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 #endregion
 
-namespace BlazorGE.Graphics.Sprites
+namespace BlazorGE.Graphics.Assets
 {
     public class GraphicAsset
     {        

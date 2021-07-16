@@ -3,6 +3,7 @@
 using BlazorGE.Game;
 using BlazorGE.Game.Screens;
 using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace DemoGame.Game.Screens
         protected IGameScreenService GameScreenManager;
         protected IGraphicAssetService GraphicAssetService;
         protected IGraphicsService2D GraphicsService;
-        protected IKeyboardService KeyboardService;        
+        protected IKeyboardService KeyboardService;
 
         #endregion
 
@@ -25,7 +26,7 @@ namespace DemoGame.Game.Screens
 
         public WelcomeScreen(GameWorld gameWorld, IGraphicsService2D graphicsService, IKeyboardService keyboardService, IGameScreenService gameScreenManager, IGraphicAssetService graphicAssetService) : base(gameWorld)
         {
-            GraphicsService = graphicsService;            
+            GraphicsService = graphicsService;
             KeyboardService = keyboardService;
             GameScreenManager = gameScreenManager;
             GraphicAssetService = graphicAssetService;
@@ -34,7 +35,7 @@ namespace DemoGame.Game.Screens
         #endregion
 
         #region Override Methods
-        
+
         public override async ValueTask DrawAsync(GameTime gameTime)
         {
             await GraphicsService.DrawTextAsync("Welcome to BlazorGE! Press space to start the game!", 50, 50, "Arial", "red", 30, true);

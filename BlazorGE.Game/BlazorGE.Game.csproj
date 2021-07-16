@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BlazorGE.Graphics2D\BlazorGE.Graphics2D.csproj" />
     <ProjectReference Include="..\BlazorGE.Graphics\BlazorGE.Graphics.csproj" />
   </ItemGroup>
 

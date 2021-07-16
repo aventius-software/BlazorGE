@@ -3,6 +3,7 @@
 using BlazorGE.Game;
 using BlazorGE.Game.Screens;
 using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using DemoGame.Game.Factories;
 using DemoGame.Game.Systems;
@@ -64,7 +65,7 @@ namespace DemoGame.Game.Screens
             // And...
             await base.LoadContentAsync();
         }
-        
+
         #endregion
     }
 }

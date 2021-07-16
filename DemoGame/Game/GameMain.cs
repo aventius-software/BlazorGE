@@ -3,6 +3,7 @@
 using BlazorGE.Game;
 using BlazorGE.Game.Screens;
 using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using DemoGame.Game.Screens;
 using System.Threading.Tasks;
@@ -45,11 +46,17 @@ namespace DemoGame.Game
         /// <returns></returns>
         public override async ValueTask DrawAsync(GameTime gameTime)
         {
-            // First clear the screen, then draw the current game screen
+            // Start batching graphics calls
+            await GraphicsService.BeginBatchAsync();
+
+            // Clear screen and draw the game...
             await GraphicsService.ClearScreenAsync();
             await GameScreenManager.DrawAsync(gameTime);
 
             await base.DrawAsync(gameTime);
+
+            // End/flush batched graphics calls
+            await GraphicsService.EndBatchAsync();
         }
 
         /// <summary>
@@ -71,7 +78,7 @@ namespace DemoGame.Game
         public override async Task UnloadContentAsync()
         {
             // Unload/dispose of any resources
-            await GameScreenManager.UnloadScreenAsync();            
+            await GameScreenManager.UnloadScreenAsync();
 
             await base.UnloadContentAsync();
         }

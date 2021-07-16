@@ -2,7 +2,7 @@
 
 using BlazorGE.Game;
 using BlazorGE.Game.Components;
-using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using System.Threading.Tasks;
 
 #endregion

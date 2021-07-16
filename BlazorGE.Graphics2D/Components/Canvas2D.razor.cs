@@ -1,14 +1,14 @@
 ﻿#region Namespaces
 
-using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
 #endregion
 
-namespace BlazorGE.Graphics.Components
+namespace BlazorGE.Graphics2D.Components
 {
-    public class CanvasBase : ComponentBase
+    public class Canvas2DBase : ComponentBase
     {
         #region Injected Services
 

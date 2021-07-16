@@ -3,6 +3,7 @@
 using BlazorGE.Core.Extensions;
 using BlazorGE.Game.Screens;
 using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using DemoGame.Game;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

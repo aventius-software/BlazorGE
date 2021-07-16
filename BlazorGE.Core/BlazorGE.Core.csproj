@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Blazorge.Game\BlazorGE.Game.csproj" />
+    <ProjectReference Include="..\BlazorGE.Graphics2D\BlazorGE.Graphics2D.csproj" />
     <ProjectReference Include="..\Blazorge.Graphics\BlazorGE.Graphics.csproj" />
     <ProjectReference Include="..\Blazorge.Input\BlazorGE.Input.csproj" />
   </ItemGroup>

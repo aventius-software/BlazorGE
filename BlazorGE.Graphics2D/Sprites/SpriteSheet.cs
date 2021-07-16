@@ -1,10 +1,10 @@
 ﻿#region Namespaces
 
-using BlazorGE.Graphics.Sprites;
+using BlazorGE.Graphics.Assets;
 
 #endregion
 
-namespace BlazorGE.Graphics
+namespace BlazorGE.Graphics2D
 {
     public class SpriteSheet : GraphicAsset { }
 }

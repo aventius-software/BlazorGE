@@ -1,5 +1,6 @@
 ﻿#region Namespaces
 
+using BlazorGE.Graphics.Assets;
 using BlazorGE.Graphics.Services;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -22,7 +23,7 @@ namespace BlazorGE.Graphics.Components
 
         #region Protected Fields
 
-        protected List<SpriteSheet> SpriteSheets = new();
+        protected List<GraphicAsset> Assets = new();
 
         #endregion
 
@@ -30,7 +31,7 @@ namespace BlazorGE.Graphics.Components
 
         protected override void OnInitialized()
         {
-            GraphicAssetService.RegisterOnCreateSpriteSheetHandler(CreateSpriteSheet);
+            GraphicAssetService.RegisterOnCreateGraphicAssetHandler(CreateGraphicAsset);
         }
 
         #endregion
@@ -42,23 +43,23 @@ namespace BlazorGE.Graphics.Components
         /// </summary>
         /// <param name="uniqueIdentifier"></param>
         /// <returns></returns>
-        protected async Task OnLoadSpriteSheet(Guid uniqueIdentifier)
+        protected async Task OnLoadGraphicAsset(Guid uniqueIdentifier)
         {
             // Try and find this sprite sheet
-            var spriteSheets = SpriteSheets.Where(sheet => sheet.UniqueIdentifier == uniqueIdentifier);
+            var assets = Assets.Where(asset => asset.UniqueIdentifier == uniqueIdentifier);
 
             // Does it exist? 
-            if (spriteSheets.Any())
+            if (assets.Any())
             {
                 // Yes, get it...
-                var spriteSheet = spriteSheets.Single();
-                spriteSheet.IsLoaded = true;
+                var asset = assets.Single();
+                asset.IsLoaded = true;
 
                 // Is there an 'onload' method to call?
-                if (spriteSheet.OnLoadAsync != null)
+                if (asset.OnLoadAsync != null)
                 {
                     // Yes, call it and pass the current time of when the image was loaded
-                    await InvokeAsync(async () => await spriteSheet.OnLoadAsync(DateTime.Now));
+                    await InvokeAsync(async () => await asset.OnLoadAsync(DateTime.Now));
                 }
             }
         }
@@ -68,18 +69,17 @@ namespace BlazorGE.Graphics.Components
         #region Public Methods
 
         /// <summary>
-        /// Create a sprite sheet
+        /// Create a graphic asset
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>        
-        public SpriteSheet CreateSpriteSheet(string url)
-        {
-            // Might move to 'Core' project?
-            var spriteSheet = new SpriteSheet { Url = url };
-            SpriteSheets.Add(spriteSheet);
+        public GraphicAsset CreateGraphicAsset(string url)
+        {            
+            var asset = new GraphicAsset { Url = url };
+            Assets.Add(asset);
             StateHasChanged();
 
-            return spriteSheet;
+            return asset;
         }
 
         #endregion        

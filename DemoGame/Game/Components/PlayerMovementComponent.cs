@@ -2,7 +2,7 @@
 
 using BlazorGE.Game;
 using BlazorGE.Game.Components;
-using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using System.Threading.Tasks;
 
@@ -67,11 +67,11 @@ namespace DemoGame.Game.Components
             var spriteComponent = GameEntityOwner.GetComponent<SpriteComponent>();
 
             if (transformComponent.Position.X < 0) transformComponent.Position.X = 0;
-            else if (transformComponent.Position.X > GraphicsService2D.PlayFieldWidth - spriteComponent.Sprite.Width) 
+            else if (transformComponent.Position.X > GraphicsService2D.PlayFieldWidth - spriteComponent.Sprite.Width)
                 transformComponent.Position.X = GraphicsService2D.PlayFieldWidth - spriteComponent.Sprite.Width;
 
             if (transformComponent.Position.Y < 0) transformComponent.Position.Y = 0;
-            else if (transformComponent.Position.Y > GraphicsService2D.PlayFieldHeight - spriteComponent.Sprite.Height) 
+            else if (transformComponent.Position.Y > GraphicsService2D.PlayFieldHeight - spriteComponent.Sprite.Height)
                 transformComponent.Position.Y = GraphicsService2D.PlayFieldHeight - spriteComponent.Sprite.Height;
 
             await Task.CompletedTask;

@@ -1,4 +1,10 @@
-﻿namespace BlazorGE.Graphics
+﻿#region Namespaces
+
+using BlazorGE.Graphics.Assets;
+
+#endregion
+
+namespace BlazorGE.Graphics2D
 {
     public struct Sprite
     {
@@ -9,7 +15,7 @@
         public int SourceWidth;
         public int SourceX;
         public int SourceY;
-        public SpriteSheet SpriteSheet;
+        public GraphicAsset SpriteSheet;
         public int Width;
         public int X;
         public int Y;
@@ -18,7 +24,7 @@
 
         #region Constructors
 
-        public Sprite(SpriteSheet spriteSheet, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int width, int height, int x = 0, int y = 0)
+        public Sprite(GraphicAsset spriteSheet, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int width, int height, int x = 0, int y = 0)
         {
             SpriteSheet = spriteSheet;
             SourceX = sourceX;

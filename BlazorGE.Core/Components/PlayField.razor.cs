@@ -14,6 +14,13 @@ namespace BlazorGE.Core.Components
 {
     public class PlayFieldBase : ComponentBase, IAsyncDisposable
     {
+        #region Parameters
+
+        [Parameter]
+        public bool Initialise2D { get; set; } = true;
+
+        #endregion
+
         #region Injected Services
 
         [Inject]
