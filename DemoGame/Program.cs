@@ -28,7 +28,7 @@ namespace DemoGame
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             // Add BlazorGE services and register our game, specify 'false' for 'useCustomServices'...
-            builder.Services.AddBlazorgeServices<GameMain>(false);
+            builder.Services.AddBlazorGEServices<GameMain>(false);
 
             // ...then supply your own implementations here. If you omit the above parameter
             // then BlazorGE will use its own default implementations and you don't need to 

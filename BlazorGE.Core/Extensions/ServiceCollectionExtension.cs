@@ -15,7 +15,7 @@ namespace BlazorGE.Core.Extensions
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddBlazorgeServices<T>(this IServiceCollection services, bool useDefaultServices = true) where T : GameBase
+        public static IServiceCollection AddBlazorGEServices<T>(this IServiceCollection services, bool useDefaultServices = true) where T : GameBase
         {
             // Register game instance
             services.AddSingleton<GameBase, T>();

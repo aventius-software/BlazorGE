@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Game
 {
-
-
     public class GameWorld
     {
         #region Public Properties
@@ -34,6 +32,12 @@ namespace BlazorGE.Game
             if (!GameSystems.Any(gameSystem => gameSystem is TGameSystem))
             {
                 GameSystems.Add(gameSystem);
+
+                // Does this need initialising?
+                if (gameSystem is IGameInitialisationSystem)
+                {
+                    Task.Run(async () => await ((IGameInitialisationSystem)gameSystem).InitialiseAsync());
+                }
             }
         }
 
