@@ -33,7 +33,7 @@ namespace BlazorGE.Graphics.Services
         /// <param name="eventHandler"></param>
         public void RegisterOnCreateGraphicAssetHandler(Func<string, GraphicAsset> eventHandler)
         {
-            if (OnCreateGraphicAssetHandlers != null) OnCreateGraphicAssetHandlers -= eventHandler;
+            if (OnCreateGraphicAssetHandlers is not null) OnCreateGraphicAssetHandlers -= eventHandler;
             OnCreateGraphicAssetHandlers += eventHandler;
         }
 

@@ -32,8 +32,8 @@ namespace BlazorGE.Graphics2D.Services
 
         #region Protected Properties
 
-        protected List<BatchItem> BatchItems = new();
-        protected bool UseBatching = false;
+        protected List<object[]> BatchItems = new();
+        protected bool IsBatching = false;
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace BlazorGE.Graphics2D.Services
 
         #endregion
 
-        #region Public Methods
+        #region Implementations
 
         public async ValueTask DisposeAsync()
         {
@@ -90,13 +90,28 @@ namespace BlazorGE.Graphics2D.Services
         #region Batching
 
         /// <summary>
+        /// Batch a call
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        protected async ValueTask BatchCallAsync(params object[] parameters)
+        {
+            BatchItems.Add(parameters);
+
+            await Task.CompletedTask;
+        }
+
+        /// <summary>
         /// Start batching graphics calls
         /// </summary>
         /// <returns></returns>
         public async ValueTask BeginBatchAsync()
         {
-            UseBatching = true;
-            BatchItems.Clear();
+            if (!IsBatching)
+            {
+                BatchItems.Clear();
+                IsBatching = true;
+            }
 
             await Task.CompletedTask;
         }
@@ -107,16 +122,13 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask EndBatchAsync()
         {
-            UseBatching = false;
-            var items = new object[BatchItems.Count];
-
-            for (var i = 0; i < BatchItems.Count; i++)
+            if (IsBatching)
             {
-                items[i] = new object[] { BatchItems[i].FunctionName, BatchItems[i].Parameters };
-            }
+                IsBatching = false;
 
-            var module = await ModuleTask.Value;
-            await module.InvokeVoidAsync("drawBatch", new object[] { items });
+                var module = await ModuleTask.Value;
+                await module.InvokeVoidAsync("drawBatch", new object[] { BatchItems });
+            }
         }
 
         #endregion
@@ -133,15 +145,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask ClearRectangleAsync(int x, int y, int width, int height)
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = ClearRect, Parameters = new object[] { x, y, width, height } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(ClearRect, x, y, width, height);
-            }
+            await BatchCallAsync(ClearRect, x, y, width, height);
         }
 
         /// <summary>
@@ -150,15 +154,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask ClearScreenAsync()
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = ClearRect, Parameters = new object[] { 0, 0, PlayFieldWidth, PlayFieldHeight } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(ClearRect, 0, 0, PlayFieldWidth, PlayFieldHeight);
-            }
+            await BatchCallAsync(ClearRect, 0, 0, PlayFieldWidth, PlayFieldHeight);
         }
 
         /// <summary>
@@ -169,15 +165,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask DrawFilledPolygonAsync(string colour, int[][] coordinates)
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = DrawFilledPolygon, Parameters = new object[] { coordinates, colour } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(DrawFilledPolygon, coordinates, colour);
-            }
+            await BatchCallAsync(DrawFilledPolygon, coordinates, colour);
         }
 
         /// <summary>
@@ -191,15 +179,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask DrawFilledRectangleAsync(string colour, int x, int y, int width, int height)
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = DrawFilledRectangle, Parameters = new object[] { colour, x, y, width, height } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(DrawFilledRectangle, colour, x, y, width, height);
-            }
+            await BatchCallAsync(DrawFilledRectangle, colour, x, y, width, height);
         }
 
         /// <summary>
@@ -218,15 +198,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask DrawImageAsync(ElementReference imageElementReference, int x, int y, int width, int height, int sourceX, int sourceY, int sourceWidth, int sourceHeight)
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = DrawImage, Parameters = new object[] { imageElementReference, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(DrawImage, imageElementReference, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
-            }
+            await BatchCallAsync(DrawImage, imageElementReference, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
         }
 
         /// <summary>
@@ -244,15 +216,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask DrawQuadrilateralAsync(string colour, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = DrawQuadrilateral, Parameters = new object[] { colour, x1, y1, x2, y2, x3, y3, x4, y4 } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(DrawQuadrilateral, colour, x1, y1, x2, y2, x3, y3, x4, y4);
-            }
+            await BatchCallAsync(DrawQuadrilateral, colour, x1, y1, x2, y2, x3, y3, x4, y4);
         }
 
         /// <summary>
@@ -262,15 +226,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask DrawSpriteAsync(Sprite sprite)
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = DrawImage, Parameters = new object[] { sprite.SpriteSheet.ImageElementReference, sprite.SourceX, sprite.SourceY, sprite.SourceWidth, sprite.SourceHeight, sprite.X, sprite.Y, sprite.Width, sprite.Height } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(DrawImage, sprite.SpriteSheet.ImageElementReference, sprite.SourceX, sprite.SourceY, sprite.SourceWidth, sprite.SourceHeight, sprite.X, sprite.Y, sprite.Width, sprite.Height);
-            }
+            await BatchCallAsync(DrawImage, sprite.SpriteSheet.ImageElementReference, sprite.SourceX, sprite.SourceY, sprite.SourceWidth, sprite.SourceHeight, sprite.X, sprite.Y, sprite.Width, sprite.Height);
         }
 
         /// <summary>
@@ -286,15 +242,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask DrawTextAsync(string text, int x, int y, string fontFamily, string colour, int fontSize, bool isFilled)
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = DrawText, Parameters = new object[] { text, x, y, $"{fontSize}px {fontFamily}", colour, isFilled } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(DrawText, text, x, y, $"{fontSize}px {fontFamily}", colour, isFilled);
-            }
+            await BatchCallAsync(DrawText, text, x, y, $"{fontSize}px {fontFamily}", colour, isFilled);
         }
 
         /// <summary>
@@ -311,25 +259,17 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask DrawTrapeziumAsync(string colour, int x1, int y1, int w1, int x2, int y2, int w2)
         {
-            if (UseBatching)
-            {
-                BatchItems.Add(new BatchItem { FunctionName = DrawTrapezium, Parameters = new object[] { colour, x1, y1, w1, x2, y2, w2 } });
-            }
-            else
-            {
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync(DrawTrapezium, colour, x1, y1, w1, x2, y2, w2);
-            }
+            await BatchCallAsync(DrawTrapezium, colour, x1, y1, w1, x2, y2, w2);
         }
 
         /// <summary>
         /// Initialise the canvas for 2D operations
         /// </summary>
         /// <returns></returns>
-        public async ValueTask InitialiseCanvas2D()
+        public async ValueTask InitialiseCanvas2D(ElementReference canvasReference)
         {
             var module = await ModuleTask.Value;
-            await module.InvokeVoidAsync("initialiseCanvas2D", DotNetObjectReference.Create(this));
+            await module.InvokeVoidAsync("initialiseCanvas2D", DotNetObjectReference.Create(this), canvasReference);
         }
 
         #endregion

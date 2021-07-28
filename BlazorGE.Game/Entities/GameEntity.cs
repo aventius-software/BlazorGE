@@ -115,7 +115,7 @@ namespace BlazorGE.Game.Entities
         /// <returns></returns>
         public T GetComponent<T>() where T : IGameComponent
         {
-            return (T)GameComponents.Where(component => component is T).Single();
+            return (T)GameComponents.Where(component => component is T)?.Single();
         }
 
         /// <summary>

@@ -25,9 +25,11 @@ namespace BlazorGE.Graphics2D.Components
 
         #region Override Methods
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await GraphicsService.InitialiseCanvas2D();
+            if (!firstRender) return;
+            
+            await GraphicsService.InitialiseCanvas2D(CanvasReference);
         }
 
         #endregion

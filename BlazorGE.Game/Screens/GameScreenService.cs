@@ -21,7 +21,10 @@ namespace BlazorGE.Game.Screens
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns></returns>
-        public async ValueTask DrawAsync(GameTime gameTime) => await GameScreen.DrawAsync(gameTime);
+        public async ValueTask DrawAsync(GameTime gameTime)
+        {
+            if (GameScreen is not null) await GameScreen.DrawAsync(gameTime);
+        }
 
         /// <summary>
         /// Load a screen
@@ -47,7 +50,7 @@ namespace BlazorGE.Game.Screens
         /// <returns></returns>
         public async Task UnloadScreenAsync()
         {
-            if (GameScreen != null)
+            if (GameScreen is not null)
             {
                 GameScreen.UnloadContent();
                 await GameScreen.UnloadContentAsync();
@@ -59,7 +62,10 @@ namespace BlazorGE.Game.Screens
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns></returns>
-        public async ValueTask UpdateAsync(GameTime gameTime) => await GameScreen.UpdateAsync(gameTime);
+        public async ValueTask UpdateAsync(GameTime gameTime)
+        {
+            if (GameScreen is not null) await GameScreen.UpdateAsync(gameTime);
+        }
 
         #endregion
     }

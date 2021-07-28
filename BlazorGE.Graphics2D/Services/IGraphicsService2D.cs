@@ -37,7 +37,7 @@ namespace BlazorGE.Graphics2D.Services
         public ValueTask DrawSpriteAsync(Sprite sprite);
         public ValueTask DrawTextAsync(string text, int x, int y, string fontFamily, string colour, int fontSize, bool isFilled);
         public ValueTask DrawTrapeziumAsync(string colour, int x1, int y1, int w1, int x2, int y2, int w2);
-        public ValueTask InitialiseCanvas2D();
+        public ValueTask InitialiseCanvas2D(ElementReference canvasReference);
 
         #endregion
     }
