@@ -26,14 +26,10 @@ namespace BlazorGE.Graphics2D.Services
 
         #region Private Properties
 
-        private readonly Lazy<Task<IJSObjectReference>> ModuleTask;
-
-        #endregion
-
-        #region Protected Properties
-
         protected List<object[]> BatchItems = new();
         protected bool IsBatching = false;
+        protected IJSUnmarshalledRuntime JSUnmarshalledRuntime;
+        protected readonly Lazy<Task<IJSObjectReference>> ModuleTask;
 
         #endregion
 
@@ -46,11 +42,14 @@ namespace BlazorGE.Graphics2D.Services
 
         #region Constructors
 
-        public GraphicsService2D(IJSRuntime jsRuntime)
+        public GraphicsService2D(IJSRuntime jsRuntime, IJSUnmarshalledRuntime jsUnmarshalledRuntime)
         {
             // Need to look into improvements for interop and canvas, see this link
             // here https://docs.microsoft.com/en-us/aspnet/core/blazor/webassembly-performance-best-practices?view=aspnetcore-5.0#optimize-javascript-interop-speed
             ModuleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazorGE.Graphics2D/interop2d.js").AsTask());
+
+            // Might need unmarshalled interop for some stuff
+            JSUnmarshalledRuntime = jsUnmarshalledRuntime;
         }
 
         #endregion
@@ -125,9 +124,19 @@ namespace BlazorGE.Graphics2D.Services
             if (IsBatching)
             {
                 IsBatching = false;
+                var items = BatchItems.ToArray();
 
-                var module = await ModuleTask.Value;
-                await module.InvokeVoidAsync("drawBatch", new object[] { BatchItems });
+                try
+                {
+                    // Try to use unmarshalled functions, much faster
+                    JSUnmarshalledRuntime.InvokeUnmarshalled<object[][], int>("window.blazorGEFunctions.drawBatch", items);
+                }
+                catch
+                {
+                    // Fallback to normal...
+                    var module = await ModuleTask.Value;
+                    await module.InvokeVoidAsync("drawBatch", new object[] { BatchItems });
+                }
             }
         }
 
