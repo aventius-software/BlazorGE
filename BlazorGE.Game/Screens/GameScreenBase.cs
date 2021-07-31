@@ -35,18 +35,8 @@ namespace BlazorGE.Game.Screens
         /// <summary>
         /// Load content for the current screen
         /// </summary>
-        public void LoadContent() { }
-
-        /// <summary>
-        /// Load content for the current screen
-        /// </summary>
         /// <returns></returns>
         public virtual async Task LoadContentAsync() => await Task.CompletedTask;
-
-        /// <summary>
-        /// Unload content for the current screen
-        /// </summary>
-        public virtual void UnloadContent() { }
 
         /// <summary>
         /// Unload content for the current screen

@@ -39,8 +39,7 @@ namespace BlazorGE.Game.Screens
             // Save current game screen
             GameScreen = gameScreen;
 
-            // Load any content
-            GameScreen.LoadContent();
+            // Load any content            
             await GameScreen.LoadContentAsync();
         }
 
@@ -51,8 +50,7 @@ namespace BlazorGE.Game.Screens
         public async Task UnloadScreenAsync()
         {
             if (GameScreen is not null)
-            {
-                GameScreen.UnloadContent();
+            {                
                 await GameScreen.UnloadContentAsync();
             }
         }
