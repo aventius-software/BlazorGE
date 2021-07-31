@@ -40,24 +40,13 @@ namespace BlazorGE.Core.Services
         /// <summary>
         /// Initialise the game JS interop stuff
         /// </summary>
-        /// <param name="objectReference"></param>
+        /// <param name="instance"></param>
         /// <param name="targetFramesPerSecond"></param>
         /// <returns></returns>
-        public async ValueTask InitialiseGameAsync(object objectReference)
+        public async ValueTask InitialiseGameAsync(object instance)
         {
             var module = await ModuleTask.Value;
-            await module.InvokeVoidAsync("initialiseGame", objectReference);
-        }
-
-        /// <summary>
-        /// Set the desired target frames per second
-        /// </summary>
-        /// <param name="targetFramesPerSecond"></param>
-        /// <returns></returns>
-        public async ValueTask SetTargetFramesPerSecond(int targetFramesPerSecond)
-        {
-            var module = await ModuleTask.Value;
-            await module.InvokeVoidAsync("setTargetFramesPerSecond", targetFramesPerSecond);
+            await module.InvokeVoidAsync("initialiseGame", instance);
         }
 
         #endregion

@@ -34,18 +34,5 @@
             // don't let camera Z to go negative
             if (Z < 0) Z += trackLength;
         }
-
-        /*
-        public void Update(float playerX, float playerZ, int roadWidth, int trackLength)
-        {
-            // since player X is normalized within [-1, 1], then camera X must be multiplied by road width
-            X = playerX * roadWidth;
-
-            // place the camera behind the player at the desired distance
-            Z = playerZ - DistanceToPlayer;
-
-            // don't let camera Z to go negative
-            if (Z < 0) Z += trackLength;
-        }*/
     }
 }
