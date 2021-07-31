@@ -39,8 +39,8 @@ namespace DemoGame.Game.Components
             var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>();
 
             // Change direction if hit the side of the screen
-            if (transformComponent.Position.X > GraphicsService2D.PlayFieldWidth || transformComponent.Position.X < 0) transformComponent.Direction.X *= -1;
-            if (transformComponent.Position.Y > GraphicsService2D.PlayFieldHeight || transformComponent.Position.Y < 0) transformComponent.Direction.Y *= -1;
+            if (transformComponent.Position.X > GraphicsService2D.CanvasWidth || transformComponent.Position.X < 0) transformComponent.Direction.X *= -1;
+            if (transformComponent.Position.Y > GraphicsService2D.CanvasHeight || transformComponent.Position.Y < 0) transformComponent.Direction.Y *= -1;
 
             await Task.CompletedTask;
         }

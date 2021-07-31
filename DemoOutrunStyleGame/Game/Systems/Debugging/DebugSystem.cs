@@ -32,7 +32,7 @@ namespace DemoOutrunStyleGame.Game.Systems.Debugging
         {
             // Just output a simple FPS text string (should do AVG fps really)
             await GraphicsService.DrawTextAsync($"FPS: {gameTime.FramesPerSecond}", 0, 30, "Arial", "red", 30, true);
-            await GraphicsService.DrawTextAsync($"Screen size: {GraphicsService.PlayFieldWidth} x {GraphicsService.PlayFieldHeight}", 0, 60, "Arial", "red", 20, true);
+            await GraphicsService.DrawTextAsync($"Screen size: {GraphicsService.CanvasWidth} x {GraphicsService.CanvasHeight}", 0, 60, "Arial", "red", 20, true);
         }
 
         #endregion

@@ -35,8 +35,8 @@ namespace BlazorGE.Graphics2D.Services
 
         #region Public Properties
 
-        public int PlayFieldHeight { get; protected set; }
-        public int PlayFieldWidth { get; protected set; }
+        public int CanvasHeight { get; protected set; }
+        public int CanvasWidth { get; protected set; }
 
         #endregion
 
@@ -78,8 +78,8 @@ namespace BlazorGE.Graphics2D.Services
         [JSInvokable]
         public async ValueTask OnResizeCanvas(int width, int height)
         {
-            PlayFieldWidth = width;
-            PlayFieldHeight = height;
+            CanvasWidth = width;
+            CanvasHeight = height;
 
             await Task.CompletedTask;
         }
@@ -163,7 +163,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         public async ValueTask ClearScreenAsync()
         {
-            await BatchCallAsync(ClearRect, 0, 0, PlayFieldWidth, PlayFieldHeight);
+            await BatchCallAsync(ClearRect, 0, 0, CanvasWidth, CanvasHeight);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace BlazorGE.Graphics2D.Services
         /// Initialise the canvas for 2D operations
         /// </summary>
         /// <returns></returns>
-        public async ValueTask InitialiseCanvas2D(ElementReference canvasReference)
+        public async ValueTask InitialiseCanvas(ElementReference canvasReference)
         {
             var module = await ModuleTask.Value;
             await module.InvokeVoidAsync("initialiseCanvas2D", DotNetObjectReference.Create(this), canvasReference);

@@ -56,7 +56,7 @@ namespace BlazorGE.Graphics.Components
                 asset.IsLoaded = true;
 
                 // Is there an 'onload' method to call?
-                if (asset.OnLoadAsync != null)
+                if (asset.OnLoadAsync is not null)
                 {
                     // Yes, call it and pass the current time of when the image was loaded
                     await InvokeAsync(async () => await asset.OnLoadAsync(DateTime.Now));
@@ -74,7 +74,7 @@ namespace BlazorGE.Graphics.Components
         /// <param name="url"></param>
         /// <returns></returns>        
         public GraphicAsset CreateGraphicAsset(string url)
-        {            
+        {
             var asset = new GraphicAsset { Url = url };
             Assets.Add(asset);
             StateHasChanged();

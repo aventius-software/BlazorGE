@@ -29,7 +29,7 @@ namespace BlazorGE.Graphics2D.Components
         {
             if (!firstRender) return;
             
-            await GraphicsService.InitialiseCanvas2D(CanvasReference);
+            await GraphicsService.InitialiseCanvas(CanvasReference);
         }
 
         #endregion

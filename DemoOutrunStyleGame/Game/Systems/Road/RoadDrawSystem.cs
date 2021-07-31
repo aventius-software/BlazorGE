@@ -74,7 +74,7 @@ namespace DemoOutrunStyleGame.Game.Systems.Road
 
         public async ValueTask DrawAsync(GameTime gameTime)
         {
-            var clipBottomLine = GraphicsService.PlayFieldHeight;
+            var clipBottomLine = GraphicsService.CanvasHeight;
 
             var baseSegment = GetRoadSegment(Camera.Z);
             var baseIndex = baseSegment.Index;
@@ -205,8 +205,8 @@ namespace DemoOutrunStyleGame.Game.Systems.Road
 
         protected void Project2D(ref ZMap zmap)
         {
-            zmap.ScreenCoordinates.X = GraphicsService.PlayFieldWidth / 2;
-            zmap.ScreenCoordinates.Y = (int)(GraphicsService.PlayFieldHeight - zmap.WorldCoordinates.Z);
+            zmap.ScreenCoordinates.X = GraphicsService.CanvasWidth / 2;
+            zmap.ScreenCoordinates.Y = (int)(GraphicsService.CanvasHeight - zmap.WorldCoordinates.Z);
             zmap.ScreenCoordinates.W = RoadWidth;
         }
 
@@ -226,15 +226,15 @@ namespace DemoOutrunStyleGame.Game.Systems.Road
             var projectedW = zmap.Scale * RoadWidth;
 
             // scaling projected coordinates to the screen coordinates
-            zmap.ScreenCoordinates.X = (int)Math.Round((1 + projectedX) * (GraphicsService.PlayFieldWidth / 2));
-            zmap.ScreenCoordinates.Y = (int)Math.Round((1 - projectedY) * (GraphicsService.PlayFieldHeight / 2));
-            zmap.ScreenCoordinates.W = (int)Math.Round(projectedW * (GraphicsService.PlayFieldWidth / 2));
+            zmap.ScreenCoordinates.X = (int)Math.Round((1 + projectedX) * (GraphicsService.CanvasWidth / 2));
+            zmap.ScreenCoordinates.Y = (int)Math.Round((1 - projectedY) * (GraphicsService.CanvasHeight / 2));
+            zmap.ScreenCoordinates.W = (int)Math.Round(projectedW * (GraphicsService.CanvasWidth / 2));
         }
             
         protected async ValueTask DrawSegmentAsync(int x1, int y1, int w1, int x2, int y2, int w2, Color roadColour, Color grassColour, Color rumbleColour, Color laneColour)
         {
             // Draw grass first
-            await GraphicsService.DrawFilledRectangleAsync(ColorTranslator.ToHtml(grassColour), 0, y2, GraphicsService.PlayFieldWidth, y1 - y2);
+            await GraphicsService.DrawFilledRectangleAsync(ColorTranslator.ToHtml(grassColour), 0, y2, GraphicsService.CanvasWidth, y1 - y2);
 
             // Draw the road surface
             await GraphicsService.DrawQuadrilateralAsync(ColorTranslator.ToHtml(roadColour), x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2);

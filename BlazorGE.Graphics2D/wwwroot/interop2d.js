@@ -127,10 +127,9 @@ function onResizeCanvas() {
     blazorGEGraphicsInstance.invokeMethodAsync('OnResizeCanvas', blazorGECanvasElement.width, blazorGECanvasElement.height);
 }
 
+// See https://github.com/mono/mono/blob/main/sdks/wasm/src/binding_support.js
 function unmarshalledDrawBatch(payload) {
-    // See https://github.com/mono/mono/blob/main/sdks/wasm/src/binding_support.js
     drawBatch(BINDING.mono_array_to_js_array(payload));
 
-    // and...
     return 0;
 }
