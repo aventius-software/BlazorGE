@@ -60,9 +60,9 @@ namespace DemoPongStyleGame.Game.Components
             transformComponent.Translate(direction * Speed * gameTime.TimeSinceLastFrame);
 
             // Check we've not gone out of bounds            
-            if (transformComponent.Position.X < 0) transformComponent.Position.X = 0;
-            else if (transformComponent.Position.X > GraphicsService2D.CanvasWidth - transformComponent.Width)
-                transformComponent.Position.X = GraphicsService2D.CanvasWidth - transformComponent.Width;
+            //if (transformComponent.Position.X < 0) transformComponent.Position.X = 0;
+            //else if (transformComponent.Position.X > GraphicsService2D.CanvasWidth - transformComponent.Width)
+            //    transformComponent.Position.X = GraphicsService2D.CanvasWidth - transformComponent.Width;
 
             if (transformComponent.Position.Y < 0) transformComponent.Position.Y = 0;
             else if (transformComponent.Position.Y > GraphicsService2D.CanvasHeight - transformComponent.Height)

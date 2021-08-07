@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DemoPongStyleGame.Game.Components
 {
-    public class PlayerDrawComponent : GameComponentBase, IDrawableGameComponent
+    public class BallDrawComponent : GameComponentBase, IDrawableGameComponent
     {
         #region Protected Properties
 
@@ -19,7 +19,7 @@ namespace DemoPongStyleGame.Game.Components
 
         #region Constructors
 
-        public PlayerDrawComponent(IGraphicsService2D graphicsService2D)
+        public BallDrawComponent(IGraphicsService2D graphicsService2D)
         {
             GraphicsService2D = graphicsService2D;
         }
@@ -29,19 +29,19 @@ namespace DemoPongStyleGame.Game.Components
         #region Implementations
 
         /// <summary>
-        /// Draws the players bat on screen
+        /// Draws the ball
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns></returns>
         public async ValueTask DrawAsync(GameTime gameTime)
         {
             // Get the transform component
-            var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>();            
+            var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>();
 
-            // Draw rectangle for the player ;-)
+            // Draw square for the ball ;-)
             await GraphicsService2D.DrawFilledRectangleAsync(
-                "white", 
-                (int)transformComponent.Position.X, 
+                "white",
+                (int)transformComponent.Position.X,
                 (int)transformComponent.Position.Y,
                 transformComponent.Width,
                 transformComponent.Height);

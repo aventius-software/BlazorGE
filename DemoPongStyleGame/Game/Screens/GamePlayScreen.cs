@@ -2,7 +2,6 @@
 
 using BlazorGE.Game;
 using BlazorGE.Game.Screens;
-using BlazorGE.Graphics.Services;
 using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using DemoPongStyleGame.Game.Factories;
@@ -17,7 +16,6 @@ namespace DemoPongStyleGame.Game.Screens
     {
         #region Protected Properties
 
-        protected IGraphicAssetService GraphicAssetService;
         protected IGraphicsService2D GraphicsService2D;
         protected IKeyboardService KeyboardService;
 
@@ -26,13 +24,11 @@ namespace DemoPongStyleGame.Game.Screens
         #region Constructors
 
         public GamePlayScreen(
-            GameWorld gameWorld, 
-            IGraphicsService2D graphicsService2D, 
-            IGraphicAssetService graphicAssetService, 
+            GameWorld gameWorld,
+            IGraphicsService2D graphicsService2D,
             IKeyboardService keyboardService) : base(gameWorld)
         {
             GraphicsService2D = graphicsService2D;
-            GraphicAssetService = graphicAssetService;
             KeyboardService = keyboardService;
         }
 
@@ -47,12 +43,21 @@ namespace DemoPongStyleGame.Game.Screens
         public override async Task LoadContentAsync()
         {
             // Create a factory to make the player(s)
-            var playerFactory = new PlayerFactory(GameWorld, GraphicAssetService, GraphicsService2D, KeyboardService);
+            var playerFactory = new PlayerFactory(GameWorld, GraphicsService2D, KeyboardService);
             playerFactory.CreatePlayer();
 
+            // Create a factory to make the ball(s)
+            var ballFactory = new BallFactory(GameWorld, GraphicsService2D);
+            ballFactory.CreateBall();
+
             // Add all our systems to the world
-            GameWorld.AddGameSystem(new ArenaSystem(GraphicsService2D));            
+            GameWorld.AddGameSystem(new ArenaSystem(GraphicsService2D));
             GameWorld.AddGameSystem(new PlayerSystem());
+            GameWorld.AddGameSystem(new BallSystem());
+            GameWorld.AddGameSystem(new CollisionSystem());
+            GameWorld.AddGameSystem(new ScoringSystem(GraphicsService2D));
+
+            // Lastly add debugging to show FPS on top of everything
             GameWorld.AddGameSystem(new DebugSystem(GraphicsService2D));
 
             // And...

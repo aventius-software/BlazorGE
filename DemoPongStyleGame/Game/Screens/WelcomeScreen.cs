@@ -54,7 +54,7 @@ namespace DemoPongStyleGame.Game.Screens
 
             if (kstate.IsKeyDown(Keys.Space))
             {
-                await GameScreenManager.LoadScreenAsync(new GamePlayScreen(GameWorld, GraphicsService, GraphicAssetService, KeyboardService));
+                await GameScreenManager.LoadScreenAsync(new GamePlayScreen(GameWorld, GraphicsService, KeyboardService));
             }
 
             await base.UpdateAsync(gameTime);
