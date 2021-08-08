@@ -10,12 +10,11 @@ using System.Threading.Tasks;
 
 namespace DemoPongStyleGame.Game.Components
 {
-    public class PlayerMovementComponent : GameComponentBase, IUpdatableGameComponent
+    public class OppositionMovementComponent : GameComponentBase, IUpdatableGameComponent
     {
         #region Protected Properties
 
-        protected IGraphicsService2D GraphicsService2D;
-        protected IKeyboardService KeyboardService;
+        protected IGraphicsService2D GraphicsService2D;        
 
         #endregion
 
@@ -27,9 +26,8 @@ namespace DemoPongStyleGame.Game.Components
 
         #region Constructors
 
-        public PlayerMovementComponent(IKeyboardService keyboardService, IGraphicsService2D graphicsService2D, float initialSpeed = 0.25f)
-        {
-            KeyboardService = keyboardService;
+        public OppositionMovementComponent(IGraphicsService2D graphicsService2D, float initialSpeed = 0.25f)
+        {            
             GraphicsService2D = graphicsService2D;
             Speed = initialSpeed;
         }
@@ -39,25 +37,18 @@ namespace DemoPongStyleGame.Game.Components
         #region Implementations
 
         /// <summary>
-        /// Updates the player
+        /// Updates the opposition bat
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns></returns>
         public async ValueTask UpdateAsync(GameTime gameTime)
-        {
-            // Get the current state of keyboard
-            var kstate = KeyboardService.GetState();
-
+        {            
             // Get the transform component
             var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>();
             var direction = transformComponent.Direction;
-
-            // Do we move up/down?
-            if (kstate.IsKeyDown(Keys.UpArrow)) direction.Y = -1;
-            else if (kstate.IsKeyDown(Keys.DownArrow)) direction.Y = 1;
-
+            
             // Move this entity         
-            transformComponent.Translate(direction * Speed * gameTime.TimeSinceLastFrame);
+            //transformComponent.Translate(direction * Speed * gameTime.TimeSinceLastFrame);
 
             // Check we've not gone out of bounds            
             if (transformComponent.Position.Y < 0) transformComponent.Position.Y = 0;

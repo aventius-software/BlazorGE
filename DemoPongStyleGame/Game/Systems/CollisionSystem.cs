@@ -19,12 +19,14 @@ namespace DemoPongStyleGame.Game.Systems
         #region Implementations
 
         /// <summary>
-        /// We want the player, opposition and ball entities
+        /// We want the ball, player and opposition entities to check for collisions between them
         /// </summary>
         /// <returns></returns>
         public Func<GameEntity, bool> EntityPredicate()
         {
-            return entity => entity.HasComponent<PlayerMovementComponent>() || entity.HasComponent<BallMovementComponent>();
+            return entity => entity.HasComponent<BallMovementComponent>()
+                || entity.HasComponent<PlayerMovementComponent>()
+                || entity.HasComponent<OppositionMovementComponent>();
         }
 
         /// <summary>
@@ -43,8 +45,12 @@ namespace DemoPongStyleGame.Game.Systems
             var player = filteredGameEntities.Where(entity => entity.HasComponent<PlayerMovementComponent>()).Single();
             var playerTransform = player.GetComponent<Transform2DComponent>();
 
+            // Get the opposition
+            var opposition = filteredGameEntities.Where(entity => entity.HasComponent<OppositionMovementComponent>()).Single();
+            var oppositionTransform = opposition.GetComponent<Transform2DComponent>();
+
             // Has the ball hit the players bat?
-            if (ballTransform.IntersectsWith(playerTransform))
+            if (ballTransform.IntersectsWith(playerTransform) || ballTransform.IntersectsWith(oppositionTransform))
             {
                 // Yes, invert its X direction
                 ballTransform.Direction.X *= -1;

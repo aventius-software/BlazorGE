@@ -19,7 +19,8 @@ namespace DemoPongStyleGame.Game.Systems
         #region Protected Properties
 
         protected IGraphicsService2D GraphicsService;
-        protected int Score = 0;
+        protected int OppositionScore = 0;
+        protected int PlayerScore = 0;
 
         #endregion
 
@@ -42,16 +43,19 @@ namespace DemoPongStyleGame.Game.Systems
         public async ValueTask DrawAsync(GameTime gameTime)
         {
             // Draw the player score
-            await GraphicsService.DrawTextAsync($"{Score}", (GraphicsService.CanvasWidth / 2) + 100, 150, "Arial", "white", 150, true);
+            await GraphicsService.DrawTextAsync($"{PlayerScore}", (GraphicsService.CanvasWidth / 2) + 100, 150, "Arial", "white", 150, true);
+
+            // Draw the opposition score
+            await GraphicsService.DrawTextAsync($"{OppositionScore}", (GraphicsService.CanvasWidth / 2) - 200, 150, "Arial", "white", 150, true);
         }
 
         /// <summary>
-        /// We want the player, opposition and ball entities
+        /// We want the ball entity
         /// </summary>
         /// <returns></returns>
         public Func<GameEntity, bool> EntityPredicate()
         {
-            return entity => entity.HasComponent<ScoreComponent>() || entity.HasComponent<BallMovementComponent>();
+            return entity => entity.HasComponent<BallMovementComponent>();
         }
 
         /// <summary>
@@ -66,22 +70,17 @@ namespace DemoPongStyleGame.Game.Systems
             var ball = filteredGameEntities.Where(entity => entity.HasComponent<BallMovementComponent>()).Single();
             var ballMovement = ball.GetComponent<BallMovementComponent>();
 
-            // Get the player
-            var player = filteredGameEntities.Where(entity => entity.HasComponent<PlayerMovementComponent>()).Single();
-            var playerScore = player.GetComponent<ScoreComponent>();
-
             // Is the ball in the oppositions goal?
             if (ballMovement.CurrentBallState == BallState.InOppositionsGoal)
             {
                 // Yes, increment the players score
-                playerScore.Score++;
-
-                // Have we beaten the current high score?
-                if (playerScore.Score > playerScore.HighScore) playerScore.HighScore = playerScore.Score;
+                PlayerScore++;
             }
-
-            // Save internally for drawing later
-            Score = playerScore.Score;
+            else if (ballMovement.CurrentBallState == BallState.InPlayersGoal)
+            {
+                // Ball is in the players goal, so we increment the opposition score
+                OppositionScore++;
+            }
 
             await Task.CompletedTask;
         }

@@ -11,13 +11,12 @@ using System.Numerics;
 
 namespace DemoPongStyleGame.Game.Factories
 {
-    public class BallFactory
+    public class OppositionFactory
     {
         #region Protected Constants
 
-        protected const int DefaultHeight = 50;
+        protected const int DefaultHeight = 100;
         protected const int DefaultWidth = 50;
-        protected const float DefaultSpeed = 0.25f;
 
         #endregion
 
@@ -30,7 +29,7 @@ namespace DemoPongStyleGame.Game.Factories
 
         #region Constructors
 
-        public BallFactory(GameWorld gameWorld, IGraphicsService2D graphicsService2D)
+        public OppositionFactory(GameWorld gameWorld, IGraphicsService2D graphicsService2D)
         {
             GameWorld = gameWorld;
             GraphicsService2D = graphicsService2D;
@@ -40,17 +39,16 @@ namespace DemoPongStyleGame.Game.Factories
 
         #region Public Methods
 
-        public GameEntity CreateBall()
+        public GameEntity CreateOpposition()
         {
-            // Generate starting position and direction for the ball
-            var position = new Vector2(GraphicsService2D.CanvasWidth / 2, GraphicsService2D.CanvasHeight / 2);
-            var direction = new Vector2(1, 1);
+            // Generate starting position for the opposition
+            var position = new Vector2(0, GraphicsService2D.CanvasHeight / 2);
 
-            // Create ball entity
+            // Create the entity
             var entity = GameWorld.CreateGameEntity();
-            entity.AttachGameComponent(new BallMovementComponent(GraphicsService2D));
-            entity.AttachGameComponent(new Transform2DComponent(position, direction, DefaultSpeed, DefaultWidth, DefaultHeight));
-            entity.AttachGameComponent(new BallDrawComponent(GraphicsService2D));
+            entity.AttachGameComponent(new OppositionMovementComponent(GraphicsService2D));
+            entity.AttachGameComponent(new Transform2DComponent { Width = DefaultWidth, Height = DefaultHeight, Position = position });
+            entity.AttachGameComponent(new OppositionDrawComponent(GraphicsService2D));
             entity.Activate();
 
             return entity;

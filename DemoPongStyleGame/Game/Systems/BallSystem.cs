@@ -1,7 +1,6 @@
 ﻿#region Namespaces
 
 using BlazorGE.Game;
-using BlazorGE.Game.Components;
 using BlazorGE.Game.Entities;
 using BlazorGE.Game.Systems;
 using DemoPongStyleGame.Game.Components;
@@ -27,6 +26,12 @@ namespace DemoPongStyleGame.Game.Systems
             return entity => entity.HasComponent<BallMovementComponent>();
         }
 
+        /// <summary>
+        /// Updates the ball if it needs to be reset after a goal
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="filteredGameEntities"></param>
+        /// <returns></returns>
         public override async ValueTask UpdateEntitiesAsync(GameTime gameTime, IEnumerable<GameEntity> filteredGameEntities)
         {
             // Get the ball
@@ -35,7 +40,7 @@ namespace DemoPongStyleGame.Game.Systems
 
             // If its gone in someones goal, then reset
             if (ballMovement.CurrentBallState is not BallState.InPlay)
-            {                
+            {
                 ballMovement.ResetBall();
             }
 

@@ -23,10 +23,7 @@ namespace DemoPongStyleGame.Game.Screens
 
         #region Constructors
 
-        public GamePlayScreen(
-            GameWorld gameWorld,
-            IGraphicsService2D graphicsService2D,
-            IKeyboardService keyboardService) : base(gameWorld)
+        public GamePlayScreen(GameWorld gameWorld, IGraphicsService2D graphicsService2D, IKeyboardService keyboardService) : base(gameWorld)
         {
             GraphicsService2D = graphicsService2D;
             KeyboardService = keyboardService;
@@ -46,6 +43,10 @@ namespace DemoPongStyleGame.Game.Screens
             var playerFactory = new PlayerFactory(GameWorld, GraphicsService2D, KeyboardService);
             playerFactory.CreatePlayer();
 
+            // Create a factory to make the player(s)
+            var oppositionFactory = new OppositionFactory(GameWorld, GraphicsService2D);
+            oppositionFactory.CreateOpposition();
+
             // Create a factory to make the ball(s)
             var ballFactory = new BallFactory(GameWorld, GraphicsService2D);
             ballFactory.CreateBall();
@@ -53,6 +54,7 @@ namespace DemoPongStyleGame.Game.Screens
             // Add all our systems to the world
             GameWorld.AddGameSystem(new ArenaSystem(GraphicsService2D));
             GameWorld.AddGameSystem(new PlayerSystem());
+            GameWorld.AddGameSystem(new OppositionSystem());
             GameWorld.AddGameSystem(new BallSystem());
             GameWorld.AddGameSystem(new CollisionSystem());
             GameWorld.AddGameSystem(new ScoringSystem(GraphicsService2D));
