@@ -3,7 +3,7 @@
 using BlazorGE.Game;
 using BlazorGE.Game.Components;
 using BlazorGE.Graphics2D.Services;
-using BlazorGE.Input;
+using System.Numerics;
 using System.Threading.Tasks;
 
 #endregion
@@ -14,7 +14,8 @@ namespace DemoPongStyleGame.Game.Components
     {
         #region Protected Properties
 
-        protected IGraphicsService2D GraphicsService2D;        
+        protected Vector2 BallPosition;
+        protected IGraphicsService2D GraphicsService2D;
 
         #endregion
 
@@ -27,7 +28,7 @@ namespace DemoPongStyleGame.Game.Components
         #region Constructors
 
         public OppositionMovementComponent(IGraphicsService2D graphicsService2D, float initialSpeed = 0.25f)
-        {            
+        {
             GraphicsService2D = graphicsService2D;
             Speed = initialSpeed;
         }
@@ -42,22 +43,30 @@ namespace DemoPongStyleGame.Game.Components
         /// <param name="gameTime"></param>
         /// <returns></returns>
         public async ValueTask UpdateAsync(GameTime gameTime)
-        {            
+        {
             // Get the transform component
             var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>();
-            var direction = transformComponent.Direction;
-            
-            // Move this entity         
-            //transformComponent.Translate(direction * Speed * gameTime.TimeSinceLastFrame);
 
-            // Check we've not gone out of bounds            
-            if (transformComponent.Position.Y < 0) transformComponent.Position.Y = 0;
-            else if (transformComponent.Position.Y > GraphicsService2D.CanvasHeight - transformComponent.Height)
-                transformComponent.Position.Y = GraphicsService2D.CanvasHeight - transformComponent.Height;
+            // Move the bat according to the ball position... need to add some 'dumbness' to this
+            // so that it makes some mistakes occasionally
+            if (BallPosition.Y < transformComponent.Position.Y) transformComponent.Direction.Y = -1;
+            else if (BallPosition.Y > transformComponent.Position.Y) transformComponent.Direction.Y = 1;
+
+            // Move this entity         
+            transformComponent.Translate(transformComponent.Direction * Speed * gameTime.TimeSinceLastFrame);
 
             await Task.CompletedTask;
         }
 
         #endregion
+
+        /// <summary>
+        /// Tell this component where the ball is ;-)
+        /// </summary>
+        /// <param name="ballPosition"></param>
+        public void SpecifyBallPosition(Vector2 ballPosition)
+        {
+            BallPosition = ballPosition;
+        }
     }
 }
