@@ -17,11 +17,11 @@ namespace DemoOutrunStyleGame.Game.Systems.Road
     /// <summary>
     /// (a rough) Psuedo 3D Outrun style road rendering engine
     /// 
-    /// Influenced by (and some code taken/translated) from the following, so credit where credit is due. Well
+    /// Code taken/translated from the following examples, so credit where credit is due. Well
     /// worth checking out for improving and extending this basic version:-
-    /// http://www.extentofthejam.com/pseudo/
-    /// https://github.com/ssusnic/Pseudo-3d-Racer
     /// https://www.youtube.com/watch?v=N60lBZDEwJ8&list=PLB_ibvUSN7mzUffhiay5g5GUHyJRO4DYr&index=8
+    /// http://www.extentofthejam.com/pseudo/
+    /// https://github.com/ssusnic/Pseudo-3d-Racer    
     /// https://codeincomplete.com/articles/javascript-racer-v1-straight/
     /// </summary>
     public class RoadDrawSystem : IGameDrawSystem, IGameUpdateSystem, IGameInitialisationSystem
