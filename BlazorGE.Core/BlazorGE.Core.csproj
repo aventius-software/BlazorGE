@@ -14,10 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazorge.Game\BlazorGE.Game.csproj" />
+    <ProjectReference Include="..\BlazorGE.Game\BlazorGE.Game.csproj" />
     <ProjectReference Include="..\BlazorGE.Graphics2D\BlazorGE.Graphics2D.csproj" />
-    <ProjectReference Include="..\Blazorge.Graphics\BlazorGE.Graphics.csproj" />
-    <ProjectReference Include="..\Blazorge.Input\BlazorGE.Input.csproj" />
+    <ProjectReference Include="..\BlazorGE.Graphics\BlazorGE.Graphics.csproj" />
+    <ProjectReference Include="..\BlazorGE.Input\BlazorGE.Input.csproj" />
   </ItemGroup>
 
 </Project>
