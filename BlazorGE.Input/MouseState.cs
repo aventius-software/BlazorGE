@@ -10,11 +10,13 @@ namespace BlazorGE.Input
     {
         public double X;
         public double Y;
+        public KeyState KeyState;
 
-        public MouseState(double x, double y)
+        public MouseState(double x, double y, KeyState keyState = KeyState.Up)
         {
             X = x;
             Y = y;
+            KeyState = keyState;
         }
     }
 }

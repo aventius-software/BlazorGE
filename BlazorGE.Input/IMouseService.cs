@@ -9,5 +9,7 @@ namespace BlazorGE.Input
     public interface IMouseService
     {
         public MouseState GetState();
+
+        public void SetState(MouseState state);
     }
 }

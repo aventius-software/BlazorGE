@@ -120,6 +120,36 @@ namespace BlazorGE.Core.Components
             state.X = x;
             state.Y = y;
 
+            MouseService.SetState(state);
+
+            await Task.CompletedTask;
+        }
+
+        [JSInvokable]
+        public async ValueTask OnMouseDown(double x, double y)
+        {
+            var state = MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
+            state.KeyState = KeyState.Down;
+
+            MouseService.SetState(state);
+
+            await Task.CompletedTask;
+        }
+
+        [JSInvokable]
+        public async ValueTask OnMouseUp(double x, double y)
+        {
+            var state = MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
+            state.KeyState = KeyState.Up;
+
+            MouseService.SetState(state);
+
             await Task.CompletedTask;
         }
 

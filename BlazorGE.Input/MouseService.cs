@@ -8,11 +8,17 @@ namespace BlazorGE.Input
 {
     public class MouseService : IMouseService
     {
-        protected MouseState MouseState = new MouseState(0, 0);
+        private MouseState MouseState = new MouseState(0, 0, KeyState.Up);
 
         public MouseState GetState()
         {
             return MouseState;
         }
+
+        public void SetState(MouseState state)
+        {
+            MouseState = state;
+        }
+
     }
 }

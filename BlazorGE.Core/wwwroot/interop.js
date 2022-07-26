@@ -1,5 +1,10 @@
 ﻿let blazorGECoreInstance = null;
 let blazorGELastFrameTime = 0;
+let blazorGECanvas = null;
+let mouseCoords = null;
+let blazorGECanvasOffset = 0;
+let blazorGECanvasOffsetX = 0;
+var blazorGECanvasOffsetY = 0;
 
 import * as blazorGE2d from '/_content/BlazorGE.Graphics2D/interop2d.js';
 
@@ -43,31 +48,52 @@ function handleMouseDown(e) {
 
 }
 
-function handleMouseUp(e) {
-    mouseX = parseInt(e.clientX - offsetX);
-    mouseY = parseInt(e.clientY - offsetY);
-
-    // Put your mouseup stuff here
+function getMouseCoords(e) {
+    let x = parseInt(e.clientX - blazorGECanvasOffsetX);
+    let y = parseInt(e.clientY - blazorGECanvasOffsetY);
+    return ({ x, y });
 }
 
-function handleMouseOut(e) {
-    mouseX = parseInt(e.clientX - offsetX);
-    mouseY = parseInt(e.clientY - offsetY);
+function getOffset(element) {
+    if (!element.getClientRects().length) {
+        return { top: 0, left: 0 };
+    }
 
-    // Put your mouseOut stuff here
-}
-
-function handleMouseMove(e) {
-    mouseX = parseInt(e.clientX - offsetX);
-    mouseY = parseInt(e.clientY - offsetY);
-
-    // Put your mousemove stuff here
-
+    let rect = element.getBoundingClientRect();
+    let win = element.ownerDocument.defaultView;
+    return (
+        {
+            top: rect.top + win.pageYOffset,
+            left: rect.left + win.pageXOffset
+        });
 }
 
 export function addMouseCanvasHandlers(instance) {
-    instance.addEventListener('mousemove', (e) => {
-        handleMouseMove(e);
+
+    blazorGECanvas = instance;
+
+    blazorGECanvasOffset = getOffset(blazorGECanvas);
+    blazorGECanvasOffsetX = blazorGECanvasOffset.left;
+    blazorGECanvasOffsetY = blazorGECanvasOffset.top;
+
+    blazorGECanvas.addEventListener('mousemove', (e) => {
+        mouseCoords = getMouseCoords(e);
+        blazorGECoreInstance?.invokeMethodAsync('OnMouseMove', mouseCoords.x, mouseCoords.y);
+    });
+    blazorGECanvas.addEventListener('mouseenter', (e) => {
+        mouseCoords = getMouseCoords(e);
+        blazorGECoreInstance?.invokeMethodAsync('OnMouseMove', mouseCoords.x, mouseCoords.y);
+    });
+    //instance.addEventListener('mousewheel', (e) => {
+    //    mouseCoords = getMouseCoords(e);
+    //});
+    blazorGECanvas.addEventListener('mousedown', (e) => {
+        mouseCoords = getMouseCoords(e);
+        blazorGECoreInstance?.invokeMethodAsync('OnMouseDown', mouseCoords.x, mouseCoords.y);
+    });
+    blazorGECanvas.addEventListener('mouseup', (e) => {
+        mouseCoords = getMouseCoords(e);
+        blazorGECoreInstance?.invokeMethodAsync('OnMouseUp', mouseCoords.x, mouseCoords.y);
     });
 }
 
