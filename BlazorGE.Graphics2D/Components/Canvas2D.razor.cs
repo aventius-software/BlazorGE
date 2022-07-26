@@ -21,7 +21,7 @@ namespace BlazorGE.Graphics2D.Components
 
         protected ElementReference CanvasReference;
 
-        #endregion
+        #endregion 
 
         #region Override Methods
 

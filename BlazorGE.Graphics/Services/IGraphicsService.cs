@@ -1,5 +1,6 @@
 ﻿#region Namespaces
 
+using System;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace BlazorGE.Graphics.Services
 
         public int CanvasHeight { get; }
         public int CanvasWidth { get; }
+
+        public event EventHandler<ElementReference> Initialized;
 
         #endregion
 

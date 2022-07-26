@@ -3,6 +3,7 @@
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
 #endregion
 
@@ -47,6 +48,12 @@ namespace BlazorGE.Core.Services
         {
             var module = await ModuleTask.Value;
             await module.InvokeVoidAsync("initialiseGame", instance);
+        }
+
+        public async ValueTask InitialiseCanvasMouseHandlers(ElementReference instance)
+        {
+            var module = await ModuleTask.Value;
+            await module.InvokeVoidAsync("addMouseCanvasHandlers", instance);
         }
 
         #endregion

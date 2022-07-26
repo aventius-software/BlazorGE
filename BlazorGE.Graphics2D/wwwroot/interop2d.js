@@ -38,7 +38,17 @@ export function drawBatch(batch) {
     }
 }
 
+export function getCanvasContext() {
+    return blazorGECanvas2DContext;
+}
+
+export function getCanvasElement() {
+    return blazorGECanvasElement;
+}
+
 export function drawFilledPolygon(coordinates, fillColor, strokeColor) {
+    var a = 1;
+
     if (coordinates.length <= 0) return;
 
     blazorGECanvas2DContext.beginPath();
@@ -105,6 +115,7 @@ export function initialiseCanvas2D(instance, canvasReference) {
     blazorGECanvas2DContext = blazorGECanvasElement.getContext('2d');
         
     window.addEventListener('resize', onResizeCanvas);
+
     onResizeCanvas();
 
     window.blazorGEFunctions = {

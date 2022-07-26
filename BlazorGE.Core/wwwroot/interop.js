@@ -1,6 +1,8 @@
 ﻿let blazorGECoreInstance = null;
 let blazorGELastFrameTime = 0;
 
+import * as blazorGE2d from '/_content/BlazorGE.Graphics2D/interop2d.js';
+
 function gameLoop(timeStamp) {
     // Calculate time difference since last frame
     var timeDifference = timeStamp - blazorGELastFrameTime;
@@ -31,8 +33,46 @@ function getKeyCode(e) {
     return code;
 }
 
+function handleMouseDown(e) {
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+
+    // Put your mousedown stuff here
+
+    blazorGECoreInstance.invokeMethodAsync('OnKeyDown', getKeyCode(e));
+
+}
+
+function handleMouseUp(e) {
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+
+    // Put your mouseup stuff here
+}
+
+function handleMouseOut(e) {
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+
+    // Put your mouseOut stuff here
+}
+
+function handleMouseMove(e) {
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+
+    // Put your mousemove stuff here
+
+}
+
+export function addMouseCanvasHandlers(instance) {
+    instance.addEventListener('mousemove', (e) => {
+        handleMouseMove(e);
+    });
+}
+
 export function initialiseGame(instance) {    
-    blazorGECoreInstance = instance;    
+    blazorGECoreInstance = instance;
 
     window.addEventListener('keydown', (e) => {        
         blazorGECoreInstance.invokeMethodAsync('OnKeyDown', getKeyCode(e));
@@ -41,6 +81,6 @@ export function initialiseGame(instance) {
     window.addEventListener('keyup', (e) => {
         blazorGECoreInstance.invokeMethodAsync('OnKeyUp', getKeyCode(e));
     });
-    
+
     window.requestAnimationFrame(gameLoop);
 }

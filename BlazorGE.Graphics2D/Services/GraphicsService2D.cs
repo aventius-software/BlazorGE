@@ -38,6 +38,8 @@ namespace BlazorGE.Graphics2D.Services
         public int CanvasHeight { get; protected set; }
         public int CanvasWidth { get; protected set; }
 
+        public event EventHandler<ElementReference> Initialized;
+
         #endregion
 
         #region Constructors
@@ -278,7 +280,11 @@ namespace BlazorGE.Graphics2D.Services
         public async ValueTask InitialiseCanvas(ElementReference canvasReference)
         {
             var module = await ModuleTask.Value;
-            await module.InvokeVoidAsync("initialiseCanvas2D", DotNetObjectReference.Create(this), canvasReference);
+            var canvasObject = await module.InvokeAsync<string>("initialiseCanvas2D", DotNetObjectReference.Create(this), canvasReference);
+            
+            Initialized?.Invoke(this, canvasReference);
+            
+            await Task.CompletedTask;
         }
 
         #endregion
