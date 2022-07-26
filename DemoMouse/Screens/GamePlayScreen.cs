@@ -5,7 +5,7 @@ using BlazorGE.Game.Screens;
 using BlazorGE.Graphics.Services;
 using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
-using DemoGame.Game.Systems;
+using DemoMouse.Systems;
 
 #endregion
 

@@ -3,12 +3,11 @@
 using BlazorGE.Game;
 using BlazorGE.Game.Systems;
 using BlazorGE.Graphics2D.Services;
-using System.Threading.Tasks;
 using BlazorGE.Input;
 
 #endregion
 
-namespace DemoGame.Game.Systems
+namespace DemoMouse.Systems
 {
     public class DebugSystem : IGameDrawSystem
     {
