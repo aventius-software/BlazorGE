@@ -6,7 +6,10 @@ using BlazorGE.Input;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
+using BlazorGE.Graphics.Services;
+using BlazorGE.Graphics2D.Services;
 
 #endregion
 
@@ -29,8 +32,14 @@ namespace BlazorGE.Core.Components
         [Inject]
         private InternalGameInteropService GameService { get; set; }
 
+        [Inject] 
+        private IGraphicsService2D GraphicsService2D { get; set; }
+
         [Inject]
         protected IKeyboardService KeyboardService { get; set; }
+
+        [Inject]
+        protected IMouseService MouseService { get; set; }
 
         #endregion
 
@@ -47,11 +56,18 @@ namespace BlazorGE.Core.Components
             // Only bother first time ;-)
             if (!firstRender) return;
 
+            GraphicsService2D.Initialized += async (sender, args) =>
+            {
+                await GameService.InitialiseCanvasMouseHandlers(args);
+            };
+
             // Kick off the JS stuff            
             await GameService.InitialiseGameAsync(DotNetObjectReference.Create(this));
 
             // Initialise game            
             await Game.LoadContentAsync();
+
+            
         }
 
         #endregion
@@ -92,6 +108,47 @@ namespace BlazorGE.Core.Components
         public async ValueTask OnKeyUp(int keyCode)
         {
             KeyboardService.GetState().SetKeyState((Keys)keyCode, KeyState.Up);
+
+            await Task.CompletedTask;
+        }
+
+        [JSInvokable]
+        public async ValueTask OnMouseMove(double x, double y)
+        {
+            var state = MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
+
+            MouseService.SetState(state);
+
+            await Task.CompletedTask;
+        }
+
+        [JSInvokable]
+        public async ValueTask OnMouseDown(double x, double y)
+        {
+            var state = MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
+            state.KeyState = KeyState.Down;
+
+            MouseService.SetState(state);
+
+            await Task.CompletedTask;
+        }
+
+        [JSInvokable]
+        public async ValueTask OnMouseUp(double x, double y)
+        {
+            var state = MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
+            state.KeyState = KeyState.Up;
+
+            MouseService.SetState(state);
 
             await Task.CompletedTask;
         }

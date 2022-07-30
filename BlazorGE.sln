@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31402.337
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoGame", "DemoGame\DemoGame.csproj", "{031803C2-E989-46F2-9E05-51AD7C7044FC}"
 EndProject
@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoOutrunStyleGame", "Demo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGE.Graphics2D", "BlazorGE.Graphics2D\BlazorGE.Graphics2D.csproj", "{AF195387-AA25-49C0-8527-5EC4623A36B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoPongStyleGame", "DemoPongStyleGame\DemoPongStyleGame.csproj", "{8D49E3AC-09AD-4860-AB1C-252D0C152C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoPongStyleGame", "DemoPongStyleGame\DemoPongStyleGame.csproj", "{8D49E3AC-09AD-4860-AB1C-252D0C152C82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoMouse", "DemoMouse\DemoMouse.csproj", "{158B28E6-499E-432C-96EE-47D58F7C3D7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{8D49E3AC-09AD-4860-AB1C-252D0C152C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D49E3AC-09AD-4860-AB1C-252D0C152C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D49E3AC-09AD-4860-AB1C-252D0C152C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{158B28E6-499E-432C-96EE-47D58F7C3D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{158B28E6-499E-432C-96EE-47D58F7C3D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{158B28E6-499E-432C-96EE-47D58F7C3D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{158B28E6-499E-432C-96EE-47D58F7C3D7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{4B85003A-33CC-4605-BD1B-77C1402E888D} = {2744FA43-507C-4369-9BCD-0023E05A56C8}
 		{AF195387-AA25-49C0-8527-5EC4623A36B1} = {9596EC3B-5AEB-47DB-ADDE-69BB70331C88}
 		{8D49E3AC-09AD-4860-AB1C-252D0C152C82} = {2744FA43-507C-4369-9BCD-0023E05A56C8}
+		{158B28E6-499E-432C-96EE-47D58F7C3D7E} = {2744FA43-507C-4369-9BCD-0023E05A56C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A563FBA8-BD98-4DDE-A7FB-B92AB7117735}

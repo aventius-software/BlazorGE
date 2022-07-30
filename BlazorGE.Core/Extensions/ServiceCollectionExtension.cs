@@ -37,6 +37,7 @@ namespace BlazorGE.Core.Extensions
                 services.AddSingleton<IGameScreenService, GameScreenService>();
                 services.AddSingleton<IGraphicsService2D, GraphicsService2D>();
                 services.AddSingleton<IKeyboardService, KeyboardService>();
+                services.AddSingleton<IMouseService, MouseService>();
             }
 
             return services;
