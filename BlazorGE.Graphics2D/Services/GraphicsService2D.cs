@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Net.Mime;
+using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 
 #endregion
@@ -68,7 +70,7 @@ namespace BlazorGE.Graphics2D.Services
         }
 
         #endregion
-
+        
         #region JSInvokable Methods
 
         /// <summary>
@@ -126,12 +128,16 @@ namespace BlazorGE.Graphics2D.Services
             if (IsBatching)
             {
                 IsBatching = false;
-                var items = BatchItems.ToArray();
-
+                
                 try
                 {
                     // Try to use unmarshalled functions, much faster
+                    var items = BatchItems.ToArray();
+
+                    // Need to implement new JSImport method sometime as the below method is now obsolete in .NET 7!
+#pragma warning disable 0618
                     JSUnmarshalledRuntime.InvokeUnmarshalled<object[][], int>("window.blazorGEFunctions.drawBatch", items);
+#pragma warning restore 0618                    
                 }
                 catch
                 {

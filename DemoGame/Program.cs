@@ -37,6 +37,7 @@ namespace DemoGame
             builder.Services.AddSingleton<IGameScreenService, GameScreenService>();
             builder.Services.AddSingleton<IGraphicsService2D, GraphicsService2D>();
             builder.Services.AddSingleton<IKeyboardService, KeyboardService>();
+            builder.Services.AddSingleton<IMouseService, MouseService>();
 
             // And go...
             await builder.Build().RunAsync();
