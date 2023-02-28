@@ -23,7 +23,7 @@ namespace BlazorGE.Graphics.Services
         public int CanvasHeight { get; }
         public int CanvasWidth { get; }
 
-        public event EventHandler<ElementReference> Initialized;
+        public event EventHandler<ElementReference> OnInitialised;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace BlazorGE.Graphics.Services
         #region Standard Methods
 
         public ValueTask ClearScreenAsync();
-        public ValueTask InitialiseCanvas(ElementReference canvasReference);
+        public ValueTask InitialiseCanvasAsync(ElementReference canvasReference);
 
         #endregion
     }

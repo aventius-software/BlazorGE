@@ -65,7 +65,7 @@ namespace DemoGame.Game.Components
                     var playerTransform = GameEntityOwner.GetComponent<Transform2DComponent>();
 
                     // Create a new bullet at the player current position
-                    var bullet = BulletFactory.CreateBullet(GameEntityOwner);
+                    var bullet = BulletFactory.CreateBullet();                    
                     var bulletTransform = bullet.GetComponent<Transform2DComponent>();
 
                     // Calculate coordinates for where the bullet should appear above the player
@@ -74,7 +74,7 @@ namespace DemoGame.Game.Components
 
                     bulletTransform.Position = new Vector2(bulletX, bulletY);
 
-                    // Finally, activate the bullet!
+                    // Finally, activate the bullet!                    
                     bullet.Activate();
                 }
             }

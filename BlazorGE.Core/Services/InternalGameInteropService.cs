@@ -50,7 +50,7 @@ namespace BlazorGE.Core.Services
             await module.InvokeVoidAsync("initialiseGame", instance);
         }
 
-        public async ValueTask InitialiseCanvasMouseHandlers(ElementReference instance)
+        public async ValueTask InitialiseCanvasMouseHandlersAsync(ElementReference instance)
         {
             var module = await ModuleTask.Value;
             await module.InvokeVoidAsync("addMouseCanvasHandlers", instance);
