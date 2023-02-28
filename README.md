@@ -7,9 +7,11 @@ This is just a fun project to experiment with Blazor and simple game design. Hig
 game development series https://www.davidguida.net/blazor-and-2d-game-development-part-1-intro/ and bits of 
 Monogame https://www.monogame.net/ and Monogame.Extended https://www.monogameextended.net/ 
 
-Feel free to fork or submit pull requests etc...
+Feel free to fork, submit pull requests, log issues or request/suggest features etc...
 
-Features (implemented or planned):-
+P.S. Make sure you have the latest Visual Studio 2022 version or you may get compile/runtime errors (currently requires .NET 7)
+
+Current features:-
 
 1) ECS (Entity Component System) design - sort of done
 2) Asset loading - graphics done
@@ -20,3 +22,12 @@ Features (implemented or planned):-
 7) Basic canvas implementation - done
 8) Several simple example games implementing all features - a few bits of part games
 9) Any other suggestions?
+
+Stuff to be done and/or improved
+
+1) Better ECS system ;-)
+2) Sprite animation
+3) More/better demo games
+4) More canvas methods
+5) Better Blazor JS interop
+6) Sound
