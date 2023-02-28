@@ -2,14 +2,10 @@
 
 using BlazorGE.Core.Services;
 using BlazorGE.Game;
+using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using BlazorGE.Graphics.Services;
-using BlazorGE.Graphics2D.Services;
 
 #endregion
 
@@ -32,7 +28,7 @@ namespace BlazorGE.Core.Components
         [Inject]
         private InternalGameInteropService GameService { get; set; }
 
-        [Inject] 
+        [Inject]
         private IGraphicsService2D GraphicsService2D { get; set; }
 
         [Inject]
@@ -56,9 +52,9 @@ namespace BlazorGE.Core.Components
             // Only bother first time ;-)
             if (!firstRender) return;
 
-            GraphicsService2D.Initialized += async (sender, args) =>
+            GraphicsService2D.OnInitialised += async (sender, args) =>
             {
-                await GameService.InitialiseCanvasMouseHandlers(args);
+                await GameService.InitialiseCanvasMouseHandlersAsync(args);
             };
 
             // Kick off the JS stuff            
@@ -66,8 +62,6 @@ namespace BlazorGE.Core.Components
 
             // Initialise game            
             await Game.LoadContentAsync();
-
-            
         }
 
         #endregion
@@ -113,19 +107,6 @@ namespace BlazorGE.Core.Components
         }
 
         [JSInvokable]
-        public async ValueTask OnMouseMove(double x, double y)
-        {
-            var state = MouseService.GetState();
-
-            state.X = x;
-            state.Y = y;
-
-            MouseService.SetState(state);
-
-            await Task.CompletedTask;
-        }
-
-        [JSInvokable]
         public async ValueTask OnMouseDown(double x, double y)
         {
             var state = MouseService.GetState();
@@ -133,6 +114,19 @@ namespace BlazorGE.Core.Components
             state.X = x;
             state.Y = y;
             state.KeyState = KeyState.Down;
+
+            MouseService.SetState(state);
+
+            await Task.CompletedTask;
+        }
+
+        [JSInvokable]
+        public async ValueTask OnMouseMove(double x, double y)
+        {
+            var state = MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
 
             MouseService.SetState(state);
 

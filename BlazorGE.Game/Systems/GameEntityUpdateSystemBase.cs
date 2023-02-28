@@ -1,9 +1,6 @@
 ﻿#region Namespace
 
 using BlazorGE.Game.Entities;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 #endregion
 
@@ -19,9 +16,9 @@ namespace BlazorGE.Game.Systems
         /// <returns></returns>
         public virtual async ValueTask UpdateEntitiesAsync(GameTime gameTime, IEnumerable<GameEntity> filteredGameEntities)
         {
-            foreach (var entity in filteredGameEntities)
+            for (var i = 0; i < filteredGameEntities.Count(); i++)
             {
-                await entity.UpdateAsync(gameTime);
+                await filteredGameEntities.ElementAt(i).UpdateAsync(gameTime);
             }
         }
 

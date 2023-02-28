@@ -2,9 +2,6 @@
 
 using BlazorGE.Game.Entities;
 using BlazorGE.Game.Systems;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 #endregion
 
@@ -14,8 +11,8 @@ namespace BlazorGE.Game
     {
         #region Public Properties
 
-        public List<GameEntity> GameEntities { get; } = new List<GameEntity>();
-        public List<IGameSystem> GameSystems { get; } = new List<IGameSystem>();
+        public List<GameEntity> GameEntities { get; } = new();
+        public List<IGameSystem> GameSystems { get; } = new();
 
         #endregion        
 
@@ -59,8 +56,7 @@ namespace BlazorGE.Game
         /// <param name="gameEntity"></param>
         public void DestroyGameEntity(GameEntity gameEntity)
         {
-            gameEntity.Deactivate(true);
-            GameEntities.RemoveAll(entity => entity.Id == gameEntity.Id);
+            gameEntity.Deactivate(true);            
         }
 
         /// <summary>
@@ -94,7 +90,11 @@ namespace BlazorGE.Game
             {
                 if (gameSystem is IGameEntityUpdateSystem geus)
                 {
+                    // Update all active entities
                     await geus.UpdateEntitiesAsync(gameTime, GameEntities.Where(geus.EntityPredicate()));
+
+                    // Remove deactivated entities
+                    GameEntities.RemoveAll(entity => !entity.IsActive);
                 }
                 else if (gameSystem is IGameUpdateSystem gus)
                 {

@@ -51,7 +51,7 @@ namespace DemoGame.Game.Factories
             GraphicAsset = GraphicAssetService.CreateGraphicAsset("images/particleStar.png");
         }
 
-        public GameEntity CreateBullet(GameEntity playerEntity)
+        public GameEntity CreateBullet()
         {
             var bullet = GameWorld.CreateGameEntity();
             bullet.AttachGameComponent(new BulletMovementComponent(GraphicsService2D));

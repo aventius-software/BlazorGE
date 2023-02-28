@@ -5,10 +5,6 @@ using BlazorGE.Game.Components;
 using BlazorGE.Game.Entities;
 using BlazorGE.Game.Systems;
 using DemoGame.Game.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 #endregion
 
@@ -57,8 +53,10 @@ namespace DemoGame.Game.Systems
                 var enemies = GameWorld.GameEntities.Where(entity => entity.HasComponent<EnemyMovementComponent>() && entity.IsActive);
 
                 // Now, for each bullet...
-                foreach (var bullet in filteredGameEntities)
+                for (var i = 0; i < filteredGameEntities.Count(); i++)
                 {
+                    var bullet = filteredGameEntities.ElementAt(i);
+
                     // ...first get the bullets transform
                     var bulletTransform = bullet.GetComponent<Transform2DComponent>();
 

@@ -2,7 +2,6 @@
 
 using BlazorGE.Graphics2D.Services;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
 
 #endregion
 
@@ -19,17 +18,18 @@ namespace BlazorGE.Graphics2D.Components
 
         #region Protected Properties
 
-        protected ElementReference CanvasReference;
+        protected ElementReference CanvasReference;        
 
         #endregion 
 
         #region Override Methods
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
+        {            
             if (!firstRender) return;
             
-            await GraphicsService.InitialiseCanvas(CanvasReference);
+            await GraphicsService.InitialiseCanvasAsync(CanvasReference);            
+            await CanvasReference.FocusAsync();
         }
 
         #endregion
