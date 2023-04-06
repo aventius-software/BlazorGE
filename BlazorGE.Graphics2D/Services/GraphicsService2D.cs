@@ -2,11 +2,6 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Net.Mime;
-using System.Runtime.InteropServices.JavaScript;
-using System.Threading.Tasks;
 
 #endregion
 
@@ -70,8 +65,8 @@ namespace BlazorGE.Graphics2D.Services
         }
 
         #endregion
-        
-        #region JSInvokable Methods
+
+        #region JSInvokable Public Methods
 
         /// <summary>
         /// Called by JS when the canvas resize event occurs
@@ -128,7 +123,7 @@ namespace BlazorGE.Graphics2D.Services
             if (IsBatching)
             {
                 IsBatching = false;
-                
+
                 try
                 {
                     // Try to use unmarshalled functions, much faster
@@ -287,10 +282,8 @@ namespace BlazorGE.Graphics2D.Services
         {
             var module = await ModuleTask.Value;
             var canvasObject = await module.InvokeAsync<string>("initialiseCanvas2D", DotNetObjectReference.Create(this), canvasReference);
-            
+
             OnInitialised?.Invoke(this, canvasReference);
-            
-            await Task.CompletedTask;
         }
 
         #endregion

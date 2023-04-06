@@ -2,5 +2,5 @@
 
 @foreach (var asset in Assets)
 {
-    <img hidden src="@asset.Url" @ref="@asset.ImageElementReference" @onload="@(() => OnLoadGraphicAsset(asset.UniqueIdentifier))" />
+    <img hidden src="@asset.Url" @ref="@asset.ImageElementReference" @onload="@(() => OnLoadGraphicAssetAsync(asset.UniqueIdentifier))" />
 }
