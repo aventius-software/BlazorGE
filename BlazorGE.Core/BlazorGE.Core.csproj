@@ -11,8 +11,9 @@
 		<RepositoryUrl>https://github.com/aventius-software/BlazorGE</RepositoryUrl>
 		<PackageTags>Blazor,aspnetcore,game-development,game-engine,game-framework,game,development,engine,framework,canvas</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Company>Aventius,others</Company>
+		<Authors>Aventius,others</Authors>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,7 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
