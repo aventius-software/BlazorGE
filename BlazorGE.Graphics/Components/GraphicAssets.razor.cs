@@ -17,7 +17,7 @@ namespace BlazorGE.Graphics.Components
         #region Injected Services
 
         [Inject]
-        protected IGraphicAssetService GraphicAssetService { get; set; }
+        protected IGraphicAssetService GraphicAssetService { get; set; } = default!;
 
         #endregion
 

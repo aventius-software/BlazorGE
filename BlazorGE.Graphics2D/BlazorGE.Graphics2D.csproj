@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>disable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Title>BlazorGE.Graphics2D</Title>
@@ -10,13 +10,13 @@
 		<RepositoryUrl>https://github.com/aventius-software/BlazorGE</RepositoryUrl>
 		<PackageTags>Blazor,aspnetcore,game-development,game-engine,game-framework,game,development,engine,framework,canvas</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Version>1.0.1</Version>
+		<Version>1.1.0</Version>
 		<Company>Aventius,others</Company>
 		<Authors>Aventius,others</Authors>
-		
+
 		<!-- 
 		This is required for 'unmarshalled' JS stuff see the documentation listed in the url below:-
-		https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/import-export-interop?view=aspnetcore-7.0
+		https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/import-export-interop?view=aspnetcore-8.0
 		-->
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
@@ -24,9 +24,9 @@
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -6,7 +6,7 @@ let blazorGECanvasOffset = 0;
 let blazorGECanvasOffsetX = 0;
 var blazorGECanvasOffsetY = 0;
 
-import * as blazorGE2d from '/_content/BlazorGE.Graphics2D/interop2d.js';
+//import * as blazorGE2d from '/_content/BlazorGE.Graphics2D/interop2d.js';
 
 function gameLoop(timeStamp) {
     // Calculate time difference since last frame

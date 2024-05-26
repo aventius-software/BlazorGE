@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGE.Graphics2D.Services
 {
-    public interface IGraphicsService2D : IAsyncDisposable, IGraphicsService
+    public interface IGraphicsService2D : IGraphicsService
     {
         #region Canvas Methods
 

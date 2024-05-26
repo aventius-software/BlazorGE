@@ -23,19 +23,19 @@ namespace BlazorGE.Core.Components
         #region Injected Services
 
         [Inject]
-        protected GameBase Game { get; set; }
+        protected GameBase Game { get; set; } = default!;
 
         [Inject]
-        private InternalGameInteropService GameService { get; set; }
+        private InternalGameInteropService GameService { get; set; } = default!;
+
+        //[Inject]
+        //private IGraphicsService2D GraphicsService2D { get; set; } = default!;
 
         [Inject]
-        private IGraphicsService2D GraphicsService2D { get; set; }
+        protected IKeyboardService KeyboardService { get; set; } = default!;
 
         [Inject]
-        protected IKeyboardService KeyboardService { get; set; }
-
-        [Inject]
-        protected IMouseService MouseService { get; set; }
+        protected IMouseService MouseService { get; set; } = default!;
 
         #endregion
 
@@ -44,7 +44,7 @@ namespace BlazorGE.Core.Components
         protected GameTime GameTime;
 
         #endregion
-
+        
         #region Override Methods
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -52,10 +52,10 @@ namespace BlazorGE.Core.Components
             // Only bother first time ;-)
             if (!firstRender) return;
 
-            GraphicsService2D.OnInitialised += async (sender, args) =>
-            {
-                await GameService.InitialiseCanvasMouseHandlersAsync(args);
-            };
+            //GraphicsService2D.OnInitialised += async (sender, args) =>
+            //{
+            //    await GameService.InitialiseCanvasMouseHandlersAsync(args);
+            //};
 
             // Kick off the JS stuff            
             await GameService.InitialiseGameAsync(DotNetObjectReference.Create(this));

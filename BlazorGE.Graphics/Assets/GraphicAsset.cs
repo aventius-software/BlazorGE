@@ -12,8 +12,8 @@ namespace BlazorGE.Graphics.Assets
     {        
         public ElementReference ImageElementReference;
         public bool IsLoaded = false;
-        public Func<DateTime, Task> OnLoadAsync;
+        public Func<DateTime, Task> OnLoadAsync = default!;
         public Guid UniqueIdentifier = Guid.NewGuid();
-        public string Url;
+        public string Url = default!;
     }
 }

@@ -20,10 +20,10 @@ namespace BlazorGE.Game.Entities
 
         #region Public Properties
         
-        public List<GameEntity> Children { get; protected set; } = new();
+        public List<GameEntity> Children { get; protected set; } = [];
         public Guid Id { get; } = Guid.NewGuid();
         public bool IsActive { get; protected set; }
-        public GameEntity Parent { get; protected set; }
+        public GameEntity Parent { get; protected set; } = default!;
 
         #endregion
 
@@ -109,13 +109,13 @@ namespace BlazorGE.Game.Entities
         }
 
         /// <summary>
-        /// Get the attached game component, throws exception if none found
+        /// Get the attached game component
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetComponent<T>() where T : IGameComponent
+        public T? GetComponent<T>() where T : IGameComponent
         {
-            return (T)GameComponents.Where(component => component is T)?.Single();
+            return (T?)GameComponents.Find(component => component is T);
         }
 
         /// <summary>

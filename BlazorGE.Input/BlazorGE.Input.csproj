@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>disable</Nullable>
+		<Nullable>enable</Nullable>
 		<Title>BlazorGE.Input</Title>
 		<Description>BlazorGE (Game Engine) is a lightweight Blazor game engine/framework created by Aventius and other contributors (see Git repo)</Description>
 		<PackageProjectUrl>https://github.com/aventius-software/BlazorGE</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/aventius-software/BlazorGE</RepositoryUrl>
 		<PackageTags>Blazor,aspnetcore,game-development,game-engine,game-framework,game,development,engine,framework,canvas</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Version>1.0.1</Version>
+		<Version>1.1.0</Version>
 		<Company>Aventius,others</Company>
 		<Authors>Aventius,others</Authors>
 	</PropertyGroup>

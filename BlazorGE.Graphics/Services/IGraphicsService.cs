@@ -11,19 +11,10 @@ namespace BlazorGE.Graphics.Services
 {
     public interface IGraphicsService
     {
-        #region JSInvokable Methods
-
-        [JSInvokable]
-        public ValueTask OnResizeCanvas(int width, int height);
-
-        #endregion
-
         #region Properties
 
         public int CanvasHeight { get; }
         public int CanvasWidth { get; }
-
-        public event EventHandler<ElementReference> OnInitialised;
 
         #endregion
 
@@ -34,10 +25,16 @@ namespace BlazorGE.Graphics.Services
 
         #endregion
 
+        #region Event Handling
+
+        public ValueTask OnResizeCanvas(int width, int height);
+        
+
+        #endregion
+        
         #region Standard Methods
 
-        public ValueTask ClearScreenAsync();
-        public ValueTask InitialiseCanvasAsync(ElementReference canvasReference);
+        public ValueTask ClearScreenAsync();        
 
         #endregion
     }
