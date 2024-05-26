@@ -56,7 +56,7 @@ namespace BlazorGE.Graphics2D.Services
         [SupportedOSPlatform("browser")]
         public async ValueTask DrawFilledPolygonAsync(string colour, int[][] coordinates)
         {
-            //Canvas2D.DrawFilledPolygon(coordinates, colour);
+            //Canvas2D.DrawFilledPolygon(colour, coordinates);
             await Task.CompletedTask;
         }
 

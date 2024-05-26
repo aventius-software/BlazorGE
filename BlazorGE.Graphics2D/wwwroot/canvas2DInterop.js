@@ -1,18 +1,14 @@
 ﻿var canvasContext = {};
 var canvasElement = {};
-//var exports = {};
-//var lastFrameTime = 0;
 var componentReference = {};
-//var initialised = false;
-//var animationRequest = -1;
 
-export async function initialiseModule(assemblyName, componentName, canvasID) {    
+export async function initialiseModule(assemblyName, canvasID) {    
     // Get the assembly exports
     const { getAssemblyExports } = await globalThis.getDotnetRuntime(0);
-    var exports = await getAssemblyExports(assemblyName + ".dll");    
+    let exports = await getAssemblyExports(assemblyName + ".dll");    
 
     // Save a reference to the Blazor component
-    componentReference = exports.BlazorGE.Graphics2D.Components.Canvas2D;//[componentName];
+    componentReference = exports.BlazorGE.Graphics2D.Components.Canvas2D;
 
     // References to the canvas
     canvasElement = document.getElementById(canvasID);
@@ -21,6 +17,31 @@ export async function initialiseModule(assemblyName, componentName, canvasID) {
     // Catch canvas resize events
     window.addEventListener("resize", onResizeCanvas);
     onResizeCanvas();
+
+    // Canvas mouse handling    
+    canvasElement.addEventListener("mousemove", (e) => {
+        let mouseCoords = getCanvasMouseCoords(e);
+        componentReference.OnMouseMove(mouseCoords.x, mouseCoords.y);
+    });
+
+    canvasElement.addEventListener("mouseenter", (e) => {
+        let mouseCoords = getCanvasMouseCoords(e);
+        componentReference.OnMouseMove(mouseCoords.x, mouseCoords.y);
+    });
+
+    //canvasElement.addEventListener('mousewheel', (e) => {
+    //    let mouseCoords = getMouseCoords(e);
+    //});
+
+    canvasElement.addEventListener("mousedown", (e) => {
+        let mouseCoords = getCanvasMouseCoords(e);
+        componentReference.OnMouseDown(mouseCoords.x, mouseCoords.y);
+    });
+
+    canvasElement.addEventListener("mouseup", (e) => {
+        let mouseCoords = getCanvasMouseCoords(e);
+        componentReference.OnMouseUp(mouseCoords.x, mouseCoords.y);
+    });
 }
 
 export function clearRect(x, y, width, height) {
@@ -32,7 +53,7 @@ export function drawFilledRectangle(colour, x, y, width, height) {
     canvasContext.fillRect(x, y, width, height);
 }
 
-export function drawFilledPolygon(coordinates, fillColor, strokeColor) {    
+export function drawFilledPolygon(fillColor, strokeColor, coordinates) {    
     if (coordinates.length <= 0) return;
 
     canvasContext.beginPath();
@@ -88,6 +109,30 @@ export function drawTrapezium(fillColour, x1, y1, w1, x2, y2, w2) {
     canvasContext.fill();
 }
 
+/* Internal functions */
+
+function getCanvasMouseCoords(e) {
+    let canvasOffset = getOffset(canvasElement);    
+    let x = parseInt(e.clientX - canvasOffset.left);
+    let y = parseInt(e.clientY - canvasOffset.top);
+
+    return ({ x, y });
+}
+
+function getOffset(element) {
+    if (!element.getClientRects().length) {
+        return { top: 0, left: 0 };
+    }
+
+    let rect = element.getBoundingClientRect();
+    let win = element.ownerDocument.defaultView;
+
+    return ({
+        top: rect.top + win.pageYOffset,
+        left: rect.left + win.pageXOffset
+    });
+}
+
 function onResizeCanvas() {
     canvasElement.style.width = "100%";
     canvasElement.style.height = "100%";
@@ -100,5 +145,6 @@ function onResizeCanvas() {
         canvasElement.height = height;        
     }
 
+    // Call .NET to set the new canvas sizes
     componentReference.OnResizeCanvas(canvasElement.width, canvasElement.height);    
 }

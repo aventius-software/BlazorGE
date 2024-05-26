@@ -1,17 +1,17 @@
 ﻿#region Namespaces
 
-using BlazorGE.Core.Services;
 using BlazorGE.Game;
-using BlazorGE.Graphics2D.Services;
 using BlazorGE.Input;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+using System.Runtime.InteropServices.JavaScript;
+using System.Runtime.Versioning;
 
 #endregion
 
 namespace BlazorGE.Core.Components
 {
-    public class PlayFieldBase : ComponentBase, IAsyncDisposable
+    [SupportedOSPlatform("browser")]
+    public partial class PlayField : IAsyncDisposable
     {
         #region Parameters
 
@@ -23,28 +23,20 @@ namespace BlazorGE.Core.Components
         #region Injected Services
 
         [Inject]
-        protected GameBase Game { get; set; } = default!;
+        private GameBase Game { get; set; } = default!;
 
         [Inject]
-        private InternalGameInteropService GameService { get; set; } = default!;
-
-        //[Inject]
-        //private IGraphicsService2D GraphicsService2D { get; set; } = default!;
-
-        [Inject]
-        protected IKeyboardService KeyboardService { get; set; } = default!;
-
-        [Inject]
-        protected IMouseService MouseService { get; set; } = default!;
-
-        #endregion
-
-        #region Protected Fields
-
-        protected GameTime GameTime;
-
-        #endregion
+        private IKeyboardService KeyboardService { get; set; } = default!;
         
+        #endregion
+
+        #region Private Fields
+
+        private GameTime GameTime;
+        private static PlayField Self = default!;
+
+        #endregion
+
         #region Override Methods
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -52,13 +44,14 @@ namespace BlazorGE.Core.Components
             // Only bother first time ;-)
             if (!firstRender) return;
 
-            //GraphicsService2D.OnInitialised += async (sender, args) =>
-            //{
-            //    await GameService.InitialiseCanvasMouseHandlersAsync(args);
-            //};
+            // Load the JS module
+            await JSHost.ImportAsync("playField", $"/_content/BlazorGE.Core/playFieldInterop.js");
 
-            // Kick off the JS stuff            
-            await GameService.InitialiseGameAsync(DotNetObjectReference.Create(this));
+            // Initialise some stuff on the JS side
+            InitialiseModule("BlazorGE.Core");
+
+            // Save a static reference to this object
+            Self = this;
 
             // Initialise game            
             await Game.LoadContentAsync();
@@ -66,7 +59,7 @@ namespace BlazorGE.Core.Components
 
         #endregion
 
-        #region Implementations
+        #region IAsyncDisposable Implementation
 
         public async ValueTask DisposeAsync()
         {
@@ -75,77 +68,56 @@ namespace BlazorGE.Core.Components
 
         #endregion
 
-        #region JSInvokable Methods
+        #region JS Import Interop Methods
 
-        [JSInvokable]
-        public async ValueTask GameLoop(float timeStamp, float timeDifference, float currentFramePerSecond)
+        [JSImport("initialiseModule", "playField")]
+        internal static partial void InitialiseModule([JSMarshalAs<JSType.String>] string assemblyName);
+
+        #endregion
+
+        #region JS Export Interop Methods
+
+        /// <summary>
+        /// Called by JS every animation frame
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <param name="timeDifference"></param>
+        /// <param name="currentFramePerSecond"></param>
+        [JSExport]
+        internal static void GameLoop(float timeStamp, float timeDifference, float currentFramePerSecond)
         {
             // Update the game time
-            GameTime.FramesPerSecond = currentFramePerSecond;
-            GameTime.TimeSinceLastFrame = timeDifference;
-            GameTime.TotalGameTime = timeStamp;
+            Self.GameTime.FramesPerSecond = currentFramePerSecond;
+            Self.GameTime.TimeSinceLastFrame = timeDifference;
+            Self.GameTime.TotalGameTime = timeStamp;
 
             // Run our games update/draw methods
-            await Game.UpdateAsync(GameTime);
-            await Game.DrawAsync(GameTime);
+            Task.Run(async () =>
+            {
+                await Self.Game.UpdateAsync(Self.GameTime);
+                await Self.Game.DrawAsync(Self.GameTime);
+            });
         }
 
-        [JSInvokable]
-        public async ValueTask OnKeyDown(int keyCode)
+        /// <summary>
+        /// Called by JS if key down event fires
+        /// </summary>
+        /// <param name="keyCode"></param>
+        [JSExport]
+        internal static void OnKeyDown(int keyCode)
         {
-            KeyboardService.GetState().SetKeyState((Keys)keyCode, KeyState.Down);
-
-            await Task.CompletedTask;
+            Self.KeyboardService.GetState().SetKeyState((Keys)keyCode, KeyState.Down);
         }
 
-        [JSInvokable]
-        public async ValueTask OnKeyUp(int keyCode)
+        /// <summary>
+        /// Called by JS if key up event fires
+        /// </summary>
+        /// <param name="keyCode"></param>
+        [JSExport]
+        internal static void OnKeyUp(int keyCode)
         {
-            KeyboardService.GetState().SetKeyState((Keys)keyCode, KeyState.Up);
-
-            await Task.CompletedTask;
-        }
-
-        [JSInvokable]
-        public async ValueTask OnMouseDown(double x, double y)
-        {
-            var state = MouseService.GetState();
-
-            state.X = x;
-            state.Y = y;
-            state.KeyState = KeyState.Down;
-
-            MouseService.SetState(state);
-
-            await Task.CompletedTask;
-        }
-
-        [JSInvokable]
-        public async ValueTask OnMouseMove(double x, double y)
-        {
-            var state = MouseService.GetState();
-
-            state.X = x;
-            state.Y = y;
-
-            MouseService.SetState(state);
-
-            await Task.CompletedTask;
-        }
-
-        [JSInvokable]
-        public async ValueTask OnMouseUp(double x, double y)
-        {
-            var state = MouseService.GetState();
-
-            state.X = x;
-            state.Y = y;
-            state.KeyState = KeyState.Up;
-
-            MouseService.SetState(state);
-
-            await Task.CompletedTask;
-        }
+            Self.KeyboardService.GetState().SetKeyState((Keys)keyCode, KeyState.Up);
+        }        
 
         #endregion
     }

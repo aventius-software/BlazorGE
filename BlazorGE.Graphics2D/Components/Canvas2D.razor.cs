@@ -1,29 +1,25 @@
 ﻿#region Namespaces
 
 using BlazorGE.Graphics2D.Services;
+using BlazorGE.Input;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Drawing;
 using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
-using static System.Net.Mime.MediaTypeNames;
 
 #endregion
 
 namespace BlazorGE.Graphics2D.Components
-{    
-    /// <summary>
-    /// Canvas 2D interop functions, for more details about JS interop, see the links below
-    /// https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/import-export-interop?view=aspnetcore-8.0
-    /// https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/location-of-javascript?view=aspnetcore-8.0
-    /// </summary>
+{
     [SupportedOSPlatform("browser")]
     public partial class Canvas2D
     {
         #region Injected Services
-        
+
         [Inject]
         private IGraphicsService2D GraphicsService { get; set; }
+
+        [Inject]
+        private IMouseService MouseService { get; set; }
 
         #endregion
 
@@ -34,24 +30,28 @@ namespace BlazorGE.Graphics2D.Components
 
         #endregion
 
+        #region Private Constants
+
         private const string CanvasID = "blazorge-canvas";
+
+        #endregion
 
         #region Override Methods
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
-        {            
+        {
             if (!firstRender) return;
-                        
+
             await CanvasReference.FocusAsync();
         }
 
         protected override async Task OnInitializedAsync()
         {
             // Load the canvas 2D module
-            await JSHost.ImportAsync("canvas2D", $"/_content/BlazorGE.Graphics2D/canvas2D.js");
-            
+            await JSHost.ImportAsync("canvas2D", $"/_content/BlazorGE.Graphics2D/canvas2DInterop.js");
+
             // Initialise some stuff on the JS side
-            InitialiseModule("BlazorGE.Graphics2D", nameof(Canvas2D), CanvasID);
+            InitialiseModule("BlazorGE.Graphics2D", CanvasID);
 
             // Save a static reference to this object
             Self = this;
@@ -67,6 +67,12 @@ namespace BlazorGE.Graphics2D.Components
             [JSMarshalAs<JSType.Number>] int y,
             [JSMarshalAs<JSType.Number>] int width,
             [JSMarshalAs<JSType.Number>] int height);
+
+        [JSImport("drawFilledPolygon", "canvas2D")]
+        internal static partial void DrawFilledPolygon(
+            [JSMarshalAs<JSType.String>] string colour,
+            [JSMarshalAs<JSType.String>] string strokeColour,
+            [JSMarshalAs<JSType.String>] string coordinates);
 
         [JSImport("drawFilledRectangle", "canvas2D")]
         internal static partial void DrawFilledRectangle(
@@ -98,7 +104,7 @@ namespace BlazorGE.Graphics2D.Components
             [JSMarshalAs<JSType.Number>] int x3,
             [JSMarshalAs<JSType.Number>] int y3,
             [JSMarshalAs<JSType.Number>] int x4,
-            [JSMarshalAs<JSType.Number>] int y4);              
+            [JSMarshalAs<JSType.Number>] int y4);
 
         [JSImport("drawRect", "canvas2D")]
         internal static partial void DrawRectangle(
@@ -127,22 +133,76 @@ namespace BlazorGE.Graphics2D.Components
             [JSMarshalAs<JSType.String>] string colour,
             [JSMarshalAs<JSType.Boolean>] bool isFilled);
 
-        [JSImport("initialiseModule", "canvas2D")]        
+        [JSImport("initialiseModule", "canvas2D")]
         internal static partial void InitialiseModule(
             [JSMarshalAs<JSType.String>] string assemblyName,
-            [JSMarshalAs<JSType.String>] string componentName,
             [JSMarshalAs<JSType.String>] string canvasID);
 
         #endregion
 
         #region JS Export Interop Methods
 
+        /// <summary>
+        /// Called by JS if mouse down event fires
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        [JSExport]
+        internal static void OnMouseDown(double x, double y)
+        {
+            var state = Self.MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
+            state.KeyState = KeyState.Down;
+
+            Self.MouseService.SetState(state);
+        }
+
+        /// <summary>
+        /// Called by JS if mouse move event fires
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        [JSExport]
+        internal static void OnMouseMove(double x, double y)
+        {
+            var state = Self.MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
+
+            Self.MouseService.SetState(state);
+        }
+
+        /// <summary>
+        /// Called by JS if mouse up event fires
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        [JSExport]
+        internal static void OnMouseUp(double x, double y)
+        {
+            var state = Self.MouseService.GetState();
+
+            state.X = x;
+            state.Y = y;
+            state.KeyState = KeyState.Up;
+
+            Self.MouseService.SetState(state);
+        }
+
+        /// <summary>
+        /// Called by JS when canvas resize event fires
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         [JSExport]
         internal static void OnResizeCanvas(int width, int height)
         {
             Task.Run(async () => await Self.GraphicsService.OnResizeCanvas(width, height));
         }
-        
+
         #endregion
     }
 }
