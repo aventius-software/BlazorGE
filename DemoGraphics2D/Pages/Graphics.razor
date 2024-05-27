@@ -1,0 +1,32 @@
+﻿@using BlazorGE.Graphics2D.Services
+@inject IGraphicsService2D GraphicsService
+@page "/graphics"
+
+<PageTitle>Graphics</PageTitle>
+
+<div @onclick="DrawRect">Draw filled rectangle</div>
+<div @onclick="DrawFilledPolygon">Draw filled polygon</div>
+
+<div style="width:800px;height:400px">
+    <BlazorGE.Graphics2D.Components.Canvas2D />
+</div>
+
+@code {
+    private async Task DrawRect()
+    {
+        await GraphicsService.ClearScreenAsync();
+        await GraphicsService.DrawFilledRectangleAsync("red", 0, 0, 50, 50);
+    }
+
+    private async Task DrawFilledPolygon()
+    {
+        await GraphicsService.ClearScreenAsync();
+        await GraphicsService.DrawFilledPolygonAsync("red", "blue", new int[,]        
+        { 
+            { 0, 0 }, 
+            { 100, 0 }, 
+            { 100, 100 },
+            { 20, 80 }
+        });
+    }
+}

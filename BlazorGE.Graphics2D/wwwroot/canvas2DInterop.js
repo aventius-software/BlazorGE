@@ -2,6 +2,8 @@
 var canvasElement = {};
 var componentReference = {};
 
+// TODO: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas
+
 export async function initialiseModule(assemblyName, canvasID) {    
     // Get the assembly exports
     const { getAssemblyExports } = await globalThis.getDotnetRuntime(0);
@@ -56,17 +58,16 @@ export function drawFilledRectangle(colour, x, y, width, height) {
 export function drawFilledPolygon(fillColor, strokeColor, coordinates) {    
     if (coordinates.length <= 0) return;
 
+    let coords = coordinates.slice(0, coordinates.length);
+
     canvasContext.beginPath();
-    canvasContext.moveTo(coordinates[0][0], coordinates[0][1]);
-
-    for (var i = 1; i < coordinates.length; i++) {
-        canvasContext.lineTo(coordinates[i][0], coordinates[i][1]);
+    canvasContext.moveTo(coords[0], coords[1]);
+       
+    for (let i = 2; i < coords.length; i += 2) {
+        canvasContext.lineTo(coords[i], coords[i + 1]);
     }
 
-    if (strokeColor != null && strokeColor != undefined) {
-        canvasContext.strokeStyle = strokeColor;
-    }
-
+    canvasContext.strokeStyle = strokeColor;
     canvasContext.closePath();
     canvasContext.fillStyle = fillColor;
     canvasContext.fill();
@@ -108,8 +109,6 @@ export function drawTrapezium(fillColour, x1, y1, w1, x2, y2, w2) {
     canvasContext.fillStyle = fillColour;
     canvasContext.fill();
 }
-
-/* Internal functions */
 
 function getCanvasMouseCoords(e) {
     let canvasOffset = getOffset(canvasElement);    

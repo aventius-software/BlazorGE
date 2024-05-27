@@ -50,13 +50,14 @@ namespace BlazorGE.Graphics2D.Services
         /// <summary>
         /// Draw a filled polygon
         /// </summary>
-        /// <param name="colour"></param>
+        /// <param name="fillColour"></param>
+        /// <param name="strokeColour"></param>
         /// <param name="coordinates"></param>
         /// <returns></returns>
         [SupportedOSPlatform("browser")]
-        public async ValueTask DrawFilledPolygonAsync(string colour, int[][] coordinates)
-        {
-            //Canvas2D.DrawFilledPolygon(colour, coordinates);
+        public async ValueTask DrawFilledPolygonAsync(string fillColour, string strokeColour, int[,] coordinates)
+        {                      
+            Canvas2D.DrawFilledPolygon(fillColour, strokeColour, coordinates.Cast<int>().ToArray());
             await Task.CompletedTask;
         }
 

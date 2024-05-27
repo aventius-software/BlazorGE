@@ -24,8 +24,7 @@ namespace BlazorGE.Graphics2D.Components
         #endregion
 
         #region Private Fields
-
-        private ElementReference CanvasReference;
+        
         private static Canvas2D Self;
 
         #endregion
@@ -37,14 +36,7 @@ namespace BlazorGE.Graphics2D.Components
         #endregion
 
         #region Override Methods
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (!firstRender) return;
-
-            await CanvasReference.FocusAsync();
-        }
-
+        
         protected override async Task OnInitializedAsync()
         {
             // Load the canvas 2D module
@@ -72,7 +64,7 @@ namespace BlazorGE.Graphics2D.Components
         internal static partial void DrawFilledPolygon(
             [JSMarshalAs<JSType.String>] string colour,
             [JSMarshalAs<JSType.String>] string strokeColour,
-            [JSMarshalAs<JSType.String>] string coordinates);
+            [JSMarshalAs<JSType.MemoryView>] Span<int> coordinates);
 
         [JSImport("drawFilledRectangle", "canvas2D")]
         internal static partial void DrawFilledRectangle(
