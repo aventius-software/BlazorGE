@@ -24,7 +24,7 @@ namespace BlazorGE.Graphics2D.Components
         #endregion
 
         #region Private Fields
-        
+
         private static Canvas2D Self;
 
         #endregion
@@ -36,7 +36,7 @@ namespace BlazorGE.Graphics2D.Components
         #endregion
 
         #region Override Methods
-        
+
         protected override async Task OnInitializedAsync()
         {
             // Load the canvas 2D module
@@ -72,11 +72,11 @@ namespace BlazorGE.Graphics2D.Components
             [JSMarshalAs<JSType.Number>] int x,
             [JSMarshalAs<JSType.Number>] int y,
             [JSMarshalAs<JSType.Number>] int width,
-            [JSMarshalAs<JSType.Number>] int height);
+            [JSMarshalAs<JSType.Number>] int height);        
 
         [JSImport("drawImage", "canvas2D")]
         internal static partial void DrawImage(
-            [JSMarshalAs<JSType.String>] string imageElementReference, // Not sure
+            [JSMarshalAs<JSType.String>] string elementId,
             [JSMarshalAs<JSType.Number>] int sourceX,
             [JSMarshalAs<JSType.Number>] int sourceY,
             [JSMarshalAs<JSType.Number>] int sourceWidth,

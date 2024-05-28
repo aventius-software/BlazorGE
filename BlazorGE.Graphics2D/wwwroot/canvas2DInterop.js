@@ -1,49 +1,54 @@
 ﻿var canvasContext = {};
 var canvasElement = {};
 var componentReference = {};
+var isInitialised = false;
 
 // TODO: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas
 
-export async function initialiseModule(assemblyName, canvasID) {    
-    // Get the assembly exports
-    const { getAssemblyExports } = await globalThis.getDotnetRuntime(0);
-    let exports = await getAssemblyExports(assemblyName + ".dll");    
+export async function initialiseModule(assemblyName, canvasID) {
+    if (!isInitialised) {
+        isInitialised = true;
 
-    // Save a reference to the Blazor component
-    componentReference = exports.BlazorGE.Graphics2D.Components.Canvas2D;
+        // Get the assembly exports
+        const { getAssemblyExports } = await globalThis.getDotnetRuntime(0);
+        let exports = await getAssemblyExports(assemblyName + ".dll");
 
-    // References to the canvas
-    canvasElement = document.getElementById(canvasID);
-    canvasContext = canvasElement.getContext("2d");
+        // Save a reference to the Blazor component
+        componentReference = exports.BlazorGE.Graphics2D.Components.Canvas2D;
 
-    // Catch canvas resize events
-    window.addEventListener("resize", onResizeCanvas);
-    onResizeCanvas();
+        // References to the canvas
+        canvasElement = document.getElementById(canvasID);
+        canvasContext = canvasElement.getContext("2d");
 
-    // Canvas mouse handling    
-    canvasElement.addEventListener("mousemove", (e) => {
-        let mouseCoords = getCanvasMouseCoords(e);
-        componentReference.OnMouseMove(mouseCoords.x, mouseCoords.y);
-    });
+        // Catch canvas resize events
+        window.addEventListener("resize", onResizeCanvas);
+        onResizeCanvas();
 
-    canvasElement.addEventListener("mouseenter", (e) => {
-        let mouseCoords = getCanvasMouseCoords(e);
-        componentReference.OnMouseMove(mouseCoords.x, mouseCoords.y);
-    });
+        // Canvas mouse handling    
+        canvasElement.addEventListener("mousemove", (e) => {
+            let mouseCoords = getCanvasMouseCoords(e);
+            componentReference.OnMouseMove(mouseCoords.x, mouseCoords.y);
+        });
 
-    //canvasElement.addEventListener('mousewheel', (e) => {
-    //    let mouseCoords = getMouseCoords(e);
-    //});
+        canvasElement.addEventListener("mouseenter", (e) => {
+            let mouseCoords = getCanvasMouseCoords(e);
+            componentReference.OnMouseMove(mouseCoords.x, mouseCoords.y);
+        });
 
-    canvasElement.addEventListener("mousedown", (e) => {
-        let mouseCoords = getCanvasMouseCoords(e);
-        componentReference.OnMouseDown(mouseCoords.x, mouseCoords.y);
-    });
+        //canvasElement.addEventListener('mousewheel', (e) => {
+        //    let mouseCoords = getMouseCoords(e);
+        //});
 
-    canvasElement.addEventListener("mouseup", (e) => {
-        let mouseCoords = getCanvasMouseCoords(e);
-        componentReference.OnMouseUp(mouseCoords.x, mouseCoords.y);
-    });
+        canvasElement.addEventListener("mousedown", (e) => {
+            let mouseCoords = getCanvasMouseCoords(e);
+            componentReference.OnMouseDown(mouseCoords.x, mouseCoords.y);
+        });
+
+        canvasElement.addEventListener("mouseup", (e) => {
+            let mouseCoords = getCanvasMouseCoords(e);
+            componentReference.OnMouseUp(mouseCoords.x, mouseCoords.y);
+        });
+    }
 }
 
 export function clearRect(x, y, width, height) {
@@ -73,8 +78,8 @@ export function drawFilledPolygon(fillColor, strokeColor, coordinates) {
     canvasContext.fill();
 }
 
-export function drawImage(reference, sx, sy, sw, sh, dx, dy, dw, dh) {
-    canvasContext.drawImage(reference, sx, sy, sw, sh, dx, dy, dw, dh);
+export function drawImage(elementId, sx, sy, sw, sh, dx, dy, dw, dh) {    
+    canvasContext.drawImage(document.getElementById(elementId), sx, sy, sw, sh, dx, dy, dw, dh);    
 }
 
 export function drawQuadrilateral(fillColour, x1, y1, x2, y2, x3, y3, x4, y4) {

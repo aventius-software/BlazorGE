@@ -33,6 +33,7 @@ namespace BlazorGE.Core.Components
         #region Private Fields
 
         private GameTime GameTime;
+        private bool IsPlaying = false;
         private static PlayField Self = default!;
 
         #endregion
@@ -44,17 +45,22 @@ namespace BlazorGE.Core.Components
             // Only bother first time ;-)
             if (!firstRender) return;
 
-            // Load the JS module
-            await JSHost.ImportAsync("playField", $"/_content/BlazorGE.Core/playFieldInterop.js");
+            if (!IsPlaying)
+            {
+                IsPlaying = true;
 
-            // Initialise some stuff on the JS side
-            InitialiseModule("BlazorGE.Core");
+                // Load the JS module
+                await JSHost.ImportAsync("playField", $"/_content/BlazorGE.Core/playFieldInterop.js");
 
-            // Save a static reference to this object
-            Self = this;
+                // Initialise some stuff on the JS side
+                InitialiseModule("BlazorGE.Core");
 
-            // Initialise game            
-            await Game.LoadContentAsync();
+                // Save a static reference to this object
+                Self = this;
+
+                // Initialise game            
+                await Game.LoadContentAsync();
+            }
         }
 
         #endregion

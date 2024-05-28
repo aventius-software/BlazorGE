@@ -1,9 +1,8 @@
 ﻿#region Namespaces
 
-using BlazorGE.Graphics.Services;
 using BlazorGE.Graphics2D.Components;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
 
 #endregion
@@ -11,14 +10,14 @@ using System.Runtime.Versioning;
 namespace BlazorGE.Graphics2D.Services
 {
     public class GraphicsService2D : IGraphicsService2D
-    {        
+    {
         #region Public Properties
 
         public int CanvasHeight { get; protected set; }
-        public int CanvasWidth { get; protected set; }        
+        public int CanvasWidth { get; protected set; }
 
         #endregion
-                
+
         #region Canvas Methods
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace BlazorGE.Graphics2D.Services
         /// <returns></returns>
         [SupportedOSPlatform("browser")]
         public async ValueTask DrawFilledPolygonAsync(string fillColour, string strokeColour, int[,] coordinates)
-        {                      
+        {
             Canvas2D.DrawFilledPolygon(fillColour, strokeColour, coordinates.Cast<int>().ToArray());
             await Task.CompletedTask;
         }
@@ -81,7 +80,7 @@ namespace BlazorGE.Graphics2D.Services
         /// Draw image using the specified image element reference at the specified coordinates, with
         /// the specified dimensions
         /// </summary>
-        /// <param name="imageElementReference"></param>
+        /// <param name="elementId"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="width"></param>
@@ -92,9 +91,9 @@ namespace BlazorGE.Graphics2D.Services
         /// <param name="sourceHeight"></param>
         /// <returns></returns>
         [SupportedOSPlatform("browser")]
-        public async ValueTask DrawImageAsync(ElementReference imageElementReference, int x, int y, int width, int height, int sourceX, int sourceY, int sourceWidth, int sourceHeight)
+        public async ValueTask DrawImageAsync(string elementId, int x, int y, int width, int height, int sourceX, int sourceY, int sourceWidth, int sourceHeight)
         {
-            //Canvas2D.DrawImage(imageElementReference, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+            Canvas2D.DrawImage(elementId, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
             await Task.CompletedTask;
         }
 
@@ -126,7 +125,7 @@ namespace BlazorGE.Graphics2D.Services
         [SupportedOSPlatform("browser")]
         public async ValueTask DrawSpriteAsync(Sprite sprite)
         {
-            //Canvas2D.DrawImage(sprite.SpriteSheet.ImageElementReference, sprite.SourceX, sprite.SourceY, sprite.SourceWidth, sprite.SourceHeight, sprite.X, sprite.Y, sprite.Width, sprite.Height);
+            Canvas2D.DrawImage(sprite.SpriteSheet.UniqueIdentifier.ToString(), sprite.SourceX, sprite.SourceY, sprite.SourceWidth, sprite.SourceHeight, sprite.X, sprite.Y, sprite.Width, sprite.Height);
             await Task.CompletedTask;
         }
 
@@ -170,7 +169,7 @@ namespace BlazorGE.Graphics2D.Services
         #endregion
 
         #region Implementations
-              
+
         public async ValueTask OnResizeCanvas(int width, int height)
         {
             CanvasWidth = width;
@@ -178,7 +177,7 @@ namespace BlazorGE.Graphics2D.Services
 
             await Task.CompletedTask;
         }
-        
+
         public async ValueTask BeginBatchAsync()
         {
             await Task.CompletedTask;
@@ -188,7 +187,7 @@ namespace BlazorGE.Graphics2D.Services
         {
             await Task.CompletedTask;
         }
-        
+
         #endregion
     }
 }

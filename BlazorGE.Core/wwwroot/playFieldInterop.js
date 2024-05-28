@@ -1,27 +1,32 @@
 ﻿var lastFrameTime = 0;
 var componentReference = {};
 var animationRequest = -1;
+var isInitialised = false;
 
 export async function initialiseModule(assemblyName) {
-    // Get the assembly exports
-    const { getAssemblyExports } = await globalThis.getDotnetRuntime(0);
-    var exports = await getAssemblyExports(assemblyName + ".dll");
+    if (!isInitialised) {
+        isInitialised = true;
 
-    // Save a reference to the Blazor component
-    componentReference = exports.BlazorGE.Core.Components.PlayField;
+        // Get the assembly exports
+        const { getAssemblyExports } = await globalThis.getDotnetRuntime(0);
+        var exports = await getAssemblyExports(assemblyName + ".dll");
 
-    // Add keyboard event listeners
-    window.addEventListener("keydown", (e) => {
-        componentReference.OnKeyDown(getKeyCode(e));
-    });
+        // Save a reference to the Blazor component
+        componentReference = exports.BlazorGE.Core.Components.PlayField;
 
-    window.addEventListener("keyup", (e) => {
-        componentReference.OnKeyUp(getKeyCode(e));
-    });
+        // Add keyboard event listeners
+        window.addEventListener("keydown", (e) => {
+            componentReference.OnKeyDown(getKeyCode(e));
+        });
 
-    // Kick off the game loop
-    if (animationRequest != -1) window.cancelAnimationFrame(animationRequest);
-    animationRequest = window.requestAnimationFrame(gameLoop);    
+        window.addEventListener("keyup", (e) => {
+            componentReference.OnKeyUp(getKeyCode(e));
+        });
+
+        // Kick off the game loop
+        if (animationRequest != -1) window.cancelAnimationFrame(animationRequest);
+        animationRequest = window.requestAnimationFrame(gameLoop);
+    }
 }
 
 function getKeyCode(e) {
