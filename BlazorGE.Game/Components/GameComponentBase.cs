@@ -11,6 +11,6 @@ namespace BlazorGE.Game.Components
         /// <summary>
         /// The entity who owns this component
         /// </summary>
-        public GameEntity GameEntityOwner { get; set; }
+        public GameEntity GameEntityOwner { get; set; } = default!;
     }
 }

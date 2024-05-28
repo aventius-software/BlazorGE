@@ -45,7 +45,7 @@ namespace BlazorGE.Game.Components
             if (GameEntityOwner.HasComponent<Transform2DComponent>())
             {
                 // Yes, ok lets update sprite with new position from the transform component
-                var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>();
+                var transformComponent = GameEntityOwner.GetComponent<Transform2DComponent>() ?? throw new Exception("No transform component found");
                 Sprite.X = (int)transformComponent.Position.X;
                 Sprite.Y = (int)transformComponent.Position.Y;
             }

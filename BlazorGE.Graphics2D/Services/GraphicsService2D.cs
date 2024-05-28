@@ -1,7 +1,9 @@
 ﻿#region Namespaces
 
+using BlazorGE.Graphics2D.Components;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+using System.Runtime.InteropServices.JavaScript;
+using System.Runtime.Versioning;
 
 #endregion
 
@@ -9,139 +11,10 @@ namespace BlazorGE.Graphics2D.Services
 {
     public class GraphicsService2D : IGraphicsService2D
     {
-        #region Private Constants
-
-        protected const string ClearRect = "clearRect";
-        protected const string DrawFilledPolygon = "drawFilledPolygon";
-        protected const string DrawFilledRectangle = "drawFilledRectangle";
-        protected const string DrawImage = "drawImage";
-        protected const string DrawQuadrilateral = "drawQuadrilateral";
-        protected const string DrawText = "drawText";
-        protected const string DrawTrapezium = "drawTrapezium";
-
-        #endregion
-
-        #region Private Properties
-
-        protected List<object[]> BatchItems = new();
-        protected bool IsBatching = false;
-        protected IJSUnmarshalledRuntime JSUnmarshalledRuntime;
-        protected readonly Lazy<Task<IJSObjectReference>> ModuleTask;
-
-        #endregion
-
         #region Public Properties
 
         public int CanvasHeight { get; protected set; }
         public int CanvasWidth { get; protected set; }
-
-        public event EventHandler<ElementReference> OnInitialised;
-
-        #endregion
-
-        #region Constructors
-
-        public GraphicsService2D(IJSRuntime jsRuntime, IJSUnmarshalledRuntime jsUnmarshalledRuntime)
-        {
-            // Need to look into improvements for interop and canvas, see this link
-            // here https://docs.microsoft.com/en-us/aspnet/core/blazor/webassembly-performance-best-practices?view=aspnetcore-5.0#optimize-javascript-interop-speed
-            ModuleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/BlazorGE.Graphics2D/interop2d.js").AsTask());
-
-            // Might need unmarshalled interop for some stuff
-            JSUnmarshalledRuntime = jsUnmarshalledRuntime;
-        }
-
-        #endregion
-
-        #region Implementations
-
-        public async ValueTask DisposeAsync()
-        {
-            if (ModuleTask.IsValueCreated)
-            {
-                var module = await ModuleTask.Value;
-                await module.DisposeAsync();
-            }
-        }
-
-        #endregion
-
-        #region JSInvokable Public Methods
-
-        /// <summary>
-        /// Called by JS when the canvas resize event occurs
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
-        [JSInvokable]
-        public async ValueTask OnResizeCanvas(int width, int height)
-        {
-            CanvasWidth = width;
-            CanvasHeight = height;
-
-            await Task.CompletedTask;
-        }
-
-        #endregion
-
-        #region Batching
-
-        /// <summary>
-        /// Batch a call
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        protected async ValueTask BatchCallAsync(params object[] parameters)
-        {
-            BatchItems.Add(parameters);
-
-            await Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// Start batching graphics calls
-        /// </summary>
-        /// <returns></returns>
-        public async ValueTask BeginBatchAsync()
-        {
-            if (!IsBatching)
-            {
-                BatchItems.Clear();
-                IsBatching = true;
-            }
-
-            await Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// End (or flush) all batched graphics calls
-        /// </summary>
-        /// <returns></returns>
-        public async ValueTask EndBatchAsync()
-        {
-            if (IsBatching)
-            {
-                IsBatching = false;
-
-                try
-                {
-                    // Try to use unmarshalled functions, much faster
-                    var items = BatchItems.ToArray();
-
-                    // Need to implement new JSImport method sometime as the below method is now obsolete in .NET 7!
-#pragma warning disable 0618
-                    JSUnmarshalledRuntime.InvokeUnmarshalled<object[][], int>("window.blazorGEFunctions.drawBatch", items);
-#pragma warning restore 0618                    
-                }
-                catch
-                {
-                    // Fallback to normal...
-                    var module = await ModuleTask.Value;
-                    await module.InvokeVoidAsync("drawBatch", new object[] { BatchItems });
-                }
-            }
-        }
 
         #endregion
 
@@ -155,29 +28,36 @@ namespace BlazorGE.Graphics2D.Services
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("browser")]
         public async ValueTask ClearRectangleAsync(int x, int y, int width, int height)
         {
-            await BatchCallAsync(ClearRect, x, y, width, height);
+            Canvas2D.ClearRect(x, y, width, height);
+            await Task.CompletedTask;
         }
 
         /// <summary>
         /// Clear the screen
         /// </summary>
         /// <returns></returns>
+        [SupportedOSPlatform("browser")]
         public async ValueTask ClearScreenAsync()
         {
-            await BatchCallAsync(ClearRect, 0, 0, CanvasWidth, CanvasHeight);
+            Canvas2D.ClearRect(0, 0, CanvasWidth, CanvasHeight);
+            await Task.CompletedTask;
         }
 
         /// <summary>
         /// Draw a filled polygon
         /// </summary>
-        /// <param name="colour"></param>
+        /// <param name="fillColour"></param>
+        /// <param name="strokeColour"></param>
         /// <param name="coordinates"></param>
         /// <returns></returns>
-        public async ValueTask DrawFilledPolygonAsync(string colour, int[][] coordinates)
+        [SupportedOSPlatform("browser")]
+        public async ValueTask DrawFilledPolygonAsync(string fillColour, string strokeColour, int[,] coordinates)
         {
-            await BatchCallAsync(DrawFilledPolygon, coordinates, colour);
+            Canvas2D.DrawFilledPolygon(fillColour, strokeColour, coordinates.Cast<int>().ToArray());
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -189,16 +69,18 @@ namespace BlazorGE.Graphics2D.Services
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("browser")]
         public async ValueTask DrawFilledRectangleAsync(string colour, int x, int y, int width, int height)
         {
-            await BatchCallAsync(DrawFilledRectangle, colour, x, y, width, height);
+            Canvas2D.DrawFilledRectangle(colour, x, y, width, height);
+            await Task.CompletedTask;
         }
 
         /// <summary>
         /// Draw image using the specified image element reference at the specified coordinates, with
         /// the specified dimensions
         /// </summary>
-        /// <param name="imageElementReference"></param>
+        /// <param name="elementId"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="width"></param>
@@ -208,9 +90,11 @@ namespace BlazorGE.Graphics2D.Services
         /// <param name="sourceWidth"></param>
         /// <param name="sourceHeight"></param>
         /// <returns></returns>
-        public async ValueTask DrawImageAsync(ElementReference imageElementReference, int x, int y, int width, int height, int sourceX, int sourceY, int sourceWidth, int sourceHeight)
+        [SupportedOSPlatform("browser")]
+        public async ValueTask DrawImageAsync(string elementId, int x, int y, int width, int height, int sourceX, int sourceY, int sourceWidth, int sourceHeight)
         {
-            await BatchCallAsync(DrawImage, imageElementReference, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+            Canvas2D.DrawImage(elementId, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -226,9 +110,11 @@ namespace BlazorGE.Graphics2D.Services
         /// <param name="x4"></param>
         /// <param name="y4"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("browser")]
         public async ValueTask DrawQuadrilateralAsync(string colour, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
         {
-            await BatchCallAsync(DrawQuadrilateral, colour, x1, y1, x2, y2, x3, y3, x4, y4);
+            Canvas2D.DrawQuadrilateral(colour, x1, y1, x2, y2, x3, y3, x4, y4);
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -236,9 +122,11 @@ namespace BlazorGE.Graphics2D.Services
         /// </summary>
         /// <param name="sprite"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("browser")]
         public async ValueTask DrawSpriteAsync(Sprite sprite)
         {
-            await BatchCallAsync(DrawImage, sprite.SpriteSheet.ImageElementReference, sprite.SourceX, sprite.SourceY, sprite.SourceWidth, sprite.SourceHeight, sprite.X, sprite.Y, sprite.Width, sprite.Height);
+            Canvas2D.DrawImage(sprite.SpriteSheet.UniqueIdentifier.ToString(), sprite.SourceX, sprite.SourceY, sprite.SourceWidth, sprite.SourceHeight, sprite.X, sprite.Y, sprite.Width, sprite.Height);
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -252,9 +140,11 @@ namespace BlazorGE.Graphics2D.Services
         /// <param name="fontSize"></param>
         /// <param name="isFilled"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("browser")]
         public async ValueTask DrawTextAsync(string text, int x, int y, string fontFamily, string colour, int fontSize, bool isFilled)
         {
-            await BatchCallAsync(DrawText, text, x, y, $"{fontSize}px {fontFamily}", colour, isFilled);
+            Canvas2D.DrawText(text, x, y, $"{fontSize}px {fontFamily}", colour, isFilled);
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -269,21 +159,33 @@ namespace BlazorGE.Graphics2D.Services
         /// <param name="y2">Y coordinate of the centre of the top line of the trapezium</param>
         /// <param name="w2">Width of the bottom of the trapezium</param>
         /// <returns></returns>
+        [SupportedOSPlatform("browser")]
         public async ValueTask DrawTrapeziumAsync(string colour, int x1, int y1, int w1, int x2, int y2, int w2)
         {
-            await BatchCallAsync(DrawTrapezium, colour, x1, y1, w1, x2, y2, w2);
+            Canvas2D.DrawTrapezium(colour, x1, y1, w1, x2, y2, w2);
+            await Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Initialise the canvas for 2D operations
-        /// </summary>
-        /// <returns></returns>
-        public async ValueTask InitialiseCanvasAsync(ElementReference canvasReference)
-        {
-            var module = await ModuleTask.Value;
-            var canvasObject = await module.InvokeAsync<string>("initialiseCanvas2D", DotNetObjectReference.Create(this), canvasReference);
+        #endregion
 
-            OnInitialised?.Invoke(this, canvasReference);
+        #region Implementations
+
+        public async ValueTask OnResizeCanvas(int width, int height)
+        {
+            CanvasWidth = width;
+            CanvasHeight = height;
+
+            await Task.CompletedTask;
+        }
+
+        public async ValueTask BeginBatchAsync()
+        {
+            await Task.CompletedTask;
+        }
+
+        public async ValueTask EndBatchAsync()
+        {
+            await Task.CompletedTask;
         }
 
         #endregion

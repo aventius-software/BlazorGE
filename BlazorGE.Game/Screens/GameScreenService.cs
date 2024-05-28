@@ -10,7 +10,7 @@ namespace BlazorGE.Game.Screens
     {
         #region Protected Properties
 
-        protected IGameScreen GameScreen;
+        protected IGameScreen GameScreen = default!;
 
         #endregion
 

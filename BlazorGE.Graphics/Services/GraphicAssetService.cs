@@ -11,7 +11,7 @@ namespace BlazorGE.Graphics.Services
     {
         #region Private Properties
 
-        private event Func<string, GraphicAsset> OnCreateGraphicAssetHandlers;
+        private event Func<string, GraphicAsset> OnCreateGraphicAssetHandlers = default!;
 
         #endregion        
 
