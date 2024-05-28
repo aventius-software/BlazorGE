@@ -1,15 +1,16 @@
 # BlazorGE
 
-Blazor Game Engine - hence BlazorGE (pronounced like 'Blay' 'Zorj'?), is a basic experimentation with a game engine (or more like a framework really) using Blazor. Currently we're going for something simple but modern, starting with 2D style stuff first - maybe might add some 3D stuff later. Trying to use standard design patterns 
-and use dependency injection (where appropriate).
+Blazor Game Engine - hence BlazorGE (pronounced like 'Blay' 'Zorj'), is a basic experimentation with a game engine (or more like a framework really) using 
+Blazor. Currently we're going for something simple but modern, starting with 2D style stuff first - maybe might add some 3D stuff later. Trying to use standard 
+design patterns and dependency injection (where appropriate).
 
-This is just a fun project to experiment with Blazor and simple game design. Highly influenced by David Guida's Blazor 
-game development series https://www.davidguida.net/blazor-and-2d-game-development-part-1-intro/ and bits of 
-Monogame https://www.monogame.net/ and Monogame.Extended https://www.monogameextended.net/ 
+This is just a fun project to experiment with Blazor and simple game design. Highly influenced by David Guida's Blazor game development 
+series https://www.davidguida.net/blazor-and-2d-game-development-part-1-intro/ and bits of Monogame https://www.monogame.net/ and 
+Monogame.Extended https://www.monogameextended.net/ 
 
 Feel free to fork, submit pull requests, log issues or request/suggest features etc...
 
-P.S. Make sure you have the latest Visual Studio 2022 version or you may get compile/runtime errors (currently requires .NET 7)
+P.S. Make sure you have the latest Visual Studio 2022 version or you may get compile/runtime errors (currently requires .NET 8)
 
 Current features:-
 
@@ -29,5 +30,5 @@ Stuff to be done and/or improved
 2) Sprite animation
 3) More/better demo games
 4) More canvas methods
-5) Better Blazor JS interop
+5) Better Blazor JS interop - DONE
 6) Sound
